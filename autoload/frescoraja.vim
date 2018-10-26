@@ -66,10 +66,9 @@
       " :CurrentLineWhitespaceOn
     " endif
     " redefine ExtraWhitespace highlighting
-    highlight clear ExtraWhitespace
     highlight! link ExtraWhitespace Normal
     highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
-    " colorscheme maui doesn't defined vimCommand highlighting
+    " colorscheme maui doesn't define vimCommand highlighting
     if g:custom_theme_name=~#'maui'
       highlight link vimCommand Statement
     endif
@@ -228,6 +227,7 @@ function! frescoraja#default(...) abort
   highlight CursorLineNr cterm=bold ctermfg=50 guifg=Cyan guibg=#232323
   highlight CursorLine cterm=none term=none guibg=NONE
   highlight vimIsCommand ctermfg=red guifg=#DC6532
+  highlight Number term=bold ctermfg=86 guifg=#51AFFF
   highlight link vimOperParen Special
 
   if (l:has_bg)
@@ -236,7 +236,7 @@ function! frescoraja#default(...) abort
   endif
   call <SID>apply_non_standard_theming()
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('solarized')
+  call <SID>finalize_theme()
 endfunction
 
 function! frescoraja#afterglow() abort
