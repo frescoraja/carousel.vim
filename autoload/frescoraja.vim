@@ -222,8 +222,14 @@ function! frescoraja#default(...) abort
   let g:custom_theme_name='default'
   let l:has_bg=get(a:, 1, 0)
   " bold, green number on cursor line
+
+  highlight vimBracket ctermfg=green guifg=#33CA5F
+  highlight vimParenSep ctermfg=blue guifg=#0486F1
   highlight CursorLineNr cterm=bold ctermfg=50 guifg=Cyan guibg=#232323
   highlight CursorLine cterm=none term=none guibg=NONE
+  highlight vimIsCommand ctermfg=red guifg=#DC6532
+  highlight link vimOperParen Special
+
   if (l:has_bg)
     highlight Normal ctermbg=233 guibg=#0f0f0f
     highlight LineNr ctermbg=234 ctermfg=yellow guibg=#1d1d1d guifg=#ff8e00
