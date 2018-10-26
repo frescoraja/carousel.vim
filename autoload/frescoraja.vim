@@ -66,6 +66,8 @@
       " :CurrentLineWhitespaceOn
     " endif
     " redefine ExtraWhitespace highlighting
+    highlight clear ExtraWhitespace
+    highlight! link ExtraWhitespace Normal
     highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
     " colorscheme maui doesn't defined vimCommand highlighting
     if g:custom_theme_name=~#'maui'
@@ -171,18 +173,16 @@
   endfunction
 
   function! s:toggle_textwidth(num) abort
-    try
-      if(a:num+&textwidth==0)
-        let l:t_w=get(g:, 'textwidth', g:default_textwidth)
-        execute 'set textwidth='.string(l:t_w)
-      else
-        let g:textwidth=&textwidth
-        execute 'set textwidth='.string(a:num)
-      endif
-      if (&colorcolumn)
-        execute 'set colorcolumn='.string(&textwidth)
-      endif
-    endtry
+    if(a:num+&textwidth==0)
+      let l:t_w=get(g:, 'textwidth', g:default_textwidth)
+      execute 'set textwidth='.string(l:t_w)
+    else
+      let g:textwidth=&textwidth
+      execute 'set textwidth='.string(a:num)
+    endif
+    if (&colorcolumn)
+      execute 'set colorcolumn='.string(&textwidth)
+    endif
   endfunction
 
   " Custom completion for CustomizeTheme command {{{
