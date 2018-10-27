@@ -226,7 +226,7 @@ function! frescoraja#default(...) abort
   highlight vimParenSep ctermfg=blue guifg=#0486F1
   highlight CursorLineNr cterm=bold ctermfg=50 guifg=Cyan guibg=#232323
   highlight CursorLine cterm=none term=none guibg=NONE
-  highlight vimIsCommand ctermfg=red guifg=#DC6532
+  highlight vimIsCommand ctermfg=white guifg=#f1f4cc
   highlight Number term=bold ctermfg=86 guifg=#51AFFF
   highlight link vimOperParen Special
 
@@ -362,8 +362,8 @@ endfunction
 
 function! frescoraja#heroku() abort
   set termguicolors
-  colorscheme herokudoc
-  let g:custom_theme_name='herokudoc-gvim'
+  colorscheme herokudoc-gvim
+  let g:custom_theme_name='heroku'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
