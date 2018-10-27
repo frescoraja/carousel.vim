@@ -70,7 +70,7 @@
     highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
     " colorscheme maui doesn't define vimCommand highlighting
     if g:custom_theme_name=~#'maui'
-      highlight link vimCommand Statement
+        highlight! link vimCommand Statement
     endif
   endfunction
 
@@ -133,6 +133,20 @@
   function! s:refresh_theme() abort
     let l:theme=get(g:, 'custom_theme_name', 'default')
     execute 'call frescoraja#'.l:theme.'()'
+  endfunction
+
+  function! s:shape_cursor() abort
+    if &term=~?'^\(xterm\)\|\(rxvt\)'
+      let l:current_cursor_shape=get(s:, 'cursor_shape', 1)
+      let l:new_cursor_shape=((l:current_cursor_shape)%6)+1
+      let &t_SI="\<Esc>[".l:new_cursor_shape.' q'
+      let &t_EI="\<Esc>[".l:new_cursor_shape.' q'
+      let &t_SR="\<Esc>[".l:new_cursor_shape.' q'
+      let s:cursor_shape=l:new_cursor_shape
+      normal! i
+      normal! \<Esc>
+      normal! l
+    endif
   endfunction
 
   function! s:toggle_dark() abort
@@ -615,7 +629,8 @@ endfunction
 
 function! frescoraja#znake() abort
   set termguicolors
-colorscheme znake
+  colorscheme znake
+  highlight! vimCommand guifg=#DDCCBB
   let g:custom_theme_name='znake'
   call <SID>finalize_theme('badcat')
 endfunction
@@ -633,6 +648,7 @@ command! -nargs=0 ToggleDark call <SID>toggle_dark()
 command! -bang -nargs=0 ToggleItalics call <SID>italicize(<bang>0)
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
 command! -nargs=0 DefaultTheme call frescoraja#default()
+command! -nargs=0 ShapeCursor call <SID>shape_cursor()
 " }}}
 
 
