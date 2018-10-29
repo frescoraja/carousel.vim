@@ -21,7 +21,7 @@ let g:default_comments_color_c = get(g:, 'default_comments_color_c', 59)
 let g:default_comments_color_g = get(g:, 'default_comments_color_g', '#658494')
 let g:default_column_color_c = get(g:, 'default_column_color_c', 236)
 let g:default_column_color_g = get(g:, 'default_column_color_g', '#2a2a2a')
-let g:default_airline_theme = get(g: ,'default_airline_theme', 'oceanicnext')
+let g:default_airline_theme = get(g: ,'default_airline_theme', g:airline_theme)
 let g:custom_theme_name = get(g:, 'custom_theme_name', 'default')
 let init_on_load = get(g:, 'custom_theme_enabled', 0)
 

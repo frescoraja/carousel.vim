@@ -305,6 +305,14 @@ function! frescoraja#ceudah() abort
   call <SID>finalize_theme('quantum')
 endfunction
 
+function! frescoraja#chito() abort
+  set termguicolors
+  colorscheme chito
+  let g:custom_theme_name='chito'
+  call <SID>apply_standard_theming()
+  call <SID>finalize_theme('quantum')
+endfunction
+
 function! frescoraja#dark() abort
   set termguicolors
   colorscheme dark
