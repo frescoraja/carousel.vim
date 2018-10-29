@@ -313,6 +313,22 @@ function! frescoraja#chito() abort
   call <SID>finalize_theme('quantum')
 endfunction
 
+function! frescoraja#colorsbox_night() abort
+  set termguicolors
+  colorscheme colorsbox-stnight
+  let g:custom_theme_name='colorsbox_night'
+  call <SID>apply_standard_theming()
+  call <SID>finalize_theme('afterglow')
+endfunction
+
+function! frescoraja#colorsbox_light() abort
+  set termguicolors
+  colorscheme colorsbox-steighties
+  let g:custom_theme_name='colorsbox_light'
+  call <SID>apply_standard_theming()
+  call <SID>finalize_theme('quantum')
+endfunction
+
 function! frescoraja#dark() abort
   set termguicolors
   colorscheme dark
@@ -333,8 +349,6 @@ function! frescoraja#distill() abort
   set termguicolors
   colorscheme distill
   highlight ColorColumn guibg=#16181d
-  " seems to be bug in distill??
-  " let g:colors_name='distill'
   let g:custom_theme_name='distill'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('jellybeans')
@@ -610,6 +624,14 @@ function! frescoraja#quantum_dark() abort
   call <SID>finalize_theme('murmur')
 endfunction
 
+function! frescoraja#sialoquent() abort
+  set termguicolors
+  colorscheme sialoquent
+  let g:custom_theme_name='sialoquent'
+  call <SID>apply_standard_theming()
+  call <SID>finalize_theme('quantum')
+endfunction
+
 function! frescoraja#spring_night() abort
   set termguicolors
   colorscheme spring-night
@@ -658,7 +680,6 @@ command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor(
 command! -nargs=0 DefaultTheme call frescoraja#default()
 command! -nargs=0 ShapeCursor call <SID>shape_cursor()
 " }}}
-
 
 " Autocmds {{{
 augroup frescoraja_theme_autocmds
