@@ -137,16 +137,25 @@
 
   function! s:shape_cursor() abort
     if &term=~?'^\(xterm\)\|\(rxvt\)'
-      let l:current_cursor_shape=get(s:, 'cursor_shape', 1)
-      let l:new_cursor_shape=((l:current_cursor_shape)%6)+1
-      let &t_SI="\<Esc>[".l:new_cursor_shape.' q'
-      let &t_EI="\<Esc>[".l:new_cursor_shape.' q'
-      let &t_SR="\<Esc>[".l:new_cursor_shape.' q'
-      let s:cursor_shape=l:new_cursor_shape
+      call <SID>shape_cursor_normal(0)
+      call <SID>shape_cursor_insert(5)
+      call <SID>shape_cursor_replace(3)
       normal! i
       normal! \<Esc>
       normal! l
     endif
+  endfunction
+
+  function! s:shape_cursor_normal(shape) abort
+    let &t_EI="\<Esc>[".a:shape.' q'
+  endfunction
+
+  function! s:shape_cursor_insert(shape) abort
+    let &t_SI="\<Esc>[".a:shape.' q'
+  endfunction
+
+  function! s:shape_cursor_replace(shape) abort
+    let &t_SR="\<Esc>[".a:shape.' q'
   endfunction
 
   function! s:toggle_dark() abort
@@ -686,5 +695,9 @@ augroup frescoraja_theme_autocmds
   au!
   autocmd User CustomizedTheme call <SID>fix_reset_highlighting()
 augroup END
+
+if (g:custom_cursors_enabled)
+  autocmd frescoraja_theme_autocmds VimEnter * call <SID>shape_cursor()
+endif
 " }}} end autocmds
 

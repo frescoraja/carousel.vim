@@ -23,6 +23,7 @@ let g:default_column_color_c = get(g:, 'default_column_color_c', 236)
 let g:default_column_color_g = get(g:, 'default_column_color_g', '#2a2a2a')
 let g:default_airline_theme = get(g: ,'default_airline_theme', g:airline_theme)
 let g:custom_theme_name = get(g:, 'custom_theme_name', 'default')
+let g:custom_cursors_enabled = get(g:, 'custom_cursors_enabled', 0)
 let init_on_load = get(g:, 'custom_theme_enabled', 0)
 
 if (init_on_load)
@@ -48,7 +49,6 @@ nmap <Plug>(set_column_color) :ColorizeColumn<Space>
 nmap <Plug>(set_comments_color) :ColorizeComments<Space>
 nmap <Plug>(reset_comments_color) :ColorizeComments<CR>
 nmap <Plug>(reset_column_color) :ColorizeColumn<CR>
-nmap <Plug>(shape_cursor) :ShapeCursor<CR>
 " }}}
 
 " vim: ft=vim fdm=marker fmr={{{,}}} nofen
