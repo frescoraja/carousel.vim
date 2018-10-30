@@ -140,9 +140,6 @@
       call <SID>shape_cursor_normal(0)
       call <SID>shape_cursor_insert(5)
       call <SID>shape_cursor_replace(3)
-      normal! i
-      normal! \<Esc>
-      normal! l
     endif
   endfunction
 
