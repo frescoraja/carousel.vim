@@ -13,7 +13,7 @@
 if exists('g:loaded_custom_themes')
   finish
 endif
-let g:loaded_custom_theme=1
+let g:loaded_custom_themes=1
 
 " default settings for Airline theme, textwidth and comments/colorcolumn colors
 let g:default_textwidth = get(g:, 'default_textwidth', 120)
