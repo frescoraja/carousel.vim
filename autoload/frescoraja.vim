@@ -69,7 +69,7 @@
     highlight! link ExtraWhitespace Normal
     highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
     " colorscheme maui doesn't define vimCommand highlighting
-    if g:custom_theme_name=~#'maui'
+    if g:custom_themes_name=~#'maui'
         highlight! link vimCommand Statement
     endif
   endfunction
@@ -131,7 +131,7 @@
   endfunction
 
   function! s:refresh_theme() abort
-    let l:theme=get(g:, 'custom_theme_name', 'default')
+    let l:theme=get(g:, 'custom_themes_name', 'default')
     execute 'call frescoraja#'.l:theme.'()'
   endfunction
 
@@ -177,7 +177,7 @@
       highlight Normal guibg=NONE ctermbg=none
       highlight LineNr guibg=NONE ctermbg=none
     else
-      let l:theme=get(g:, 'custom_theme_name', 'default')
+      let l:theme=get(g:, 'custom_themes_name', 'default')
       if l:theme==?'default'
         call frescoraja#default(1)
       else
@@ -218,7 +218,7 @@
         if a:0
           execute 'call frescoraja#'.a:1.'()'
         else
-          echohl ErrorMsg | echo g:custom_theme_name
+          echohl ErrorMsg | echo g:custom_themes_name
         endif
       catch /.*/
         echohl ErrorMsg | echo 'No theme found with that name'
@@ -234,14 +234,14 @@
 
 " Theme functions {{{
 function! frescoraja#init() abort
-  let l:theme=get(g:, 'custom_theme_name', 'default')
+  let l:theme=get(g:, 'custom_themes_name', 'default')
   execute 'call frescoraja#'.l:theme.'()'
 endfunction
 
 function! frescoraja#default(...) abort
   colorscheme default
   set background=dark
-  let g:custom_theme_name='default'
+  let g:custom_themes_name='default'
   let l:has_bg=get(a:, 1, 0)
   " bold, green number on cursor line
 
@@ -265,7 +265,7 @@ endfunction
 function! frescoraja#afterglow() abort
   set termguicolors
   colorscheme afterglow
-  let g:custom_theme_name='afterglow'
+  let g:custom_themes_name='afterglow'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('afterglow')
 endfunction
@@ -301,7 +301,7 @@ endfunction
 function! frescoraja#candypaper() abort
   set notermguicolors
   colorscheme CandyPaper
-  let g:custom_theme_name='candypaper'
+  let g:custom_themes_name='candypaper'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('deus')
 endfunction
@@ -309,7 +309,7 @@ endfunction
 function! frescoraja#ceudah() abort
   set termguicolors
   colorscheme ceudah
-  let g:custom_theme_name='ceudah'
+  let g:custom_themes_name='ceudah'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('quantum')
 endfunction
@@ -317,7 +317,7 @@ endfunction
 function! frescoraja#chito() abort
   set termguicolors
   colorscheme chito
-  let g:custom_theme_name='chito'
+  let g:custom_themes_name='chito'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('quantum')
 endfunction
@@ -325,7 +325,7 @@ endfunction
 function! frescoraja#colorsbox_night() abort
   set termguicolors
   colorscheme colorsbox-stnight
-  let g:custom_theme_name='colorsbox_night'
+  let g:custom_themes_name='colorsbox_night'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('afterglow')
 endfunction
@@ -333,7 +333,7 @@ endfunction
 function! frescoraja#colorsbox_light() abort
   set termguicolors
   colorscheme colorsbox-steighties
-  let g:custom_theme_name='colorsbox_light'
+  let g:custom_themes_name='colorsbox_light'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('quantum')
 endfunction
@@ -341,7 +341,7 @@ endfunction
 function! frescoraja#dark() abort
   set termguicolors
   colorscheme dark
-  let g:custom_theme_name='dark'
+  let g:custom_themes_name='dark'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('sierra')
 endfunction
@@ -349,7 +349,7 @@ endfunction
 function! frescoraja#deus() abort
   set termguicolors
   colorscheme deus
-  let g:custom_theme_name='deus'
+  let g:custom_themes_name='deus'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('deus')
 endfunction
@@ -358,7 +358,7 @@ function! frescoraja#distill() abort
   set termguicolors
   colorscheme distill
   highlight ColorColumn guibg=#16181d
-  let g:custom_theme_name='distill'
+  let g:custom_themes_name='distill'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('jellybeans')
 endfunction
@@ -366,7 +366,7 @@ endfunction
 function! frescoraja#dracula() abort
   set termguicolors
   colorscheme dracula
-  let g:custom_theme_name='dracula'
+  let g:custom_themes_name='dracula'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('dracula')
 endfunction
@@ -374,7 +374,7 @@ endfunction
 function! frescoraja#edar() abort
   set termguicolors
   colorscheme edar
-  let g:custom_theme_name='edar'
+  let g:custom_themes_name='edar'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('lucius')
 endfunction
@@ -382,7 +382,7 @@ endfunction
 function! frescoraja#flatcolor() abort
   set termguicolors
   colorscheme flatcolor
-  let g:custom_theme_name='flatcolor'
+  let g:custom_themes_name='flatcolor'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('base16_nord')
 endfunction
@@ -390,7 +390,7 @@ endfunction
 function! frescoraja#gotham() abort
   set termguicolors
   colorscheme gotham
-  let g:custom_theme_name='gotham'
+  let g:custom_themes_name='gotham'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('gotham256')
 endfunction
@@ -401,14 +401,14 @@ function! frescoraja#gruvbox() abort
   let g:gruvbox_italicize_comments=1
   let g:gruvbox_italicize_strings=1
   colorscheme gruvbox
-  let g:custom_theme_name='gruvbox'
+  let g:custom_themes_name='gruvbox'
   call <SID>finalize_theme('gruvbox')
 endfunction
 
 function! frescoraja#heroku() abort
   set termguicolors
   colorscheme herokudoc-gvim
-  let g:custom_theme_name='heroku'
+  let g:custom_themes_name='heroku'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -416,7 +416,7 @@ endfunction
 function! frescoraja#hybrid_material() abort
   set termguicolors
   colorscheme hybrid_material
-  let g:custom_theme_name='hybrid_material'
+  let g:custom_themes_name='hybrid_material'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('hybrid')
 endfunction
@@ -424,7 +424,7 @@ endfunction
 function! frescoraja#hybrid_material_nogui() abort
   set notermguicolors
   colorscheme hybrid_material
-  let g:custom_theme_name='hybrid_material_nogui'
+  let g:custom_themes_name='hybrid_material_nogui'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('hybrid')
 endfunction
@@ -432,7 +432,7 @@ endfunction
 function! frescoraja#iceberg() abort
   set termguicolors
   colorscheme iceberg
-  let g:custom_theme_name='iceberg'
+  let g:custom_themes_name='iceberg'
   call <SID>apply_non_standard_theming()
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('lucius')
@@ -442,14 +442,14 @@ function! frescoraja#jellybeans() abort
   set termguicolors
   let g:jellybeans_use_term_italics=1
   colorscheme jellybeans
-  let g:custom_theme_name='jellybeans'
+  let g:custom_themes_name='jellybeans'
   call <SID>finalize_theme('jellybeans')
 endfunction
 
 function! frescoraja#kafka() abort
   set termguicolors
   colorscheme kafka
-  let g:custom_theme_name='kafka'
+  let g:custom_themes_name='kafka'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('neodark')
 endfunction
@@ -457,7 +457,7 @@ endfunction
 function! frescoraja#maui() abort
   set termguicolors
   colorscheme maui
-  let g:custom_theme_name='maui'
+  let g:custom_themes_name='maui'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('jellybeans')
 endfunction
@@ -466,7 +466,7 @@ function! frescoraja#material() abort
   set termguicolors
   colorscheme material
   let g:colors_name='material'
-  let g:custom_theme_name='material'
+  let g:custom_themes_name='material'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -476,7 +476,7 @@ function! frescoraja#material_dark() abort
   colorscheme material
   hi Normal guibg=#162127 ctermbg=233
   let g:colors_name='material'
-  let g:custom_theme_name='material_dark'
+  let g:custom_themes_name='material_dark'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -490,7 +490,7 @@ function! frescoraja#material_bright() abort
   highlight TabLineSel guifg=#FFE57F guibg=#5D818E
   highlight ColorColumn guibg=#374349
   highlight CursorLine cterm=none
-  let g:custom_theme_name='material_bright'
+  let g:custom_themes_name='material_bright'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -500,7 +500,7 @@ function! frescoraja#material_oceanic() abort
   let g:material_style='oceanic'
   colorscheme vim-material
   highlight CursorLine cterm=none
-  let g:custom_theme_name='material_oceanic'
+  let g:custom_themes_name='material_oceanic'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -514,7 +514,7 @@ function! frescoraja#material_palenight() abort
   highlight TabLineSel guifg=#FFE57F guibg=#676E95
   highlight ColorColumn guibg=#3A3E4F
   highlight CursorLine cterm=none
-  let g:custom_theme_name='material_palenight'
+  let g:custom_themes_name='material_palenight'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -522,7 +522,7 @@ endfunction
 function! frescoraja#material_theme() abort
   set termguicolors
   colorscheme material-theme
-  let g:custom_theme_name='material_theme'
+  let g:custom_themes_name='material_theme'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('material')
 endfunction
@@ -532,7 +532,7 @@ function! frescoraja#molokai() abort
   let g:molokai_original=1
   let g:rehash256=1
   colorscheme molokai
-  let g:custom_theme_name='molokai'
+  let g:custom_themes_name='molokai'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('molokai')
 endfunction
@@ -540,7 +540,7 @@ endfunction
 function! frescoraja#molokai_dark() abort
   set notermguicolors
   colorscheme molokai_dark
-  let g:custom_theme_name='molokai_dark'
+  let g:custom_themes_name='molokai_dark'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('molokai')
 endfunction
@@ -548,7 +548,7 @@ endfunction
 function! frescoraja#moonpink() abort
   set termguicolors
   colorscheme pink-moon
-  let g:custom_theme_name='moonpink'
+  let g:custom_themes_name='moonpink'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('lucius')
 endfunction
@@ -556,7 +556,7 @@ endfunction
 function! frescoraja#moonorange() abort
   set termguicolors
   colorscheme orange-moon
-  let g:custom_theme_name='moonorange'
+  let g:custom_themes_name='moonorange'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('lucius')
 endfunction
@@ -564,7 +564,7 @@ endfunction
 function! frescoraja#moonyellow() abort
   set termguicolors
   colorscheme yellow-moon
-  let g:custom_theme_name='moonyellow'
+  let g:custom_themes_name='moonyellow'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('lucius')
 endfunction
@@ -573,7 +573,7 @@ function! frescoraja#neodark() abort
   set termguicolors
   colorscheme neodark
   highlight Normal guibg=#0e1e27
-  let g:custom_theme_name='neodark'
+  let g:custom_themes_name='neodark'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('neodark')
 endfunction
@@ -582,7 +582,7 @@ function! frescoraja#neodark_nogui() abort
   set notermguicolors
   colorscheme neodark
   highlight Normal ctermbg=233
-  let g:custom_theme_name='neodark_nogui'
+  let g:custom_themes_name='neodark_nogui'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('neodark')
 endfunction
@@ -591,7 +591,7 @@ function! frescoraja#oceanicnext() abort
   set termguicolors
   colorscheme OceanicNext
   " highlight Statement guifg=#3590b1
-  let g:custom_theme_name='oceanicnext'
+  let g:custom_themes_name='oceanicnext'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('oceanicnext')
 endfunction
@@ -599,7 +599,7 @@ endfunction
 function! frescoraja#oceanicnext2() abort
   set termguicolors
   colorscheme OceanicNext2
-  let g:custom_theme_name='oceanicnext2'
+  let g:custom_themes_name='oceanicnext2'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('oceanicnext')
 endfunction
@@ -608,7 +608,7 @@ function! frescoraja#onedark() abort
   set termguicolors
   colorscheme onedark
   highlight Normal guibg=#20242C
-  let g:custom_theme_name='onedark'
+  let g:custom_themes_name='onedark'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('onedark')
 endfunction
@@ -618,7 +618,7 @@ function! frescoraja#quantum_light() abort
   let g:quantum_italics=1
   let g:quantum_black=0
   colorscheme quantum
-  let g:custom_theme_name='quantum_light'
+  let g:custom_themes_name='quantum_light'
   call <SID>style_gutter()
   call <SID>finalize_theme('deus')
 endfunction
@@ -628,7 +628,7 @@ function! frescoraja#quantum_dark() abort
   let g:quantum_italics=1
   let g:quantum_black=1
   colorscheme quantum
-  let g:custom_theme_name='quantum_dark'
+  let g:custom_themes_name='quantum_dark'
   call <SID>style_gutter()
   call <SID>finalize_theme('murmur')
 endfunction
@@ -636,7 +636,7 @@ endfunction
 function! frescoraja#sialoquent() abort
   set termguicolors
   colorscheme sialoquent
-  let g:custom_theme_name='sialoquent'
+  let g:custom_themes_name='sialoquent'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('quantum')
 endfunction
@@ -645,7 +645,7 @@ function! frescoraja#spring_night() abort
   set termguicolors
   colorscheme spring-night
   hi LineNr guifg=#767f89 guibg=#1d2d42
-  let g:custom_theme_name='spring_night'
+  let g:custom_themes_name='spring_night'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('spring_night')
 endfunction
@@ -653,7 +653,7 @@ endfunction
 function! frescoraja#srcery() abort
   set termguicolors
   colorscheme srcery
-  let g:custom_theme_name='srcery'
+  let g:custom_themes_name='srcery'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('srcery')
 endfunction
@@ -662,7 +662,7 @@ function! frescoraja#thaumaturge() abort
   set termguicolors
   colorscheme thaumaturge
   highlight ColorColumn guibg=#2c2936
-  let g:custom_theme_name='thaumaturge'
+  let g:custom_themes_name='thaumaturge'
   call <SID>finalize_theme('violet')
 endfunction
 
@@ -670,7 +670,7 @@ function! frescoraja#znake() abort
   set termguicolors
   colorscheme znake
   highlight! vimCommand guifg=#DDCCBB
-  let g:custom_theme_name='znake'
+  let g:custom_themes_name='znake'
   call <SID>finalize_theme('badcat')
 endfunction
 " }}} end Theme Definitions
@@ -687,17 +687,16 @@ command! -nargs=0 ToggleDark call <SID>toggle_dark()
 command! -bang -nargs=0 ToggleItalics call <SID>italicize(<bang>0)
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
 command! -nargs=0 DefaultTheme call frescoraja#default()
-command! -nargs=0 ShapeCursor call <SID>shape_cursor()
 " }}}
 
 " Autocmds {{{
-augroup frescoraja_theme_autocmds
+augroup custom_themes
   au!
   autocmd User CustomizedTheme call <SID>fix_reset_highlighting()
 augroup END
 
 if (g:custom_cursors_enabled)
-  autocmd frescoraja_theme_autocmds VimEnter * call <SID>shape_cursor()
+  autocmd custom_themes VimEnter * call <SID>shape_cursor()
 endif
 " }}} end autocmds
 
