@@ -11,8 +11,8 @@
 " }}}
 
 " Script functions {{{
-  function! s:apply_airline_theme(...) abort
-    let g:airline_theme=get(a:, 1, g:default_airline_theme)
+  function! s:apply_airline_theme() abort
+    let g:airline_theme=get(g:, 'airline_theme', g:default_airline_theme)
     if exists(':AirlineTheme')
       execute ':AirlineTheme '.g:airline_theme
     endif
@@ -676,7 +676,7 @@ endfunction
 function! frescoraja#znake() abort
   set termguicolors
   colorscheme znake
-  highlight! Normal guifg=#CFEAFA
+  highlight! Normal guifg=#ACCAFF
   highlight! vimCommand guifg=#591A5A
   highlight! vimFuncKey guifg=#A91A7A cterm=bold
   highlight! Comment guifg=#5A5A69
@@ -695,7 +695,7 @@ command! -nargs=? ColorizeComments call <SID>colorize_comments(<args>)
 command! -nargs=0 ToggleColumn call <SID>toggle_column()
 command! -nargs=0 ToggleBackground call <SID>toggle_background_transparency()
 command! -nargs=0 ToggleDark call <SID>toggle_dark()
-command! -bang -nargs=1 Italicize call <SID>italicize(<bang>0, <f-args>)
+command! -bang -nargs=? Italicize call <SID>italicize(<bang>0, <f-args>)
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
 command! -nargs=0 DefaultTheme call frescoraja#default()
 " }}}
