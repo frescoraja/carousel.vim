@@ -434,7 +434,7 @@ function! frescoraja#iceberg() abort
   set termguicolors
   colorscheme iceberg
   let g:custom_themes_name='iceberg'
-  let g:airline_theme='lucius'
+  let g:airline_theme='iceberg'
   doautocmd User CustomizedTheme
 endfunction
 
