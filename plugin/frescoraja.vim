@@ -36,19 +36,19 @@ if !hasmapto('<Plug>(customize_theme)') && maparg('<Nul>', 'n') ==# ''
 endif
 
 nmap <Plug>(customize_theme) :CustomizeTheme <C-d>
-nmap <Plug>(reset_theme) :DefaultTheme<CR>
-nmap <Plug>(refresh_theme) :RefreshAppearance<CR>
 nmap <Plug>(set_textwidth) :SetTextwidth<Space>
-nmap <Plug>(reset_textwidth) :SetTextwidth 0<CR>
-nmap <Plug>(toggle_column) :ToggleColumn<CR>
-nmap <Plug>(toggle_dark) :ToggleDark<CR>
-nmap <Plug>(toggle_background) :ToggleBackground<CR>
-nmap <Plug>(toggle_italics) :ToggleItalics!<CR>
-nmap <Plug>(get_syntax) :GetSyntaxGroup<CR>
 nmap <Plug>(set_column_color) :ColorizeColumn<Space>
 nmap <Plug>(set_comments_color) :ColorizeComments<Space>
-nmap <Plug>(reset_comments_color) :ColorizeComments<CR>
-nmap <Plug>(reset_column_color) :ColorizeColumn<CR>
+nmap <silent> <Plug>(reset_theme) :DefaultTheme<CR>
+nmap <silent> <Plug>(refresh_theme) :RefreshAppearance<CR>
+nmap <silent> <Plug>(reset_textwidth) :SetTextwidth 0<CR>
+nmap <silent> <Plug>(toggle_column) :ToggleColumn<CR>
+nmap <silent> <Plug>(toggle_dark) :ToggleDark<CR>
+nmap <silent> <Plug>(toggle_background) :ToggleBackground<CR>
+nmap <silent> <Plug>(italicize) :Italicize!<CR>
+nmap <silent> <Plug>(get_syntax) :GetSyntaxGroup<CR>
+nmap <silent> <Plug>(reset_comments_color) :ColorizeComments<CR>
+nmap <silent> <Plug>(reset_column_color) :ColorizeColumn<CR>
 " }}}
 
 " vim: ft=vim fdm=marker fmr={{{,}}} nofen
