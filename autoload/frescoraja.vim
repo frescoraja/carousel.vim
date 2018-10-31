@@ -267,14 +267,6 @@ function! frescoraja#afterglow() abort
   call <SID>finalize_theme('afterglow')
 endfunction
 
-function! frescoraja#base() abort
-  set termguicolors
-  colorscheme base
-  let g:customize_theme_name='base'
-  call <SID>apply_standard_theming()
-  call <SID>finalize_theme('biogoo')
-endfunction
-
 function! frescoraja#blayu() abort
   set termguicolors
   colorscheme blayu
@@ -587,7 +579,9 @@ endfunction
 function! frescoraja#oceanicnext() abort
   set termguicolors
   colorscheme OceanicNext
-  " highlight Statement guifg=#3590b1
+  highlight Normal guibg=#0E1E27
+  highlight LineNr guibg=#0E1E27
+  highlight Identifier guifg=#3590B1
   let g:custom_themes_name='oceanicnext'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('oceanicnext')
@@ -596,6 +590,10 @@ endfunction
 function! frescoraja#oceanicnext2() abort
   set termguicolors
   colorscheme OceanicNext2
+  highlight LineNr guibg=#141E23
+  highlight CursorLineNr guifg=#72C7D1
+  highlight Identifier guifg=#4BB1A7
+  highlight PreProc guifg=#A688F6
   let g:custom_themes_name='oceanicnext2'
   call <SID>apply_standard_theming()
   call <SID>finalize_theme('oceanicnext')
@@ -630,14 +628,6 @@ function! frescoraja#quantum_dark() abort
   call <SID>finalize_theme('murmur')
 endfunction
 
-function! frescoraja#sialoquent() abort
-  set termguicolors
-  colorscheme sialoquent
-  let g:custom_themes_name='sialoquent'
-  call <SID>apply_standard_theming()
-  call <SID>finalize_theme('quantum')
-endfunction
-
 function! frescoraja#spring_night() abort
   set termguicolors
   colorscheme spring-night
@@ -666,7 +656,7 @@ endfunction
 function! frescoraja#znake() abort
   set termguicolors
   colorscheme znake
-  highlight! vimCommand guifg=#DDCCBB
+  highlight! vimCommand guifg=#BBAABB
   let g:custom_themes_name='znake'
   call <SID>finalize_theme('badcat')
 endfunction
