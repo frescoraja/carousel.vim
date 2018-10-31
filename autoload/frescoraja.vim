@@ -714,7 +714,10 @@ endfunction
 function! frescoraja#znake() abort
   set termguicolors
   colorscheme znake
-  highlight! vimCommand guifg=#BBAABB
+  highlight! Normal guifg=#CFEAFA
+  highlight! vimCommand guifg=#591A5A
+  highlight! vimFuncKey guifg=#A91A7A cterm=bold
+  highlight! Comment guifg=#5A5A69
   let g:custom_themes_name='znake'
   let g:airline_theme='badcat'
   doautocmd User CustomizedTheme
