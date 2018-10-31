@@ -18,7 +18,40 @@
 
   function! s:apply_standard_theming() abort
     call <SID>italicize()
-    call <SID>style_gutter()
+    call <SID>apply_signcolumn_highlights()
+  endfunction
+
+  function! s:apply_airline_theme(...) abort
+    let g:airline_theme=get(a:, 1, g:default_airline_theme)
+    if exists(':AirlineTheme')
+      execute ':AirlineTheme '.g:airline_theme
+    endif
+  endfunction
+
+  function! s:apply_gitgutter_highlights() abort
+    highlight clear GitGutterAdd
+    highlight clear GitGutterChange
+    highlight clear GitGutterDelete
+    highlight clear GitGutterChangeDelete
+    highlight! link GitGutterAdd LineNr
+    highlight! link GitGutterChange LineNr
+    highlight! link GitGutterDelete LineNr
+    highlight! link GitGutterChangeDelete LineNr
+    highlight! GitGutterAdd guifg=green ctermfg=green
+    highlight! GitGutterChange guifg=yellow ctermfg=yellow
+    highlight! GitGutterDelete guifg=red ctermfg=red
+    highlight! GitGutterChangeDelete guifg=orange ctermfg=208
+  endfunction
+
+  function! s:apply_signcolumn_highlights() abort
+    highlight clear SignColumn
+    highlight! link SignColumn LineNr
+    highlight SignColumn ctermfg=white guifg=white
+  endfunction
+
+  function! s:apply_whitespace_highlights() abort
+    highlight! link ExtraWhitespace Normal
+    highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
   endfunction
 
   function! s:colorize_column(...) abort
@@ -53,22 +86,15 @@
     endtry
   endfunction
 
-  function! s:finalize_theme(...) abort
-    let g:airline_theme=get(a:, 1, g:default_airline_theme)
-    if exists(':AirlineTheme')
-      execute ':AirlineTheme '.g:airline_theme
-    endif
-    doautocmd User CustomizedTheme
+  function! s:finalize_theme() abort
+    call <SID>apply_airline_theme()
+    call <SID>apply_gitgutter_highlights()
+    call <SID>apply_whitespace_highlights()
+    call <SID>fix_reset_highlighting()
   endfunction
 
   function! s:fix_reset_highlighting() abort
-    " if exists(':CurrentLineWhitespaceOn')
-      " :CurrentLineWhitespaceOn
-    " endif
-    " redefine ExtraWhitespace highlighting
-    highlight! link ExtraWhitespace Normal
-    highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
-    " colorscheme maui doesn't define vimCommand highlighting
+    " TODO: find broken highlights after switching themes
     if g:custom_themes_name=~#'maui'
         highlight! link vimCommand Statement
     endif
@@ -77,15 +103,6 @@
   function! s:get_highlight_term(group, term) abort
     let output=execute('highlight '.a:group)
     return matchstr(output, a:term.'=\zs\S*')
-  endfunction
-  function! s:style_gutter() abort
-    highlight clear SignColumn
-    highlight link SignColumn LineNr
-    highlight SignColumn ctermfg=white guifg=white
-    highlight link SyntasticWarningSign SignColumn
-    highlight link SyntasticErrorSign SignColumn
-    highlight SyntasticWarningSign term=standout ctermfg=yellow guifg=yellow
-    highlight SyntasticErrorSign term=standout ctermfg=red guifg=red
   endfunction
 
   function! s:get_syntax_highlighting_under_cursor() abort
@@ -256,7 +273,7 @@ function! frescoraja#default(...) abort
   endif
   call <SID>apply_non_standard_theming()
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme()
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#afterglow() abort
@@ -264,7 +281,8 @@ function! frescoraja#afterglow() abort
   colorscheme afterglow
   let g:custom_themes_name='afterglow'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('afterglow')
+  let g:airline_theme='afterglow'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#blayu() abort
@@ -274,7 +292,8 @@ function! frescoraja#blayu() abort
   highlight CursorLine guifg=#32C6B9
   let g:customize_theme_name='blayu'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('gotham')
+  let g:airline_theme='gotham'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#busybee() abort
@@ -284,7 +303,8 @@ function! frescoraja#busybee() abort
   highlight CursorLineNr guifg=#ff9800 guibg=#202020
   let g:customize_theme_name='busybee'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('qwq')
+  let g:airline_theme='qwq'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#candypaper() abort
@@ -292,7 +312,8 @@ function! frescoraja#candypaper() abort
   colorscheme CandyPaper
   let g:custom_themes_name='candypaper'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('deus')
+  let g:airline_theme='deus'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#ceudah() abort
@@ -300,7 +321,8 @@ function! frescoraja#ceudah() abort
   colorscheme ceudah
   let g:custom_themes_name='ceudah'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('quantum')
+  let g:airline_theme='quantum'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#chito() abort
@@ -308,7 +330,8 @@ function! frescoraja#chito() abort
   colorscheme chito
   let g:custom_themes_name='chito'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('quantum')
+  let g:airline_theme='quantum'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#colorsbox_night() abort
@@ -316,7 +339,8 @@ function! frescoraja#colorsbox_night() abort
   colorscheme colorsbox-stnight
   let g:custom_themes_name='colorsbox_night'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('afterglow')
+  let g:airline_theme='afterglow'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#colorsbox_light() abort
@@ -324,7 +348,8 @@ function! frescoraja#colorsbox_light() abort
   colorscheme colorsbox-steighties
   let g:custom_themes_name='colorsbox_light'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('quantum')
+  let g:airline_theme='quantum'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#dark() abort
@@ -332,7 +357,8 @@ function! frescoraja#dark() abort
   colorscheme dark
   let g:custom_themes_name='dark'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('sierra')
+  let g:airline_theme='sierra'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#deus() abort
@@ -340,7 +366,8 @@ function! frescoraja#deus() abort
   colorscheme deus
   let g:custom_themes_name='deus'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('deus')
+  let g:airline_theme='deus'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#distill() abort
@@ -349,7 +376,8 @@ function! frescoraja#distill() abort
   highlight ColorColumn guibg=#16181d
   let g:custom_themes_name='distill'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('jellybeans')
+  let g:airline_theme='jellybeans'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#dracula() abort
@@ -357,7 +385,8 @@ function! frescoraja#dracula() abort
   colorscheme dracula
   let g:custom_themes_name='dracula'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('dracula')
+  let g:airline_theme='dracula'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#edar() abort
@@ -365,7 +394,8 @@ function! frescoraja#edar() abort
   colorscheme edar
   let g:custom_themes_name='edar'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('lucius')
+  let g:airline_theme='lucius'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#flatcolor() abort
@@ -373,7 +403,8 @@ function! frescoraja#flatcolor() abort
   colorscheme flatcolor
   let g:custom_themes_name='flatcolor'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('base16_nord')
+  let g:airline_theme='base16_nord'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#gotham() abort
@@ -381,7 +412,8 @@ function! frescoraja#gotham() abort
   colorscheme gotham
   let g:custom_themes_name='gotham'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('gotham256')
+  let g:airline_theme='gotham256'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#gruvbox() abort
@@ -391,7 +423,8 @@ function! frescoraja#gruvbox() abort
   let g:gruvbox_italicize_strings=1
   colorscheme gruvbox
   let g:custom_themes_name='gruvbox'
-  call <SID>finalize_theme('gruvbox')
+  let g:airline_theme='gruvbox'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#heroku() abort
@@ -399,7 +432,8 @@ function! frescoraja#heroku() abort
   colorscheme herokudoc-gvim
   let g:custom_themes_name='heroku'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#hybrid_material() abort
@@ -407,7 +441,8 @@ function! frescoraja#hybrid_material() abort
   colorscheme hybrid_material
   let g:custom_themes_name='hybrid_material'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('hybrid')
+  let g:airline_theme='hybrid'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#hybrid_material_nogui() abort
@@ -415,7 +450,8 @@ function! frescoraja#hybrid_material_nogui() abort
   colorscheme hybrid_material
   let g:custom_themes_name='hybrid_material_nogui'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('hybrid')
+  let g:airline_theme='hybrid'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#iceberg() abort
@@ -424,7 +460,8 @@ function! frescoraja#iceberg() abort
   let g:custom_themes_name='iceberg'
   call <SID>apply_non_standard_theming()
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('lucius')
+  let g:airline_theme='lucius'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#jellybeans() abort
@@ -432,7 +469,8 @@ function! frescoraja#jellybeans() abort
   let g:jellybeans_use_term_italics=1
   colorscheme jellybeans
   let g:custom_themes_name='jellybeans'
-  call <SID>finalize_theme('jellybeans')
+  let g:airline_theme='jellybeans'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#kafka() abort
@@ -440,7 +478,8 @@ function! frescoraja#kafka() abort
   colorscheme kafka
   let g:custom_themes_name='kafka'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('neodark')
+  let g:airline_theme='neodark'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#maui() abort
@@ -448,7 +487,8 @@ function! frescoraja#maui() abort
   colorscheme maui
   let g:custom_themes_name='maui'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('jellybeans')
+  let g:airline_theme='jellybeans'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#material() abort
@@ -457,17 +497,20 @@ function! frescoraja#material() abort
   let g:colors_name='material'
   let g:custom_themes_name='material'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#material_dark() abort
   set termguicolors
   colorscheme material
-  hi Normal guibg=#162127 ctermbg=233
+  highlight Normal guibg=#162127 ctermbg=233
+  highlight Todo guibg=#000000 guifg=#BD9800 cterm=bold
   let g:colors_name='material'
   let g:custom_themes_name='material_dark'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#material_bright() abort
@@ -481,7 +524,8 @@ function! frescoraja#material_bright() abort
   highlight CursorLine cterm=none
   let g:custom_themes_name='material_bright'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#material_oceanic() abort
@@ -491,7 +535,8 @@ function! frescoraja#material_oceanic() abort
   highlight CursorLine cterm=none
   let g:custom_themes_name='material_oceanic'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#material_palenight() abort
@@ -505,7 +550,8 @@ function! frescoraja#material_palenight() abort
   highlight CursorLine cterm=none
   let g:custom_themes_name='material_palenight'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#material_theme() abort
@@ -513,7 +559,8 @@ function! frescoraja#material_theme() abort
   colorscheme material-theme
   let g:custom_themes_name='material_theme'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('material')
+  let g:airline_theme='material'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#molokai() abort
@@ -523,7 +570,8 @@ function! frescoraja#molokai() abort
   colorscheme molokai
   let g:custom_themes_name='molokai'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('molokai')
+  let g:airline_theme='molokai'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#molokai_dark() abort
@@ -531,7 +579,8 @@ function! frescoraja#molokai_dark() abort
   colorscheme molokai_dark
   let g:custom_themes_name='molokai_dark'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('molokai')
+  let g:airline_theme='molokai'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#moonpink() abort
@@ -539,7 +588,8 @@ function! frescoraja#moonpink() abort
   colorscheme pink-moon
   let g:custom_themes_name='moonpink'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('lucius')
+  let g:airline_theme='lucius'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#moonorange() abort
@@ -547,7 +597,8 @@ function! frescoraja#moonorange() abort
   colorscheme orange-moon
   let g:custom_themes_name='moonorange'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('lucius')
+  let g:airline_theme='lucius'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#moonyellow() abort
@@ -555,7 +606,8 @@ function! frescoraja#moonyellow() abort
   colorscheme yellow-moon
   let g:custom_themes_name='moonyellow'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('lucius')
+  let g:airline_theme='lucius'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#neodark() abort
@@ -564,7 +616,8 @@ function! frescoraja#neodark() abort
   highlight Normal guibg=#0e1e27
   let g:custom_themes_name='neodark'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('neodark')
+  let g:airline_theme='neodark'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#neodark_nogui() abort
@@ -573,7 +626,8 @@ function! frescoraja#neodark_nogui() abort
   highlight Normal ctermbg=233
   let g:custom_themes_name='neodark_nogui'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('neodark')
+  let g:airline_theme='neodark'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#oceanicnext() abort
@@ -584,7 +638,8 @@ function! frescoraja#oceanicnext() abort
   highlight Identifier guifg=#3590B1
   let g:custom_themes_name='oceanicnext'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('oceanicnext')
+  let g:airline_theme='oceanicnext'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#oceanicnext2() abort
@@ -596,7 +651,8 @@ function! frescoraja#oceanicnext2() abort
   highlight PreProc guifg=#A688F6
   let g:custom_themes_name='oceanicnext2'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('oceanicnext')
+  let g:airline_theme='oceanicnext'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#onedark() abort
@@ -605,7 +661,8 @@ function! frescoraja#onedark() abort
   highlight Normal guibg=#20242C
   let g:custom_themes_name='onedark'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('onedark')
+  let g:airline_theme='onedark'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#quantum_light() abort
@@ -614,8 +671,9 @@ function! frescoraja#quantum_light() abort
   let g:quantum_black=0
   colorscheme quantum
   let g:custom_themes_name='quantum_light'
-  call <SID>style_gutter()
-  call <SID>finalize_theme('deus')
+  call <SID>apply_signcolumn_highlights()
+  let g:airline_theme='deus'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#quantum_dark() abort
@@ -624,8 +682,9 @@ function! frescoraja#quantum_dark() abort
   let g:quantum_black=1
   colorscheme quantum
   let g:custom_themes_name='quantum_dark'
-  call <SID>style_gutter()
-  call <SID>finalize_theme('murmur')
+  call <SID>apply_signcolumn_highlights()
+  let g:airline_theme='murmur'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#spring_night() abort
@@ -634,7 +693,8 @@ function! frescoraja#spring_night() abort
   hi LineNr guifg=#767f89 guibg=#1d2d42
   let g:custom_themes_name='spring_night'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('spring_night')
+  let g:airline_theme='spring_night'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#srcery() abort
@@ -642,7 +702,8 @@ function! frescoraja#srcery() abort
   colorscheme srcery
   let g:custom_themes_name='srcery'
   call <SID>apply_standard_theming()
-  call <SID>finalize_theme('srcery')
+  let g:airline_theme='srcery'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#thaumaturge() abort
@@ -650,7 +711,8 @@ function! frescoraja#thaumaturge() abort
   colorscheme thaumaturge
   highlight ColorColumn guibg=#2c2936
   let g:custom_themes_name='thaumaturge'
-  call <SID>finalize_theme('violet')
+  let g:airline_theme='violet'
+  doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#znake() abort
@@ -658,7 +720,8 @@ function! frescoraja#znake() abort
   colorscheme znake
   highlight! vimCommand guifg=#BBAABB
   let g:custom_themes_name='znake'
-  call <SID>finalize_theme('badcat')
+  let g:airline_theme='badcat'
+  doautocmd User CustomizedTheme
 endfunction
 " }}} end Theme Definitions
 
@@ -676,10 +739,10 @@ command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor(
 command! -nargs=0 DefaultTheme call frescoraja#default()
 " }}}
 
-" Autocmds {{{
+" Autogroup commands {{{
 augroup custom_themes
   au!
-  autocmd User CustomizedTheme call <SID>fix_reset_highlighting()
+  autocmd User CustomizedTheme call <SID>finalize_theme()
 augroup END
 
 if (g:custom_cursors_enabled)

@@ -52,5 +52,3 @@ nmap <Plug>(reset_column_color) :ColorizeColumn<CR>
 " }}}
 
 " vim: ft=vim fdm=marker fmr={{{,}}} nofen
-
-
