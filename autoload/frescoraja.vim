@@ -18,11 +18,20 @@
     endif
   endfunction
 
+  function! s:apply_ale_sign_highlights() abort
+    highlight clear ALEErrorSign
+    highlight clear ALEWarningSign
+    highlight clear ALEInfoSign
+    highlight! ALEErrorSign guifg=red ctermfg=red
+    highlight! ALEWarningSign guifg=yellow ctermfg=yellow
+    highlight! ALEInfoSign guifg=orange ctermfg=208
+ endfunction
+
   function! s:apply_gitgutter_highlights() abort
-    highlight! link GitGutterAdd LineNr
-    highlight! link GitGutterChange LineNr
-    highlight! link GitGutterDelete LineNr
-    highlight! link GitGutterChangeDelete LineNr
+    highlight clear GitGutterAdd
+    highlight clear GitGutterChange
+    highlight clear GitGutterDelete
+    highlight clear GitGutterChangeDelete
     highlight! GitGutterAdd guifg=#53D188 ctermfg=36
     highlight! GitGutterChange guifg=#FFF496 ctermfg=226
     highlight! GitGutterDelete guifg=#BF304F ctermfg=205
@@ -31,12 +40,11 @@
 
   function! s:apply_signcolumn_highlights() abort
     highlight clear SignColumn
-    highlight! link SignColumn LineNr
     highlight SignColumn ctermfg=white guifg=white
   endfunction
 
   function! s:apply_whitespace_highlights() abort
-    highlight! link ExtraWhitespace Normal
+    highlight clear ExtraWhitespace
     highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
   endfunction
 
@@ -77,6 +85,7 @@
     endif
     call <SID>apply_signcolumn_highlights()
     call <SID>apply_airline_theme()
+    call <SID>apply_ale_sign_highlights()
     call <SID>apply_gitgutter_highlights()
     call <SID>apply_whitespace_highlights()
     call <SID>fix_reset_highlighting()
