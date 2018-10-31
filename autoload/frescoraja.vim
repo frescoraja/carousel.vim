@@ -29,18 +29,14 @@
   endfunction
 
   function! s:apply_gitgutter_highlights() abort
-    highlight clear GitGutterAdd
-    highlight clear GitGutterChange
-    highlight clear GitGutterDelete
-    highlight clear GitGutterChangeDelete
     highlight! link GitGutterAdd LineNr
     highlight! link GitGutterChange LineNr
     highlight! link GitGutterDelete LineNr
     highlight! link GitGutterChangeDelete LineNr
-    highlight! GitGutterAdd guifg=green ctermfg=green
-    highlight! GitGutterChange guifg=yellow ctermfg=yellow
-    highlight! GitGutterDelete guifg=red ctermfg=red
-    highlight! GitGutterChangeDelete guifg=orange ctermfg=208
+    highlight! GitGutterAdd guifg=#53D188 ctermfg=36
+    highlight! GitGutterChange guifg=#FFF496 ctermfg=226
+    highlight! GitGutterDelete guifg=#BF304F ctermfg=205
+    highlight! GitGutterChangeDelete guifg=#F18F4A ctermfg=208
   endfunction
 
   function! s:apply_signcolumn_highlights() abort
