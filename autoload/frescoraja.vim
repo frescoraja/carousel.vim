@@ -11,6 +11,7 @@
 " }}}
 
 " colorscheme function mappings {{{
+
 " Script functions {{{
   function! s:apply_airline_theme() abort
     let g:airline_theme=get(g:, 'airline_theme', g:default_airline_theme)
@@ -124,7 +125,8 @@
       let l:syntax_group=synIDattr(l:s, 'name')
       if (empty(l:syntax_group))
         let l:current_word=expand('<cword>')
-        echo 'No syntax group defined for "'.l:current_word.'"'
+        echohl ErrorMsg |
+              \ echo 'No syntax group defined for "'.l:current_word.'"'
       else
         let l:linked_syntax_group=synIDattr(synIDtrans(l:s), 'name')
         execute 'echohl '.l:syntax_group
@@ -165,13 +167,17 @@
   endfunction
 
   function! s:refresh_theme() abort
-    let l:theme=get(g:, 'custom_themes_name', 'default')
-    execute 'call frescoraja#'.l:theme.'()'
+    let l:theme=get(g:, 'custom_themes_name', '')
+    if !empty(l:theme)
+      execute 'call frescoraja#'.l:theme.'()'
+    else
+      call <SID>apply_airline_theme()
+    endif
   endfunction
 
   function! s:shape_cursor() abort
     if &term=~?'^\(xterm\)\|\(rxvt\)'
-      call <SID>shape_cursor_normal(0)
+      call <SID>shape_cursor_normal(1)
       call <SID>shape_cursor_insert(5)
       call <SID>shape_cursor_replace(3)
     endif
@@ -249,7 +255,7 @@
         if a:0
           execute 'call frescoraja#'.a:1.'()'
         else
-          echohl ErrorMsg | echo g:custom_themes_name
+          echohl ModeMsg | echo g:custom_themes_name
         endif
       catch /.*/
         echohl ErrorMsg | echo 'No theme found with that name'
@@ -284,7 +290,6 @@
     endfunction
   " }}}
 " }}}
-
 
 " Theme functions {{{
 function! frescoraja#init() abort
@@ -742,9 +747,12 @@ function! frescoraja#znake() abort
 endfunction
 " }}} end Theme Definitions
 
+" }}}
+
 " Autoload commands {{{
-command! -nargs=? -complete=customlist,<SID>get_custom_themes CustomizeTheme call <SID>customize_theme(<f-args>)
-command! -nargs=0 RefreshAppearance call <SID>refresh_theme()
+command! -nargs=? -complete=customlist,<SID>get_custom_themes
+      \ CustomizeTheme call <SID>customize_theme(<f-args>)
+command! -nargs=0 CustomThemeRefresh call <SID>refresh_theme()
 command! -nargs=1 SetTextwidth call <SID>toggle_textwidth(<args>)
 command! -nargs=? ColorizeColumn call <SID>colorize_column(<args>)
 command! -nargs=? ColorizeComments call <SID>colorize_comments(<args>)
@@ -770,3 +778,4 @@ if (g:custom_cursors_enabled)
 endif
 " }}} end autocmds
 
+" vim: fdm=marker fmr={{{,}}} fen

@@ -43,7 +43,7 @@ nmap <Plug>(set_textwidth) :SetTextwidth<Space>
 nmap <Plug>(set_column_color) :ColorizeColumn<Space>
 nmap <Plug>(set_comments_color) :ColorizeComments<Space>
 nmap <silent> <Plug>(reset_theme) :DefaultTheme<CR>
-nmap <silent> <Plug>(refresh_theme) :RefreshAppearance<CR>
+nmap <silent> <Plug>(refresh_theme) :CustomThemeRefresh<CR>
 nmap <silent> <Plug>(reset_textwidth) :SetTextwidth 0<CR>
 nmap <silent> <Plug>(toggle_column) :ToggleColumn<CR>
 nmap <silent> <Plug>(toggle_dark) :ToggleDark<CR>
