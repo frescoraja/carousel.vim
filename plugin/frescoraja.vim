@@ -16,13 +16,13 @@ endif
 let g:loaded_custom_themes=1
 
 " default settings for Airline theme, textwidth and comments/colorcolumn colors
-let g:default_textwidth = get(g:, 'default_textwidth', 120)
+let g:default_textwidth = get(g:, 'default_textwidth', &textwidth)
 let g:default_comments_color_c = get(g:, 'default_comments_color_c', 59)
 let g:default_comments_color_g = get(g:, 'default_comments_color_g', '#658494')
 let g:default_column_color_c = get(g:, 'default_column_color_c', 236)
 let g:default_column_color_g = get(g:, 'default_column_color_g', '#2a2a2a')
 let g:default_airline_theme = get(g: ,'default_airline_theme', g:airline_theme)
-let g:custom_themes_name = get(g:, 'custom_themes_name', 'default')
+let g:custom_themes_name = get(g:, 'custom_themes_name', '')
 let g:custom_cursors_enabled = get(g:, 'custom_cursors_enabled', 0)
 let init_on_load = get(g:, 'custom_themes_enabled', 0)
 
@@ -36,6 +36,9 @@ if !hasmapto('<Plug>(customize_theme)') && maparg('<Nul>', 'n') ==# ''
 endif
 
 nmap <Plug>(customize_theme) :CustomizeTheme <C-d>
+nmap <Plug>(refresh_theme_list) :RefreshThemeList<CR>
+nmap <Plug>(cycle_custom_themes_next) :CycleCustomThemesNext<CR>
+nmap <Plug>(cycle_custom_themes_prev) :CycleCustomThemesPrev<CR>
 nmap <Plug>(set_textwidth) :SetTextwidth<Space>
 nmap <Plug>(set_column_color) :ColorizeColumn<Space>
 nmap <Plug>(set_comments_color) :ColorizeComments<Space>

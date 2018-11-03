@@ -10,6 +10,7 @@
 "==========================================================================================================
 " }}}
 
+" colorscheme function mappings {{{
 " Script functions {{{
   function! s:apply_airline_theme() abort
     let g:airline_theme=get(g:, 'airline_theme', g:default_airline_theme)
@@ -76,6 +77,17 @@
       let l:cc_gui=get(g:, 'comments_color_gui', g:default_comments_color_g)
       execute 'highlight Comment ctermfg='.string(l:cc).' guifg='.l:cc_gui
     endif
+  endfunction
+
+  function! s:cycle_custom_theme(direction) abort
+    let l:theme_index=index(s:theme_list, g:custom_themes_name)
+    if a:direction==-1 && l:theme_index==-1
+      let l:next_theme_index=len(s:theme_list)-1
+    else
+      let l:next_theme_index=(l:theme_index+a:direction)%len(s:theme_list)
+    endif
+    let l:next_theme=s:theme_list[l:next_theme_index]
+    execute 'call frescoraja#'.l:next_theme.'()'
   endfunction
 
   function! s:finalize_theme(...) abort
@@ -228,8 +240,8 @@
 
   " Custom completion for CustomizeTheme command {{{
     function! s:get_custom_themes(a, l, p) abort
-      let l:theme_fn_list=filter(split(execute('function'), '\n'), 'v:val =~? "function frescoraja#'.a:a.'"')
-      return sort(map(l:theme_fn_list, function('<SID>shorten_fn_name')))
+      let l:matching_themes=filter(copy(s:theme_list), 'v:val =~? "'.a:a.'"')
+      return sort(l:matching_themes)
     endfunction
 
     function! s:customize_theme(...) abort
@@ -247,14 +259,40 @@
     function! s:shorten_fn_name(idx, fn_name) abort
       return matchstr(a:fn_name, '#\zs\w\+')
     endfunction
+    " }}}
+
+    " Initializer helpers {{{
+    function! s:generate_theme_list() abort
+      let l:themes=map(split(globpath(&rtp, 'colors/*.vim'), "\n"), function('<SID>getfname'))
+      let l:functions=filter(split(execute('function'), "\n"), 'v:val =~? "frescoraja"')
+      let l:fn_names=map(l:functions, function('<SID>shorten_fn_name'))
+      let l:tmplist=[]
+      for fname in l:themes
+        let l:name=substitute(tolower(fname), '-', '_', 'g')
+        let l:matching_fns=filter(copy(l:fn_names), 'v:val =~? "'.l:name.'"')
+        let l:tmplist+=l:matching_fns
+      endfor
+      let l:tmpmap={}
+      for theme in l:tmplist
+        let l:tmpmap[theme]=''
+      endfor
+      let s:theme_list=sort(keys(l:tmpmap))
+    endfunction
+
+    function! s:getfname(idx, val) abort
+      return matchstr(a:val, '\S*/\zs\S*\ze.vim$')
+    endfunction
   " }}}
 " }}}
 
 
 " Theme functions {{{
 function! frescoraja#init() abort
-  let l:theme=get(g:, 'custom_themes_name', 'default')
-  execute 'call frescoraja#'.l:theme.'()'
+  call <SID>generate_theme_list()
+  let l:theme=get(g:, 'custom_themes_name', '')
+  if !empty(l:theme)
+    execute 'call frescoraja#'.l:theme.'()'
+  endif
 endfunction
 
 function! frescoraja#default(...) abort
@@ -294,7 +332,7 @@ function! frescoraja#blayu() abort
   colorscheme blayu
   highlight ColorColumn guibg=#2A3D4F
   highlight CursorLine guifg=#32C6B9
-  let g:customize_theme_name='blayu'
+  let g:custom_themes_name='blayu'
   let g:airline_theme='gotham'
   doautocmd User CustomizedTheme
 endfunction
@@ -304,7 +342,7 @@ function! frescoraja#busybee() abort
   colorscheme busybee
   highlight LineNr guifg=#505050 guibg=#101010
   highlight CursorLineNr guifg=#ff9800 guibg=#202020
-  let g:customize_theme_name='busybee'
+  let g:custom_themes_name='busybee'
   let g:airline_theme='qwq'
   doautocmd User CustomizedTheme
 endfunction
@@ -333,18 +371,18 @@ function! frescoraja#chito() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#colorsbox_night() abort
+function! frescoraja#colorsbox_stnight() abort
   set termguicolors
   colorscheme colorsbox-stnight
-  let g:custom_themes_name='colorsbox_night'
+  let g:custom_themes_name='colorsbox_stnight'
   let g:airline_theme='afterglow'
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#colorsbox_light() abort
+function! frescoraja#colorsbox_steighties() abort
   set termguicolors
   colorscheme colorsbox-steighties
-  let g:custom_themes_name='colorsbox_light'
+  let g:custom_themes_name='colorsbox_steighties'
   let g:airline_theme='quantum'
   doautocmd User CustomizedTheme
 endfunction
@@ -415,10 +453,10 @@ function! frescoraja#gruvbox() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#heroku() abort
+function! frescoraja#heroku_gvim() abort
   set termguicolors
   colorscheme herokudoc-gvim
-  let g:custom_themes_name='heroku'
+  let g:custom_themes_name='heroku_gvim'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme
 endfunction
@@ -444,6 +482,14 @@ function! frescoraja#iceberg() abort
   colorscheme iceberg
   let g:custom_themes_name='iceberg'
   let g:airline_theme='iceberg'
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#iceberg_nogui() abort
+  set notermguicolors
+  colorscheme iceberg
+  let g:custom_themes_name='iceberg_nogui'
+  let g:airline_theme='solarized'
   doautocmd User CustomizedTheme
 endfunction
 
@@ -492,7 +538,7 @@ function! frescoraja#material_dark() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#material_bright() abort
+function! frescoraja#vim_material() abort
   set termguicolors
   let g:material_style='dark'
   colorscheme vim-material
@@ -501,22 +547,22 @@ function! frescoraja#material_bright() abort
   highlight TabLineSel guifg=#FFE57F guibg=#5D818E
   highlight ColorColumn guibg=#374349
   highlight CursorLine cterm=none
-  let g:custom_themes_name='material_bright'
+  let g:custom_themes_name='vim_material'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#material_oceanic() abort
+function! frescoraja#vim_material_oceanic() abort
   set termguicolors
   let g:material_style='oceanic'
   colorscheme vim-material
   highlight CursorLine cterm=none
-  let g:custom_themes_name='material_oceanic'
+  let g:custom_themes_name='vim_material_oceanic'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#material_palenight() abort
+function! frescoraja#vim_material_palenight() abort
   set termguicolors
   let g:material_style='palenight'
   colorscheme vim-material
@@ -525,7 +571,7 @@ function! frescoraja#material_palenight() abort
   highlight TabLineSel guifg=#FFE57F guibg=#676E95
   highlight ColorColumn guibg=#3A3E4F
   highlight CursorLine cterm=none
-  let g:custom_themes_name='material_palenight'
+  let g:custom_themes_name='vim_material_palenight'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme
 endfunction
@@ -556,26 +602,26 @@ function! frescoraja#molokai_dark() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#moonpink() abort
+function! frescoraja#pink_moon() abort
   set termguicolors
   colorscheme pink-moon
-  let g:custom_themes_name='moonpink'
+  let g:custom_themes_name='pink_moon'
   let g:airline_theme='lucius'
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#moonorange() abort
+function! frescoraja#orange_moon() abort
   set termguicolors
   colorscheme orange-moon
-  let g:custom_themes_name='moonorange'
+  let g:custom_themes_name='orange_moon'
   let g:airline_theme='lucius'
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#moonyellow() abort
+function! frescoraja#yellow_moon() abort
   set termguicolors
   colorscheme yellow-moon
-  let g:custom_themes_name='moonyellow'
+  let g:custom_themes_name='yellow_moon'
   let g:airline_theme='lucius'
   doautocmd User CustomizedTheme
 endfunction
@@ -685,8 +731,8 @@ endfunction
 function! frescoraja#znake() abort
   set termguicolors
   colorscheme znake
-  highlight! Normal guifg=#ACCAFF
-  highlight! vimCommand guifg=#591A5A
+  highlight! Normal guifg=#DCCFEE
+  highlight! vimCommand guifg=#793A6A
   highlight! vimFuncKey guifg=#A91A7A cterm=bold
   highlight! Comment guifg=#5A5A69
   let g:custom_themes_name='znake'
@@ -707,6 +753,9 @@ command! -nargs=0 ToggleDark call <SID>toggle_dark()
 command! -bang -nargs=? Italicize call <SID>italicize(<bang>0, <f-args>)
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
 command! -nargs=0 DefaultTheme call frescoraja#default()
+command! -nargs=0 RefreshThemeList call <SID>generate_theme_list()
+command! -nargs=0 CycleCustomThemesPrev call <SID>cycle_custom_theme(-1)
+command! -nargs=0 CycleCustomThemesNext call <SID>cycle_custom_theme(1)
 " }}}
 
 " Autogroup commands {{{
