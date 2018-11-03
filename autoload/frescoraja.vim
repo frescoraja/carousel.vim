@@ -539,7 +539,7 @@ function! frescoraja#material_dark() abort
   highlight Todo guibg=#000000 guifg=#BD9800 cterm=bold
   let g:colors_name='material'
   let g:custom_themes_name='material_dark'
-  let g:airline_theme='material'
+  let g:airline_theme='materialmonokai'
   doautocmd User CustomizedTheme
 endfunction
 
