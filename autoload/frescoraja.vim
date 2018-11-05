@@ -215,8 +215,9 @@
       highlight Normal guibg=NONE ctermbg=none
       highlight LineNr guibg=NONE ctermbg=none
     else
-      if !empty(s:cached_bg)
-        execute 'highlight Normal '.l:term.'='.s:cached_bg
+      let l:bg=get(s:, 'cached_bg', '')
+      if !empty(l:bg)
+        execute 'highlight Normal '.l:term.'='.l:bg
       else
         let l:theme=get(g:, 'custom_themes_name', 'default')
         execute 'call frescoraja#'.l:theme.'()'
