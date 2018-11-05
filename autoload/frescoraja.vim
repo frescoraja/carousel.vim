@@ -209,15 +209,16 @@
     else
       let l:term='guibg'
     endif
-    let current_bg=<SID>get_highlight_term('Normal', l:term)
-    if !empty(current_bg) && (current_bg!=?'none')
+    let l:current_bg=<SID>get_highlight_term('Normal', l:term)
+    if !empty(l:current_bg) && (l:current_bg!=?'none')
+      let s:cached_bg=l:current_bg
       highlight Normal guibg=NONE ctermbg=none
       highlight LineNr guibg=NONE ctermbg=none
     else
-      let l:theme=get(g:, 'custom_themes_name', 'default')
-      if l:theme==?'default'
-        call frescoraja#default(1)
+      if !empty(s:cached_bg)
+        execute 'highlight Normal '.l:term.'='.s:cached_bg
       else
+        let l:theme=get(g:, 'custom_themes_name', 'default')
         execute 'call frescoraja#'.l:theme.'()'
       endif
     endif
