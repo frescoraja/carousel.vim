@@ -92,6 +92,8 @@
   endfunction
 
   function! s:finalize_theme(...) abort
+    let l:term=&termguicolors ? 'guibg' : 'ctermbg'
+    let s:cached_bg=<SID>get_highlight_term('Normal', l:term)
     let l:no_italics=get(a:, 1, 0)
     if !l:no_italics
       call <SID>italicize()
@@ -113,10 +115,11 @@
 
   function! s:get_highlight_term(group, term) abort
     try
-      let output=execute('highlight '.a:group)
-      return matchstr(output, a:term.'=\zs\S*')
+      let l:output=execute('highlight '.a:group)
+      let l:value=matchstr(l:output, a:term.'=\zs\S*')
+      return empty(l:value) ? 'NONE' : l:value
     catch
-      return ''
+      return 'NONE'
     endtry
   endfunction
 
@@ -150,7 +153,7 @@
             let l:new_cterm=join(l:new_cterms, ',')
             execute 'highlight '.group.' cterm='.l:new_cterm
           else
-            execute 'highlight '.group.' cterm=none'
+            execute 'highlight '.group.' cterm=NONE'
           endif
         else
           let l:new_cterms=join(add(split(l:cterm, ','), 'italic'), ',')
@@ -204,23 +207,20 @@
   endfunction
 
   function! s:toggle_background_transparency() abort
-    if (&termguicolors==0)
-      let l:term='ctermbg'
-    else
-      let l:term='guibg'
-    endif
+    let l:term=&termguicolors==0 ? 'ctermbg' : 'guibg'
     let l:current_bg=<SID>get_highlight_term('Normal', l:term)
-    if !empty(l:current_bg) && (l:current_bg!=?'none')
+    if (l:current_bg!=?'NONE')
       let s:cached_bg=l:current_bg
-      highlight Normal guibg=NONE ctermbg=none
-      highlight LineNr guibg=NONE ctermbg=none
+      highlight Normal guibg=NONE ctermbg=NONE
+      highlight LineNr guibg=NONE ctermbg=NONE
     else
       let l:bg=get(s:, 'cached_bg', '')
-      if !empty(l:bg)
-        execute 'highlight Normal '.l:term.'='.l:bg
+      " special case for 'default' theme which has no background color defined
+      if g:custom_themes_name==?'default'
+        highlight Normal ctermbg=233 guibg=#0f0f0f
+        highlight LineNr ctermbg=234 ctermfg=yellow guibg=#1d1d1d guifg=#ff8e00
       else
-        let l:theme=get(g:, 'custom_themes_name', 'default')
-        execute 'call frescoraja#'.l:theme.'()'
+        execute 'highlight Normal '.l:term.'='.l:bg
       endif
     endif
   endfunction
@@ -302,25 +302,20 @@ function! frescoraja#init() abort
   endif
 endfunction
 
-function! frescoraja#default(...) abort
+function! frescoraja#default() abort
   colorscheme default
   set background=dark
   let g:custom_themes_name='default'
-  let l:has_bg=get(a:, 1, 0)
 
   highlight String ctermfg=13 guifg=#FFA0A0
   highlight vimBracket ctermfg=green guifg=#33CA5F
   highlight vimParenSep ctermfg=blue guifg=#0486F1
   highlight CursorLineNr cterm=bold ctermfg=50 guifg=Cyan guibg=#232323
-  highlight CursorLine cterm=none term=none guibg=NONE
+  highlight CursorLine cterm=NONE term=NONE guibg=NONE
   highlight vimIsCommand ctermfg=white guifg=#f1f4cc
   highlight Number term=bold ctermfg=86 guifg=#51AFFF
   highlight link vimOperParen Special
 
-  if (l:has_bg)
-    highlight Normal ctermbg=233 guibg=#0f0f0f
-    highlight LineNr ctermbg=234 ctermfg=yellow guibg=#1d1d1d guifg=#ff8e00
-  endif
   doautocmd User CustomizedTheme
   call <SID>colorize_column()
   call <SID>colorize_comments()
@@ -553,7 +548,7 @@ function! frescoraja#vim_material() abort
   highlight TabLineFill guifg=#212121
   highlight TabLineSel guifg=#FFE57F guibg=#5D818E
   highlight ColorColumn guibg=#374349
-  highlight CursorLine cterm=none
+  highlight CursorLine cterm=NONE
   let g:custom_themes_name='vim_material'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme
@@ -563,7 +558,7 @@ function! frescoraja#vim_material_oceanic() abort
   set termguicolors
   let g:material_style='oceanic'
   colorscheme vim-material
-  highlight CursorLine cterm=none
+  highlight CursorLine cterm=NONE
   let g:custom_themes_name='vim_material_oceanic'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme
@@ -577,7 +572,7 @@ function! frescoraja#vim_material_palenight() abort
   highlight TabLineFill guifg=#191919
   highlight TabLineSel guifg=#FFE57F guibg=#676E95
   highlight ColorColumn guibg=#3A3E4F
-  highlight CursorLine cterm=none
+  highlight CursorLine cterm=NONE
   let g:custom_themes_name='vim_material_palenight'
   let g:airline_theme='material'
   doautocmd User CustomizedTheme

@@ -31,7 +31,7 @@ if (init_on_load)
 endif
 
 " Command mapping {{{
-if !hasmapto('<Plug>(customize_theme)') && maparg('<Nul>', 'n') ==# ''
+if !hasmapto('<Plug>(customize_theme)') && empty(maparg('<Nul>', 'n'))
   nmap <unique> <Nul> <Plug>(customize_theme)
 endif
 
