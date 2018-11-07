@@ -10,7 +10,7 @@
 "==========================================================================================================
 " }}}
 
-" colorscheme function mappings {{{
+" colorscheme functions {{{
 
 " Script functions {{{
   function! s:apply_airline_theme() abort
@@ -326,6 +326,24 @@ function! frescoraja#afterglow() abort
   colorscheme afterglow
   let g:custom_themes_name='afterglow'
   let g:airline_theme='afterglow'
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#ayu() abort
+  set termguicolors
+  let g:ayucolor='dark'
+  colorscheme ayu
+  let g:custom_themes_name='ayu'
+  let g:airline_theme='ayu'
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#ayu_mirage() abort
+  set termguicolors
+  let g:ayucolor='mirage'
+  colorscheme ayu
+  let g:custom_themes_name='ayu_mirage'
+  let g:airline_theme='ayu_mirage'
   doautocmd User CustomizedTheme
 endfunction
 
