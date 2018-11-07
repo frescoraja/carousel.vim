@@ -1,9 +1,9 @@
-**This is currently a work-in-progress**
-
 # FrescoRaja Themes for [Vim](http://www.vim.org)
 
-> A vim plugin wrapper that provides a simple interface to dynamically control several of Vim's visual elements and
-> behavior: cursor, textwidth and cursorcolumn, font, background, and colorscheme.
+*work-in-progress*
+
+A vim plugin wrapper that provides a simple interface to dynamically control several of Vim's visual elements and
+behavior: cursor, textwidth and cursorcolumn, font, background, and colorscheme.
 
 > **Note:** This is for my own educational use, if you want to try it go ahead but at your own risk.. It is my first
 > time attempting to create a Vim plugin and I take no responsibility for any consequences of its use on your system.
@@ -18,26 +18,42 @@ Use `CustomizeTheme` to load specific theme of choice. Themes are a complementar
 combination, along with some highlighting tweaks I felt were beneficial.
 
 Use `<Plug>(customize_theme)` to bring up autocompletion menu with available themes to load.
-Use `<Plug>(cycle_custom_themes_next)` to cycle forwards through available customized themes.
-Use `<Plug>(cycle_custom_thems_prev)` to cycle backwards through available customized themes.
+
+<kbd>Ctrl</kbd>+<kbd>Space</kbd> is built into the plugin to call `<Plug>(customize_theme)` (if it hasn't already been
+defined)
 
 ```viml
-" This function is mapped to the <Nul> character sequence (Ctrl + <Space>) if that mapping has not been defined already.
-" It provides tab-autocompletion for selecting themes.
-<Plug>(customize_theme)
-
-" Define your own mappings:
-nmap <Leader>ct <Plug>(customize_theme)
-nmap <F7> <Plug>(cycle_custom_themes_prev)
-nmap <F9> <Plug>(cycle_custom_themes_next)
+" define custom mapping:
+nmap <F1> <Plug>(customize_theme)
 
 " Load a specific theme:
-nmap <F12> :CustomizeTheme material<CR>
+nmap <F12> :CustomizeTheme blayu<CR>
 ```
 
-**Note** if you add a new supported colorscheme during a session, or if for some reason the list of themes disappears,
-you need to refresh the list of available themes. I've provided a method to do this: `<Plug>(refresh_theme_list)` or
-`:RefreshThemeList`
+### Cycle Custom Themes (..or all available colorschemes)
+
+Use `<Plug>(cycle_custom_themes_next)` to cycle forwards through available customized themes.
+
+Use `<Plug>(cycle_custom_thems_prev)` to cycle backwards through available customized themes.
+
+Use `<Plug>(cycle_colorschemes_next)` to cycle forwards through all available colorschemes.
+
+Use `<Plug>(cycle_colorschemes_prev)` to cycle backwards through all available colorschemes.
+
+The following mappings are built into the plugin (if they were not already defined)
+
+<kbd>F7</kbd> to cycle backwards through customized theme list
+
+<kbd>F9</kbd> to cycle forwards through customized theme list
+
+<kbd>Shift+F7</kbd> to cycle backwards through colorschemes
+
+<kbd>Shift+F9</kbd> to cycle forwards through colorschemes
+
+> **Note** if you add a new colorscheme while vim is loaded, or if for some reason the list of available
+> themes/colorschemes is empty, you can refresh the cached list using the following:
+> Use `<Plug>(refresh_colorschemes)` to reload all available colorschemes (or type `:RefreshCustomThemes`)
+> Use `<Plug>(refresh_theme_list)` to reload all customized themes (or type `:RefreshColorschemes`)
 
 ### Toggle Background Color and Transparency
 
@@ -50,6 +66,7 @@ Works in both gui mode and cterm mode.
 ### Toggle ColorColumn / Textwidth
 
 Use `<Plug>(set_textwidth)` to set &textwidth value
+
 Use `<Plug>(toggle_column)` to toggle the display of a highlighted cursorcolumn at `&textwidth` value
 
 As an example, the following mapping would enable you to type ***tw=90<Enter>*** in normal mode to change the textwidth to 90.
@@ -63,7 +80,9 @@ nmap tw= <Plug>(set_textwidth)
 ### Colorize/Italicize Comments, Colorize ColorColumn
 
 Use `<Plug>(italicize)` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute args.
+
 Use `<Plug>(set_comments_color)` to colorize Comments.
+
 Use `<Plug>(set_column_color)` to colorize ColumnColor.
 
 For example, the following mapping would enable you to type ***<Leader>cwhite<Enter>*** to change comments to white in cterm or
@@ -74,9 +93,9 @@ gui mode. (If providing a hex color value like #fafafa, surround with quotes whe
 nmap <Leader>c <Plug>(set_comments_color)
 ```
 
-You can toggle italics for any syntax group you'd like. Just use the `Italicize!` method followed by the syntax
-group you want to toggle italics for. You can specify multiple groups separated by a comma. You can make a mapping if
-you like to italicize specific groups frequently, or perhaps set and autocmd to do it for specific filetypes:
+> You can toggle italics for any syntax group you'd like. Just use the `Italicize!` method followed by the syntax
+> group you want to toggle italics for. You can specify multiple groups separated by a comma. You can make a mapping if
+> you like to italicize specific groups frequently, or perhaps set and autocmd to do it for specific filetypes:
 
 ```viml
 " Shift+F1 to toggle italics for comments, html attributes, WildMenu
@@ -119,9 +138,13 @@ Use the following globals to define custom default colors:
   - `g:custom_themes_name` -> define custom theme to use, defaults to 'default'
 
 Use `<Plug>(reset_theme)` to reset custom theme
+
 Use `<Plug>(refresh_theme)` to reapply current custom theme
+
 Use `<Plug>(reset_texwidth)` to reset textwidth
+
 Use `<Plug>(reset_comments_color)` to reset comments
+
 Use `<Plug>(reset_column_color)` to reset columncolor
 
 ## Installation
@@ -137,7 +160,7 @@ Plug 'frescoraja/frescoraja-vim-themes'
 call plug#end()
 ```
 
-Then, just run `:PlugInstall` from within Vim, or `vim -c PlugInstall` from the command line.
+Then, just type `:PlugInstall` from within Vim, or `vim -c PlugInstall` from the command line.
 
 Alternatively, this repo can be cloned to a your plugin manager's defined location:
 
@@ -169,6 +192,7 @@ call frescoraja#init()
 
 * #### ColorSchemes
 
+    - [ayu](https://github.com/ayu-theme/ayu-vim)
     - [gruvbox](https://github.com/morhetz/gruvbox)
     - [oceanic-next](https://github.com/mhartington/oceanic-next)
     - [onedark](https://github.com/joshdick/onedark.vim)
@@ -196,6 +220,7 @@ call frescoraja#init()
     - [material-monokai](http://github.com/skielbasa/vim-material-monokai)
     - [tender](https://github.com/jacoborus/tender.vim)
     - [iceberg](https://github.com/cocopon/iceberg.vim)
+    - [pink-moon](https://github.com/sts10/vim-pink-moon)
     - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
         - CandyPaper
         - jellybeans
@@ -203,7 +228,6 @@ call frescoraja#init()
         - busybee
         - flatcolor
         - znake
-        - orange-moon/pink-moon/yellow-moon
 
 My appreciation goes to all the maintainers of above plugins/themes for their attention to aesthetics and detail.
 

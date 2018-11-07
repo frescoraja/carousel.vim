@@ -80,18 +80,33 @@
     endif
   endfunction
 
-  function! s:cycle_custom_theme(direction) abort
-    let l:theme_index=index(s:theme_list, g:custom_themes_name)
-    if a:direction==-1 && l:theme_index==-1
-      let l:next_theme_index=len(s:theme_list)-1
-    else
-      let l:next_theme_index=(l:theme_index+a:direction)%len(s:theme_list)
+  function! s:cycle_custom_theme(step) abort
+    if !exists('s:loaded_custom_themes')
+      call <SID>load_custom_themes()
     endif
-    let l:next_theme=s:theme_list[l:next_theme_index]
+    if !exists('s:custom_themes_index')
+      let s:custom_themes_index=0
+    else
+      let s:custom_themes_index=(s:custom_themes_index+a:step)%len(s:loaded_custom_themes)
+    endif
+    let l:next_theme=s:loaded_custom_themes[s:custom_themes_index]
     execute 'call frescoraja#'.l:next_theme.'()'
   endfunction
 
+  function! s:cycle_colorschemes(step) abort
+    if !exists('s:loaded_colorschemes')
+      call <SID>load_colorschemes()
+    endif
+    if !exists('s:colorscheme_index')
+      let s:colorscheme_index=0
+    else
+      let s:colorscheme_index=(s:colorscheme_index+a:step)%len(s:loaded_colorschemes)
+    endif
+    execute 'colorscheme '.s:loaded_colorschemes[s:colorscheme_index]
+  endfunction
+
   function! s:finalize_theme(...) abort
+    let s:custom_themes_index=index(s:loaded_custom_themes, g:custom_themes_name)
     let l:term=&termguicolors ? 'guibg' : 'ctermbg'
     let s:cached_bg=<SID>get_highlight_term('Normal', l:term)
     let l:no_italics=get(a:, 1, 0)
@@ -248,8 +263,7 @@
 
   " Custom completion for CustomizeTheme command {{{
     function! s:get_custom_themes(a, l, p) abort
-      let l:matching_themes=filter(copy(s:theme_list), 'v:val =~? "'.a:a.'"')
-      return sort(l:matching_themes)
+      return filter(copy(s:loaded_custom_themes), 'v:val =~? "'.a:a.'"')
     endfunction
 
     function! s:customize_theme(...) abort
@@ -270,32 +284,34 @@
     " }}}
 
     " Initializer helpers {{{
-    function! s:generate_theme_list() abort
-      let l:themes=map(split(globpath(&rtp, 'colors/*.vim'), "\n"), function('<SID>getfname'))
-      let l:functions=filter(split(execute('function'), "\n"), 'v:val =~? "frescoraja"')
-      let l:fn_names=map(l:functions, function('<SID>shorten_fn_name'))
-      let l:tmplist=[]
+    function! s:load_custom_themes() abort
+      let l:themes=sort(map(
+        \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
+        \ 'fnamemodify(v:val, ":t:r")'))
+      let l:functions=map(filter(split(
+        \ execute('function'), "\n"),
+        \ 'v:val =~? "frescoraja"'),
+        \ function('<SID>shorten_fn_name'))
+      let l:custom_themes=[]
       for fname in l:themes
         let l:name=substitute(tolower(fname), '-', '_', 'g')
-        let l:matching_fns=filter(copy(l:fn_names), 'v:val =~? "'.l:name.'"')
-        let l:tmplist+=l:matching_fns
+        let l:matching_fns=filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
+        let l:custom_themes+=l:matching_fns
       endfor
-      let l:tmpmap={}
-      for theme in l:tmplist
-        let l:tmpmap[theme]=''
-      endfor
-      let s:theme_list=sort(keys(l:tmpmap))
+      let s:loaded_custom_themes=uniq(sort(l:custom_themes))
     endfunction
 
-    function! s:getfname(idx, val) abort
-      return matchstr(a:val, '\S*/\zs\S*\ze.vim$')
+    function! s:load_colorschemes() abort
+      let s:loaded_colorschemes=uniq(sort(map(
+        \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
+        \ 'fnamemodify(v:val, ":t:r")')))
     endfunction
   " }}}
 " }}}
 
 " Theme functions {{{
 function! frescoraja#init() abort
-  call <SID>generate_theme_list()
+  call <SID>load_custom_themes()
   let l:theme=get(g:, 'custom_themes_name', '')
   if !empty(l:theme)
     execute 'call frescoraja#'.l:theme.'()'
@@ -777,9 +793,12 @@ command! -nargs=0 ToggleDark call <SID>toggle_dark()
 command! -bang -nargs=? Italicize call <SID>italicize(<bang>0, <f-args>)
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
 command! -nargs=0 DefaultTheme call frescoraja#default()
-command! -nargs=0 RefreshThemeList call <SID>generate_theme_list()
+command! -nargs=0 RefreshCustomThemes call <SID>load_custom_themes()
+command! -nargs=0 RefreshColorschemes call <SID>load_colorschemes()
 command! -nargs=0 CycleCustomThemesPrev call <SID>cycle_custom_theme(-1)
 command! -nargs=0 CycleCustomThemesNext call <SID>cycle_custom_theme(1)
+command! -nargs=0 CycleColorschemesPrev call <SID>cycle_colorschemes(-1)
+command! -nargs=0 CycleColorschemesNext call <SID>cycle_colorschemes(1)
 " }}}
 
 " Autogroup commands {{{

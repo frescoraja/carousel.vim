@@ -31,14 +31,13 @@ if (init_on_load)
 endif
 
 " Command mapping {{{
-if !hasmapto('<Plug>(customize_theme)') && empty(maparg('<Nul>', 'n'))
-  nmap <unique> <Nul> <Plug>(customize_theme)
-endif
-
 nmap <Plug>(customize_theme) :CustomizeTheme <C-d>
-nmap <Plug>(refresh_theme_list) :RefreshThemeList<CR>
-nmap <Plug>(cycle_custom_themes_next) :CycleCustomThemesNext<CR>
-nmap <Plug>(cycle_custom_themes_prev) :CycleCustomThemesPrev<CR>
+nmap <Plug>(refresh_custom_themes) :RefreshCustomThemes<CR>
+nmap <Plug>(refresh_colorschemes) :RefreshColorschemes<CR>
+nmap <silent> <Plug>(cycle_custom_themes_next) :CycleCustomThemesNext<CR>
+nmap <silent> <Plug>(cycle_custom_themes_prev) :CycleCustomThemesPrev<CR>
+nmap <silent> <Plug>(cycle_colorschemes_next) :CycleColorschemesNext<CR>
+nmap <silent> <Plug>(cycle_colorschemes_prev) :CycleColorschemesPrev<CR>
 nmap <Plug>(set_textwidth) :SetTextwidth<Space>
 nmap <Plug>(set_column_color) :ColorizeColumn<Space>
 nmap <Plug>(set_comments_color) :ColorizeComments<Space>
@@ -52,6 +51,34 @@ nmap <silent> <Plug>(italicize) :Italicize!<CR>
 nmap <silent> <Plug>(get_syntax) :GetSyntaxGroup<CR>
 nmap <silent> <Plug>(reset_comments_color) :ColorizeComments<CR>
 nmap <silent> <Plug>(reset_column_color) :ColorizeColumn<CR>
+
+if !hasmapto('<Plug>(customize_theme)') && empty(maparg('<Nul>', 'n'))
+  nmap <unique> <Nul> <Plug>(customize_theme)
+endif
+
+if !hasmapto('<Plug>(cycle_custom_themes_next') && empty(maparg('<F9>', 'n'))
+  nmap <unique> <F9> <Plug>(cycle_custom_themes_next)
+endif
+
+if !hasmapto('<Plug>(cycle_custom_themes_prev') && empty(maparg('<F7>', 'n'))
+  nmap <unique> <F7> <Plug>(cycle_custom_themes_prev)
+endif
+
+if !hasmapto('<Plug>(cycle_colorschemes_next') && empty(maparg('<S-F9>', 'n'))
+  nmap <unique> <S-F9> <Plug>(cycle_colorschemes_next)
+endif
+
+if !hasmapto('<Plug>(cycle_colorschemes_prev') && empty(maparg('<S-F7>', 'n'))
+  nmap <unique> <S-F7> <Plug>(cycle_colorschemes_prev)
+endif
+
+if !hasmapto('<Plug>(refresh_custom_themes') && empty(maparg('<F8>', 'n'))
+  nmap <unique> <F8> <Plug>(refresh_custom_themes)
+endif
+
+if !hasmapto('<Plug>(refresh_colorschemes') && empty(maparg('<S-F8>', 'n'))
+  nmap <unique> <S-F8> <Plug>(refresh_colorschemes)
+endif
 " }}}
 
 " vim: ft=vim fdm=marker fmr={{{,}}} nofen
