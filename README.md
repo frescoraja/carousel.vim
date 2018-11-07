@@ -2,8 +2,8 @@
 
 *work-in-progress*
 
-A vim plugin wrapper that provides a simple interface to dynamically control several of Vim's visual elements and
-behavior: cursor, textwidth and cursorcolumn, font, background, and colorscheme.
+A vim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior: cursor, 
+textwidth and cursorcolumn, font, background, and colorscheme.
 
 > **Note:** This is for my own educational use, if you want to try it go ahead but at your own risk.. It is my first
 > time attempting to create a Vim plugin and I take no responsibility for any consequences of its use on your system.
@@ -52,8 +52,8 @@ The following mappings are built into the plugin (if they were not already defin
 
 > **Note** if you add a new colorscheme while vim is loaded, or if for some reason the list of available
 > themes/colorschemes is empty, you can refresh the cached list using the following:
-> Use `<Plug>(refresh_colorschemes)` to reload all available colorschemes (or type `:RefreshCustomThemes`)
-> Use `<Plug>(refresh_theme_list)` to reload all customized themes (or type `:RefreshColorschemes`)
+> Use `<Plug>(refresh_colorschemes)` to reload all available colorschemes (or type `:RefreshColorschemes`)
+> Use `<Plug>(refresh_custom_themes)` to reload all customized themes (or type `:RefreshCustomThemes`)
 
 ### Toggle Background Color and Transparency
 
@@ -128,7 +128,7 @@ let g:custom_cursors_enabled=1
 
 ### Reset functions
 
-Use the following globals to define custom default colors:
+Use the following globals to define custom default colors used by theme:
   - `g:default_comments_color_c` -> define comment color in cterm mode (0-255), defaults to 59 (grey)
   - `g:default_comments_color_g` -> define comment color in gui mode (hex RGB), defaults to #658494 (blue-grey)
   - `g:default_column_color_c` -> define column color in cterm mode, defaults to 236 (dark grey)
@@ -137,15 +137,15 @@ Use the following globals to define custom default colors:
   - `g:default_airline_theme` -> define airline theme, default to g:airline_theme
   - `g:custom_themes_name` -> define custom theme to use, defaults to 'default'
 
-Use `<Plug>(reset_theme)` to reset custom theme
+Use `<Plug>(reset_theme)` to reset custom theme to default
 
 Use `<Plug>(refresh_theme)` to reapply current custom theme
 
-Use `<Plug>(reset_texwidth)` to reset textwidth
+Use `<Plug>(reset_texwidth)` to reset textwidth to default
 
-Use `<Plug>(reset_comments_color)` to reset comments
+Use `<Plug>(reset_comments_color)` to reset comments color to default
 
-Use `<Plug>(reset_column_color)` to reset columncolor
+Use `<Plug>(reset_column_color)` to reset columncolor to default
 
 ## Installation
 
