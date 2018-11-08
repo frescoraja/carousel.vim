@@ -126,18 +126,18 @@
     call <SID>apply_ale_sign_highlights()
     call <SID>apply_gitgutter_highlights()
     call <SID>apply_whitespace_highlights()
-    call <SID>fix_reset_highlighting()
   endfunction
 
   function! s:finalize_theme() abort
     call <SID>cache_settings()
     call <SID>italicize()
+    call <SID>fix_reset_highlighting()
     call <SID>apply_consistent_bg()
   endfunction
 
   function! s:fix_reset_highlighting() abort
     " TODO: find broken highlights after switching themes
-    if g:custom_themes_name=~#'maui'
+    if g:colors_name=~#'maui'
         highlight! link vimCommand Statement
     endif
   endfunction
@@ -794,6 +794,14 @@ function! frescoraja#tender() abort
   let g:custom_themes_name='tender'
   let g:airline_theme='tender'
   colorscheme tender
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#tetra() abort
+  set termguicolors
+  let g:custom_themes_name='tetra'
+  let g:airline_theme='badcat'
+  colorscheme tetra-contrast
   doautocmd User CustomizedTheme
 endfunction
 
