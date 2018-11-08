@@ -202,20 +202,20 @@
           let l:new_cterms=filter(split(l:cterm, ','), 'v:val !~? "italic"')
           if len(l:new_cterms)
             let l:new_cterm=join(l:new_cterms, ',')
-            execute 'highlight '.group.' cterm='.l:new_cterm
+            execute 'highlight '.group.' cterm='.l:new_cterm.' gui='.l:new_cterms
           else
             execute 'highlight '.group.' cterm=NONE'
           endif
         else
           let l:new_cterms=join(add(split(l:cterm, ','), 'italic'), ',')
-          execute 'highlight '.group.' cterm='.l:new_cterms
+          execute 'highlight '.group.' cterm='.l:new_cterms.' gui='.l:new_cterms
         endif
       endfor
     else
       for group in l:groups
         let l:cterm=<SID>get_highlight_term_value(group, 'cterm')
         let l:new_cterms=join(add(split(l:cterm, ','), 'italic'), ',')
-        execute 'highlight '.group.' cterm='.l:new_cterms
+        execute 'highlight '.group.' cterm='.l:new_cterms.' gui='.l:new_cterms
       endfor
     endif
   endfunction
