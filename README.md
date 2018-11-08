@@ -80,14 +80,18 @@ to 90.  (It will also automatically move the colorcolumn to 90 as well)
 nmap tw= <Plug>(set_textwidth)
 ```
 
-### Colorize/Italicize Comments, Colorize ColorColumn
+### Colorize/Italicize Comments, Colorize ColorColumn, LineNr, etc
 
 Use `<Plug>(italicize)` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
 args.
 
+Use `<Plug>(colorize_syntax_group)` to apply a color to the syntax group of your choice.
+
 Use `<Plug>(set_comments_color)` to colorize Comments.
 
 Use `<Plug>(set_column_color)` to colorize ColumnColor.
+
+Use `<Plug>(set_linenr_color)` to colorize LineNr.
 
 For example, the following mapping would enable you to type ***<Leader>cwhite<Enter>*** to change comments to white in
 cterm or

@@ -46,34 +46,36 @@
     highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
   endfunction
 
-  function! s:colorize_column(...) abort
-    if a:0>0
-      if (&termguicolors==0)
-        execute 'highlight ColorColumn ctermbg='.string(a:1)
-      elseif (&termguicolors) && (a:1=~?'\x\{6}$')
-        let l:guibg=matchstr(a:1, '\zs\x\{6}')
-        execute 'highlight ColorColumn guibg=#'.l:guibg
-      endif
+  function! s:colorize_group(...) abort
+    " a:1 => syntax group name
+    " a:2 => syntax color (optional)
+    " Default to foreground coloring, unless ColorColumn group specified
+    let l:args=split(a:1, '\s')
+    if len(l:args) > 1
+      let l:group=l:args[0]
+      let l:color=l:args[1]
     else
-      let l:col_color=get(g:, 'column_color_cterm', g:default_column_color_c)
-      let l:col_color_gui=get(g:, 'column_color_gui', g:default_column_color_g)
-      execute 'highlight ColorColumn ctermbg='.string(l:col_color).' guibg='.l:col_color_gui
+      let l:group=a:1
+      let l:color=get(a:, 2, '')
     endif
-  endfunction
-
-  function! s:colorize_comments(...) abort
-    if a:0>0
-      if (!&termguicolors)
-        execute 'highlight Comment ctermfg='.string(a:1)
-      elseif (&termguicolors) && (a:1=~?'\#\?\x\{6}')
-        let l:guifg=matchstr(a:1, '\zs\x\{6}')
-        execute 'highlight Comment guifg=#'.l:guifg
+    let l:fgbg=l:group ==? 'ColorColumn' ? 'bg' : 'fg'
+    try
+      if !empty(l:color)
+        if !&termguicolors
+          execute 'highlight '.l:group.' cterm'.l:fgbg.'='.l:color
+        else
+          let l:hexcolor=matchstr(l:color, '\zs\x\{6}')
+          let l:gui=empty(l:hexcolor) ? l:color : '#'.l:hexcolor
+          execute 'highlight '.l:group.' gui'.l:fgbg.'='.l:gui
+        endif
+      else
+        let l:cc=g:custom_theme_defaults[tolower(l:group)].cterm
+        let l:cg=g:custom_theme_defaults[tolower(l:group)].gui
+        execute 'highlight '.l:group.' cterm'.l:fgbg.'='.l:cc.' gui'.l:fgbg.'='.l:cg
       endif
-    else
-      let l:cc=get(g:, 'comments_color_cterm', g:default_comments_color_c)
-      let l:cc_gui=get(g:, 'comments_color_gui', g:default_comments_color_g)
-      execute 'highlight Comment ctermfg='.string(l:cc).' guifg='.l:cc_gui
-    endif
+    catch
+      echohl ErrorMsg | echo v:exception
+    endtry
   endfunction
 
   function! s:colorscheme_changed() abort
@@ -286,7 +288,7 @@
 
   function! s:toggle_textwidth(num) abort
     if(a:num+&textwidth==0)
-      let l:t_w=get(g:, 'textwidth', g:default_textwidth)
+      let l:t_w=g:custom_theme_defaults.textwidth
       execute 'set textwidth='.string(l:t_w)
     else
       let g:textwidth=&textwidth
@@ -302,7 +304,7 @@
       if !exists('s:loaded_custom_themes')
         call <SID>load_custom_themes()
       endif
-      return filter(copy(s:loaded_custom_themes), 'v:val =~? "'.a:a.'"')
+      return filter(copy(s:loaded_custom_themes), 'v:val =~? "^'.a:a.'"')
     endfunction
 
     function! s:customize_theme(...) abort
@@ -351,7 +353,7 @@
 " Theme functions {{{
 function! frescoraja#init() abort
   call <SID>load_custom_themes()
-  let l:theme=get(g:, 'custom_themes_name', '')
+  let l:theme=g:custom_theme_defaults.theme
   if !empty(l:theme)
     execute 'call frescoraja#'.l:theme.'()'
   endif
@@ -359,7 +361,7 @@ endfunction
 
 function! frescoraja#default() abort
   set background=dark
-  let g:airline_theme='jellybeans'
+  let g:airline_theme=g:custom_theme_defaults.airline
   let g:custom_themes_name='default'
 
   colorscheme default
@@ -373,8 +375,8 @@ function! frescoraja#default() abort
   highlight! link vimOperParen Special
 
   doautocmd User CustomizedTheme
-  call <SID>colorize_column()
-  call <SID>colorize_comments()
+  call <SID>colorize_group('ColorColumn')
+  call <SID>colorize_group('Comment')
 endfunction
 
 function! frescoraja#afterglow() abort
@@ -850,13 +852,21 @@ endfunction
 
 " }}}
 
+function! s:get_highlight_groups(a, l, p) abort
+  " return filter(map(split(execute('highlight'), "\n"), 'matchstr(v:val, ''^S+'')'), 'v:val =~? "^'.a:a.'"')
+  return filter(map(split(execute('highlight'), "\n"), 'matchstr(v:val, ''^\S\+'')'), 'v:val =~ "^'.a:a.'"')
+endfunction
+
 " Autoload commands {{{
 command! -nargs=? -complete=customlist,<SID>get_custom_themes
       \ CustomizeTheme call <SID>customize_theme(<f-args>)
+command! -nargs=1 -complete=customlist,<SID>get_highlight_groups
+      \ ColorizeSyntaxGroup call <SID>colorize_group(<f-args>)
+command! -nargs=? ColorizeColumn call <SID>colorize_group('ColorColumn', <f-args>)
+command! -nargs=? ColorizeComments call <SID>colorize_group('Comment', <f-args>)
+command! -nargs=? ColorizeLineNr call <SID>colorize_group('LineNr', <f-args>)
 command! -nargs=0 CustomThemeRefresh call <SID>refresh_theme()
 command! -nargs=1 SetTextwidth call <SID>toggle_textwidth(<args>)
-command! -nargs=? ColorizeColumn call <SID>colorize_column(<args>)
-command! -nargs=? ColorizeComments call <SID>colorize_comments(<args>)
 command! -nargs=0 ToggleColumn call <SID>toggle_column()
 command! -nargs=0 ToggleBackground call <SID>toggle_background_transparency()
 command! -nargs=0 ToggleDark call <SID>toggle_dark()
@@ -878,7 +888,7 @@ augroup custom_themes
   autocmd ColorScheme * call <SID>colorscheme_changed()
 augroup END
 
-if (g:custom_cursors_enabled)
+if (g:custom_theme_defaults.cursors)
   autocmd custom_themes VimEnter * call <SID>shape_cursor()
 endif
 " }}} end autocmds
