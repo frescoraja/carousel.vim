@@ -15,30 +15,30 @@
 " Script functions {{{
   function! s:apply_ale_sign_highlights() abort
     let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
+    let l:ctermbg=<SID>get_highlight_term('LineNr', 'ctermbg')
     highlight clear ALEErrorSign
     highlight clear ALEWarningSign
     highlight clear ALEInfoSign
-    execute 'highlight! ALEErrorSign guifg=red ctermfg=red '.l:guibg
-    execute 'highlight! ALEWarningSign guifg=yellow ctermfg=yellow '.l:guibg
-    execute 'highlight! ALEInfoSign guifg=orange ctermfg=208 '.l:guibg
+    execute 'highlight! ALEErrorSign guifg=red ctermfg=red '.l:guibg.' '.l:ctermbg
+    execute 'highlight! ALEWarningSign guifg=yellow ctermfg=yellow '.l:guibg.' '.l:ctermbg
+    execute 'highlight! ALEInfoSign guifg=orange ctermfg=208 '.l:guibg.' '.l:ctermbg
  endfunction
 
   function! s:apply_gitgutter_highlights() abort
     let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
+    let l:ctermbg=<SID>get_highlight_term('LineNr', 'ctermbg')
     highlight clear GitGutterAdd
     highlight clear GitGutterChange
     highlight clear GitGutterDelete
     highlight clear GitGutterChangeDelete
-    execute 'highlight! GitGutterAdd guifg=#53D188 ctermfg=36'.l:guibg
-    execute 'highlight! GitGutterChange guifg=#FFF496 ctermfg=226'.l:guibg
-    execute 'highlight! GitGutterDelete guifg=#BF304F ctermfg=205'.l:guibg
-    execute 'highlight! GitGutterChangeDelete guifg=#F18F4A ctermfg=208'.l:guibg
+    execute 'highlight! GitGutterAdd cterm=bold guifg=#53D188 ctermfg=36 '.l:guibg.' '.l:ctermbg
+    execute 'highlight! GitGutterChange cterm=bold guifg=#FFF496 ctermfg=226 '.l:guibg.' '.l:ctermbg
+    execute 'highlight! GitGutterDelete cterm=bold guifg=#BF304F ctermfg=205 '.l:guibg.' '.l:ctermbg
+    execute 'highlight! GitGutterChangeDelete cterm=bold guifg=#F18F4A ctermfg=208 '.l:guibg.' '.l:ctermbg
   endfunction
 
   function! s:apply_signcolumn_highlights() abort
-    let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
-    highlight clear SignColumn
-    execute 'highlight! SignColumn ctermfg=white guifg=white '.l:guibg
+    highlight! link SignColumn LineNr
   endfunction
 
   function! s:apply_whitespace_highlights() abort
@@ -115,8 +115,12 @@
     if !exists('s:loaded_colorschemes')
       call <SID>load_colorschemes()
     endif
-    let s:custom_themes_index=index(s:loaded_custom_themes, g:custom_themes_name)
-    let s:colorscheme_index=index(s:loaded_colorschemes, g:colors_name)
+    if exists('g:custom_themes_name')
+      let s:custom_themes_index=index(s:loaded_custom_themes, g:custom_themes_name)
+    endif
+    if exists('g:colors_name')
+      let s:colorscheme_index=index(s:loaded_colorschemes, g:colors_name)
+    endif
     let l:term=&termguicolors ? 'guibg' : 'ctermbg'
     let s:cached_bg=<SID>get_highlight_term_value('Normal', l:term)
   endfunction
@@ -137,7 +141,7 @@
 
   function! s:fix_reset_highlighting() abort
     " TODO: find broken highlights after switching themes
-    if g:colors_name=~#'maui'
+    if get(g:, 'colors_name', '')=~#'maui'
         highlight! link vimCommand Statement
     endif
   endfunction
@@ -145,6 +149,10 @@
   function! s:get_highlight_term_value(group, term) abort
     try
       let l:output=execute('highlight '.a:group)
+      if l:output=~?'links'
+        let l:link=matchstr(l:output, 'links to \zs\S\+')
+        let l:output=<SID>get_highlight_term_value(l:link, a:term)
+      endif
       let l:value=matchstr(l:output, a:term.'=\zs\S*')
       return empty(l:value) ? 'NONE' : l:value
     catch
@@ -155,6 +163,10 @@
   function! s:get_highlight_term(group, term) abort
     try
       let l:output=execute('highlight '.a:group)
+      if l:output=~?'links'
+        let l:link=matchstr(l:output, 'links to \zs\S\+')
+        let l:output=<SID>get_highlight_term(l:link, a:term)
+      endif
       let l:term=matchstr(l:output, '\zs'.a:term.'=\S\+')
       return empty(l:term) ? '' : l:term
     catch
@@ -301,7 +313,7 @@
           echohl ModeMsg | echo g:custom_themes_name
         endif
       catch /.*/
-        echohl ErrorMsg | echo 'No theme found with that name'
+        echohl ErrorMsg | echo v:exception
       endtry
     endfunction
 
