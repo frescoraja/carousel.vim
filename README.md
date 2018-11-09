@@ -181,13 +181,13 @@ Alternatively, this repo can be cloned to a your plugin manager's defined locati
 git clone https://github.com/frescoraja/frescoraja-vim-themes ~/.vim/bundle
 ```
 
-To enable plugin functionality, set a global trigger in vimrc:
+To initialize theming functionality, set a global trigger in vimrc:
 
 ```viml
 let g:custom_themes_enabled=1
 
 " set a default theme to load on startup:
-let g:custom_themes_name='blayu'
+let g:custom_themes_name='default'
 ```
 
 Or, you can just call the initializer directly if you don't want any theming applied by default, but want the plugin
@@ -200,7 +200,7 @@ call frescoraja#init()
 
 ## Dependencies
 
-This is the current list of plugins that frescoraja-vim-themes integrates. They are not required.
+This is the current list of plugins that frescoraja-vim-themes integrates (They are not required)
 
 ### Plugins
 
@@ -211,6 +211,7 @@ This is the current list of plugins that frescoraja-vim-themes integrates. They 
 * #### [GitGutter](https://github.com/airblade/vim-gitgutter)
 
 * #### Colorschemes
+    - [default](https://github.com/vim/vim/blob/master/runtime/colors/default.vim)
     - [ayu](https://github.com/ayu-theme/ayu-vim)
     - [gruvbox](https://github.com/morhetz/gruvbox)
     - [oceanic-next](https://github.com/mhartington/oceanic-next)
@@ -224,7 +225,6 @@ This is the current list of plugins that frescoraja-vim-themes integrates. They 
     - [neodark](https://github.com/KeitaNakamura/neodark.vim)
     - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
     - [molokai](https://github.com/tomasr/molokai)
-    - [dracula](https://github.com/dracula/vim)
     - [blayu](https://github.com/tjammer/blayu)
     - [edar/elit](https://github.com/DrXVII/vim_colors)
     - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
@@ -246,6 +246,14 @@ This is the current list of plugins that frescoraja-vim-themes integrates. They 
         - busybee
         - flatcolor
         - znake
+    - The following themes from [rainglow](https://github.com/rainglow/vim)
+        - bold-contrast
+        - goldfish-contrast
+        - jumper-contrast
+        - legacy
+        - legacy-contrast
+        - tetra-contrast
+        - zacks-contrast
 
 My appreciation goes to all the maintainers of above plugins/themes for their attention to aesthetics and detail.
 

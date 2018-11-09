@@ -1,5 +1,5 @@
 " frescoraja-vim-themes: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
-"
+
 " Script Info  {{{
 "==========================================================================================================
 " Name Of File: frescoraja.vim
@@ -13,341 +13,352 @@
 " colorscheme functions {{{
 
 " Script functions {{{
-  function! s:apply_ale_sign_highlights() abort
-    let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
-    let l:ctermbg=<SID>get_highlight_term('LineNr', 'ctermbg')
-    highlight clear ALEErrorSign
-    highlight clear ALEWarningSign
-    highlight clear ALEInfoSign
-    execute 'highlight! ALEErrorSign guifg=red ctermfg=red '.l:guibg.' '.l:ctermbg
-    execute 'highlight! ALEWarningSign guifg=yellow ctermfg=yellow '.l:guibg.' '.l:ctermbg
-    execute 'highlight! ALEInfoSign guifg=orange ctermfg=208 '.l:guibg.' '.l:ctermbg
- endfunction
+function! s:apply_ale_sign_highlights() abort
+  let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
+  let l:ctermbg=<SID>get_highlight_term('LineNr', 'ctermbg')
+  highlight clear ALEErrorSign
+  highlight clear ALEWarningSign
+  highlight clear ALEInfoSign
+  execute 'highlight! ALEErrorSign guifg=red ctermfg=red '.l:guibg.' '.l:ctermbg
+  execute 'highlight! ALEWarningSign guifg=yellow ctermfg=yellow '.l:guibg.' '.l:ctermbg
+  execute 'highlight! ALEInfoSign guifg=orange ctermfg=208 '.l:guibg.' '.l:ctermbg
+endfunction
 
-  function! s:apply_gitgutter_highlights() abort
-    let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
-    let l:ctermbg=<SID>get_highlight_term('LineNr', 'ctermbg')
-    highlight clear GitGutterAdd
-    highlight clear GitGutterChange
-    highlight clear GitGutterDelete
-    highlight clear GitGutterChangeDelete
-    execute 'highlight! GitGutterAdd cterm=bold guifg=#53D188 ctermfg=36 '.l:guibg.' '.l:ctermbg
-    execute 'highlight! GitGutterChange cterm=bold guifg=#FFF496 ctermfg=226 '.l:guibg.' '.l:ctermbg
-    execute 'highlight! GitGutterDelete cterm=bold guifg=#BF304F ctermfg=205 '.l:guibg.' '.l:ctermbg
-    execute 'highlight! GitGutterChangeDelete cterm=bold guifg=#F18F4A ctermfg=208 '.l:guibg.' '.l:ctermbg
-  endfunction
+function! s:apply_consistent_bg() abort
+  call <SID>apply_signcolumn_highlights()
+  call <SID>apply_ale_sign_highlights()
+  call <SID>apply_gitgutter_highlights()
+  call <SID>apply_whitespace_highlights()
+endfunction
 
-  function! s:apply_signcolumn_highlights() abort
-    highlight! link SignColumn LineNr
-  endfunction
+function! s:apply_gitgutter_highlights() abort
+  let l:guibg=<SID>get_highlight_term('LineNr', 'guibg')
+  let l:ctermbg=<SID>get_highlight_term('LineNr', 'ctermbg')
+  highlight clear GitGutterAdd
+  highlight clear GitGutterChange
+  highlight clear GitGutterDelete
+  highlight clear GitGutterChangeDelete
+  execute 'highlight! GitGutterAdd cterm=bold guifg=#53D188 ctermfg=36 '.l:guibg.' '.l:ctermbg
+  execute 'highlight! GitGutterChange cterm=bold guifg=#FFF496 ctermfg=226 '.l:guibg.' '.l:ctermbg
+  execute 'highlight! GitGutterDelete cterm=bold guifg=#BF304F ctermfg=205 '.l:guibg.' '.l:ctermbg
+  execute 'highlight! GitGutterChangeDelete cterm=bold guifg=#F18F4A ctermfg=208 '.l:guibg.' '.l:ctermbg
+endfunction
 
-  function! s:apply_whitespace_highlights() abort
-    highlight clear ExtraWhitespace
-    highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
-  endfunction
+function! s:apply_signcolumn_highlights() abort
+  highlight! link SignColumn LineNr
+endfunction
 
-  function! s:colorize_group(...) abort
-    " a:1 => syntax group name
-    " a:2 => syntax color (optional)
-    " Default to foreground coloring, unless ColorColumn group specified
-    let l:args=split(a:1, '\s')
-    if len(l:args) > 1
-      let l:group=l:args[0]
-      let l:color=l:args[1]
+function! s:apply_whitespace_highlights() abort
+  highlight clear ExtraWhitespace
+  highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
+endfunction
+
+function! s:cache_settings() abort
+  if !exists('s:loaded_custom_themes')
+    call <SID>load_custom_themes()
+  endif
+  if !exists('s:loaded_colorschemes')
+    call <SID>load_colorschemes()
+  endif
+  if exists('g:custom_themes_name')
+    let s:custom_themes_index=index(s:loaded_custom_themes, g:custom_themes_name)
+  endif
+  if exists('g:colors_name')
+    let s:colorscheme_index=index(s:loaded_colorschemes, g:colors_name)
+  endif
+  let l:term=&termguicolors ? 'guibg' : 'ctermbg'
+  let s:cached_bg=<SID>get_highlight_term_value('Normal', l:term)
+endfunction
+
+function! s:colorize_group(...) abort
+  " a:1 => syntax group name
+  " a:2 => syntax color (optional)
+  " Default to foreground coloring, unless ColorColumn group specified
+  let l:args=split(a:1, '\s')
+  if len(l:args) > 1
+    let l:group=l:args[0]
+    let l:color=l:args[1]
+  else
+    let l:group=a:1
+    let l:color=get(a:, 2, '')
+  endif
+  let l:fgbg=l:group ==? 'ColorColumn' ? 'bg' : 'fg'
+  try
+    if !empty(l:color)
+      if !&termguicolors
+        execute 'highlight '.l:group.' cterm'.l:fgbg.'='.l:color
+      else
+        let l:hexcolor=matchstr(l:color, '\zs\x\{6}')
+        let l:gui=empty(l:hexcolor) ? l:color : '#'.l:hexcolor
+        execute 'highlight '.l:group.' gui'.l:fgbg.'='.l:gui
+      endif
     else
-      let l:group=a:1
-      let l:color=get(a:, 2, '')
+      let l:cc=g:custom_theme_defaults[tolower(l:group)].cterm
+      let l:cg=g:custom_theme_defaults[tolower(l:group)].gui
+      execute 'highlight '.l:group.' cterm'.l:fgbg.'='.l:cc.' gui'.l:fgbg.'='.l:cg
     endif
-    let l:fgbg=l:group ==? 'ColorColumn' ? 'bg' : 'fg'
-    try
-      if !empty(l:color)
-        if !&termguicolors
-          execute 'highlight '.l:group.' cterm'.l:fgbg.'='.l:color
+  catch
+    echohl ErrorMsg | echo v:exception
+  endtry
+endfunction
+
+function! s:colorscheme_changed() abort
+  call <SID>cache_settings()
+  if exists(':AirlineRefresh')
+    AirlineRefresh
+  endif
+endfunction
+
+function! s:customize_theme(...) abort
+  try
+    if a:0
+      execute 'call frescoraja#'.a:1.'()'
+    else
+      echohl ModeMsg | echo g:custom_themes_name
+    endif
+  catch
+    echohl ErrorMsg | echo v:exception
+  endtry
+endfunction
+
+function! s:cycle_colorschemes(step) abort
+  if !exists('s:loaded_colorschemes')
+    call <SID>load_colorschemes()
+  endif
+  if !exists('s:colorscheme_index')
+    let s:colorscheme_index=0
+  else
+    let s:colorscheme_index=(s:colorscheme_index+a:step)%len(s:loaded_colorschemes)
+  endif
+  execute 'colorscheme '.s:loaded_colorschemes[s:colorscheme_index]
+endfunction
+
+function! s:cycle_custom_theme(step) abort
+  if !exists('s:loaded_custom_themes')
+    call <SID>load_custom_themes()
+  endif
+  if !exists('s:custom_themes_index')
+    let s:custom_themes_index=0
+  else
+    let s:custom_themes_index=(s:custom_themes_index+a:step)%len(s:loaded_custom_themes)
+  endif
+  let l:next_theme=s:loaded_custom_themes[s:custom_themes_index]
+  execute 'call frescoraja#'.l:next_theme.'()'
+endfunction
+
+function! s:finalize_theme() abort
+  call <SID>cache_settings()
+  call <SID>italicize()
+  call <SID>fix_reset_highlighting()
+  call <SID>apply_consistent_bg()
+endfunction
+
+function! s:fix_reset_highlighting() abort
+  " TODO: find broken highlights after switching themes
+  if get(g:, 'colors_name', '')=~#'maui'
+      highlight! link vimCommand Statement
+  endif
+endfunction
+
+function! s:get_highlight_term(group, term) abort
+  try
+    let l:output=execute('highlight '.a:group)
+    if l:output=~?'links'
+      let l:link=matchstr(l:output, 'links to \zs\S\+')
+      let l:output=<SID>get_highlight_term(l:link, a:term)
+    endif
+    let l:term=matchstr(l:output, '\zs'.a:term.'=\S\+')
+    return empty(l:term) ? '' : l:term
+  catch
+    return ''
+  endtry
+endfunction
+
+function! s:get_highlight_term_value(group, term) abort
+  try
+    let l:output=execute('highlight '.a:group)
+    if l:output=~?'links'
+      let l:link=matchstr(l:output, 'links to \zs\S\+')
+      let l:output=<SID>get_highlight_term_value(l:link, a:term)
+    endif
+    let l:value=matchstr(l:output, a:term.'=\zs\S*')
+    return empty(l:value) ? 'NONE' : l:value
+  catch
+    return 'NONE'
+  endtry
+endfunction
+
+function! s:get_syntax_highlighting_under_cursor() abort
+    let l:s=synID(line('.'), col('.'), 1)
+    let l:syntax_group=synIDattr(l:s, 'name')
+    if (empty(l:syntax_group))
+      let l:current_word=expand('<cword>')
+      echohl ErrorMsg |
+            \ echo 'No syntax group defined for "'.l:current_word.'"'
+    else
+      let l:linked_syntax_group=synIDattr(synIDtrans(l:s), 'name')
+      execute 'echohl '.l:syntax_group
+      echo l:syntax_group.' => '.l:linked_syntax_group
+    endif
+endfunction
+
+function! s:italicize(...) abort
+  if exists('a:2')
+    let l:groups=split(a:2, ',')
+  else
+    let l:groups=['Comment', 'htmlArg', 'WildMenu']
+  endif
+  let l:bang=get(a:, 1, 0)
+  if (l:bang)
+    for group in l:groups
+      let l:cterm=<SID>get_highlight_term_value(group, 'cterm')
+      if l:cterm=~?'italic'
+        let l:new_cterms=filter(split(l:cterm, ','), 'v:val !~? "italic"')
+        if len(l:new_cterms)
+          let l:new_cterm=join(l:new_cterms, ',')
+          execute 'highlight '.group.' cterm='.l:new_cterm.' gui='.l:new_cterms
         else
-          let l:hexcolor=matchstr(l:color, '\zs\x\{6}')
-          let l:gui=empty(l:hexcolor) ? l:color : '#'.l:hexcolor
-          execute 'highlight '.l:group.' gui'.l:fgbg.'='.l:gui
+          execute 'highlight '.group.' cterm=NONE'
         endif
       else
-        let l:cc=g:custom_theme_defaults[tolower(l:group)].cterm
-        let l:cg=g:custom_theme_defaults[tolower(l:group)].gui
-        execute 'highlight '.l:group.' cterm'.l:fgbg.'='.l:cc.' gui'.l:fgbg.'='.l:cg
-      endif
-    catch
-      echohl ErrorMsg | echo v:exception
-    endtry
-  endfunction
-
-  function! s:colorscheme_changed() abort
-    call <SID>cache_settings()
-    if exists(':AirlineRefresh')
-      AirlineRefresh
-    endif
-  endfunction
-
-  function! s:cycle_custom_theme(step) abort
-    if !exists('s:loaded_custom_themes')
-      call <SID>load_custom_themes()
-    endif
-    if !exists('s:custom_themes_index')
-      let s:custom_themes_index=0
-    else
-      let s:custom_themes_index=(s:custom_themes_index+a:step)%len(s:loaded_custom_themes)
-    endif
-    let l:next_theme=s:loaded_custom_themes[s:custom_themes_index]
-    execute 'call frescoraja#'.l:next_theme.'()'
-  endfunction
-
-  function! s:cycle_colorschemes(step) abort
-    if !exists('s:loaded_colorschemes')
-      call <SID>load_colorschemes()
-    endif
-    if !exists('s:colorscheme_index')
-      let s:colorscheme_index=0
-    else
-      let s:colorscheme_index=(s:colorscheme_index+a:step)%len(s:loaded_colorschemes)
-    endif
-    execute 'colorscheme '.s:loaded_colorschemes[s:colorscheme_index]
-  endfunction
-
-  function! s:cache_settings() abort
-    if !exists('s:loaded_custom_themes')
-      call <SID>load_custom_themes()
-    endif
-    if !exists('s:loaded_colorschemes')
-      call <SID>load_colorschemes()
-    endif
-    if exists('g:custom_themes_name')
-      let s:custom_themes_index=index(s:loaded_custom_themes, g:custom_themes_name)
-    endif
-    if exists('g:colors_name')
-      let s:colorscheme_index=index(s:loaded_colorschemes, g:colors_name)
-    endif
-    let l:term=&termguicolors ? 'guibg' : 'ctermbg'
-    let s:cached_bg=<SID>get_highlight_term_value('Normal', l:term)
-  endfunction
-
-  function! s:apply_consistent_bg() abort
-    call <SID>apply_signcolumn_highlights()
-    call <SID>apply_ale_sign_highlights()
-    call <SID>apply_gitgutter_highlights()
-    call <SID>apply_whitespace_highlights()
-  endfunction
-
-  function! s:finalize_theme() abort
-    call <SID>cache_settings()
-    call <SID>italicize()
-    call <SID>fix_reset_highlighting()
-    call <SID>apply_consistent_bg()
-  endfunction
-
-  function! s:fix_reset_highlighting() abort
-    " TODO: find broken highlights after switching themes
-    if get(g:, 'colors_name', '')=~#'maui'
-        highlight! link vimCommand Statement
-    endif
-  endfunction
-
-  function! s:get_highlight_term_value(group, term) abort
-    try
-      let l:output=execute('highlight '.a:group)
-      if l:output=~?'links'
-        let l:link=matchstr(l:output, 'links to \zs\S\+')
-        let l:output=<SID>get_highlight_term_value(l:link, a:term)
-      endif
-      let l:value=matchstr(l:output, a:term.'=\zs\S*')
-      return empty(l:value) ? 'NONE' : l:value
-    catch
-      return 'NONE'
-    endtry
-  endfunction
-
-  function! s:get_highlight_term(group, term) abort
-    try
-      let l:output=execute('highlight '.a:group)
-      if l:output=~?'links'
-        let l:link=matchstr(l:output, 'links to \zs\S\+')
-        let l:output=<SID>get_highlight_term(l:link, a:term)
-      endif
-      let l:term=matchstr(l:output, '\zs'.a:term.'=\S\+')
-      return empty(l:term) ? '' : l:term
-    catch
-      return ''
-    endtry
-  endfunction
-
-  function! s:get_syntax_highlighting_under_cursor() abort
-      let l:s=synID(line('.'), col('.'), 1)
-      let l:syntax_group=synIDattr(l:s, 'name')
-      if (empty(l:syntax_group))
-        let l:current_word=expand('<cword>')
-        echohl ErrorMsg |
-              \ echo 'No syntax group defined for "'.l:current_word.'"'
-      else
-        let l:linked_syntax_group=synIDattr(synIDtrans(l:s), 'name')
-        execute 'echohl '.l:syntax_group
-        echo l:syntax_group.' => '.l:linked_syntax_group
-      endif
-  endfunction
-
-  function! s:italicize(...) abort
-    if exists('a:2')
-      let l:groups=split(a:2, ',')
-    else
-      let l:groups=['Comment', 'htmlArg', 'WildMenu']
-    endif
-    let l:bang=get(a:, 1, 0)
-    if (l:bang)
-      for group in l:groups
-        let l:cterm=<SID>get_highlight_term_value(group, 'cterm')
-        if l:cterm=~?'italic'
-          let l:new_cterms=filter(split(l:cterm, ','), 'v:val !~? "italic"')
-          if len(l:new_cterms)
-            let l:new_cterm=join(l:new_cterms, ',')
-            execute 'highlight '.group.' cterm='.l:new_cterm.' gui='.l:new_cterms
-          else
-            execute 'highlight '.group.' cterm=NONE'
-          endif
-        else
-          let l:new_cterms=join(add(split(l:cterm, ','), 'italic'), ',')
-          execute 'highlight '.group.' cterm='.l:new_cterms.' gui='.l:new_cterms
-        endif
-      endfor
-    else
-      for group in l:groups
-        let l:cterm=<SID>get_highlight_term_value(group, 'cterm')
         let l:new_cterms=join(add(split(l:cterm, ','), 'italic'), ',')
         execute 'highlight '.group.' cterm='.l:new_cterms.' gui='.l:new_cterms
-      endfor
-    endif
-  endfunction
-
-  function! s:refresh_theme() abort
-    let l:theme=get(g:, 'custom_themes_name', '')
-    if !empty(l:theme)
-      execute 'call frescoraja#'.l:theme.'()'
-    endif
-  endfunction
-
-  function! s:shape_cursor() abort
-    if &term=~?'^\(xterm\)\|\(rxvt\)'
-      call <SID>shape_cursor_normal(1)
-      call <SID>shape_cursor_insert(5)
-      call <SID>shape_cursor_replace(3)
-    endif
-  endfunction
-
-  function! s:shape_cursor_normal(shape) abort
-    let &t_EI="\<Esc>[".a:shape.' q'
-  endfunction
-
-  function! s:shape_cursor_insert(shape) abort
-    let &t_SI="\<Esc>[".a:shape.' q'
-  endfunction
-
-  function! s:shape_cursor_replace(shape) abort
-    let &t_SR="\<Esc>[".a:shape.' q'
-  endfunction
-
-  function! s:toggle_dark() abort
-    if (&background==?'light')
-      set background=dark
-    else
-      set background=light
-    endif
-  endfunction
-
-  function! s:toggle_background_transparency() abort
-    let l:term=&termguicolors==0 ? 'ctermbg' : 'guibg'
-    let l:current_bg=<SID>get_highlight_term_value('Normal', l:term)
-    if (l:current_bg!=?'NONE')
-      let s:cached_bg=l:current_bg
-      highlight Normal guibg=NONE ctermbg=NONE
-      highlight LineNr guibg=NONE ctermbg=NONE
-    else
-      let l:bg=get(s:, 'cached_bg', '')
-      " if no bg was cached or cached bg is 'none', use default dark settings
-      " if termguicolors was changed, cached bg may be invalid, use default dark settings
-      if empty(l:bg) || (l:bg==?'none')
-        highlight Normal ctermbg=233 guibg=#0f0f0f
-        highlight LineNr ctermbg=234 ctermfg=yellow guibg=#1d1d1d guifg=#ff8e00
-      else
-        execute 'highlight Normal '.l:term.'='.l:bg
       endif
-    endif
-    call <SID>apply_consistent_bg()
-  endfunction
+    endfor
+  else
+    for group in l:groups
+      let l:cterm=<SID>get_highlight_term_value(group, 'cterm')
+      let l:new_cterms=join(add(split(l:cterm, ','), 'italic'), ',')
+      execute 'highlight '.group.' cterm='.l:new_cterms.' gui='.l:new_cterms
+    endfor
+  endif
+endfunction
 
-  function! s:toggle_column() abort
-    if (&colorcolumn>0)
-      set colorcolumn=0
+function! s:refresh_theme() abort
+  let l:theme=get(g:, 'custom_themes_name', '')
+  if !empty(l:theme)
+    execute 'call frescoraja#'.l:theme.'()'
+  endif
+endfunction
+
+function! s:shape_cursor() abort
+  " cursor shapes:
+  " 1 - block (blinking)
+  " 3 - underline (blinking)
+  " 5 - vertical line (blinking)
+  if &term=~?'^\(xterm\)\|\(rxvt\)'
+    call <SID>shape_cursor_normal(1)
+    call <SID>shape_cursor_replace(3)
+    call <SID>shape_cursor_insert(5)
+  endif
+endfunction
+
+function! s:shape_cursor_normal(shape) abort
+  let &t_EI="\<Esc>[".a:shape.' q'
+endfunction
+
+function! s:shape_cursor_insert(shape) abort
+  let &t_SI="\<Esc>[".a:shape.' q'
+endfunction
+
+function! s:shape_cursor_replace(shape) abort
+  let &t_SR="\<Esc>[".a:shape.' q'
+endfunction
+
+function! s:toggle_dark() abort
+  if (&background==?'light')
+    set background=dark
+  else
+    set background=light
+  endif
+endfunction
+
+function! s:toggle_background_transparency() abort
+  let l:term=&termguicolors==0 ? 'ctermbg' : 'guibg'
+  let l:current_bg=<SID>get_highlight_term_value('Normal', l:term)
+  if (l:current_bg!=?'NONE')
+    let s:cached_bg=l:current_bg
+    highlight Normal guibg=NONE ctermbg=NONE
+    highlight LineNr guibg=NONE ctermbg=NONE
+  else
+    let l:bg=get(s:, 'cached_bg', '')
+    " if no bg was cached or cached bg is 'none', use default dark settings
+    " if termguicolors was changed, cached bg may be invalid, use default dark settings
+    if empty(l:bg) || (l:bg==?'none')
+      highlight Normal ctermbg=233 guibg=#0f0f0f
+      highlight LineNr ctermbg=234 ctermfg=yellow guibg=#1d1d1d guifg=#ff8e00
     else
-      execute 'set colorcolumn='.string(&textwidth)
+      execute 'highlight Normal '.l:term.'='.l:bg
     endif
-  endfunction
+  endif
+  call <SID>apply_consistent_bg()
+endfunction
 
-  function! s:toggle_textwidth(num) abort
-    if(a:num+&textwidth==0)
-      let l:t_w=g:custom_theme_defaults.textwidth
-      execute 'set textwidth='.string(l:t_w)
-    else
-      let g:textwidth=&textwidth
-      execute 'set textwidth='.string(a:num)
-    endif
-    if (&colorcolumn)
-      execute 'set colorcolumn='.string(&textwidth)
-    endif
-  endfunction
+function! s:toggle_column() abort
+  if (&colorcolumn>0)
+    set colorcolumn=0
+  else
+    execute 'set colorcolumn='.string(&textwidth)
+  endif
+endfunction
 
-  " Custom completion for CustomizeTheme command {{{
-    function! s:get_custom_themes(a, l, p) abort
-      if !exists('s:loaded_custom_themes')
-        call <SID>load_custom_themes()
-      endif
-      return filter(copy(s:loaded_custom_themes), 'v:val =~? "^'.a:a.'"')
-    endfunction
+function! s:toggle_textwidth(num) abort
+  if(a:num+&textwidth==0)
+    let l:t_w=g:custom_theme_defaults.textwidth
+    execute 'set textwidth='.string(l:t_w)
+  else
+    let g:textwidth=&textwidth
+    execute 'set textwidth='.string(a:num)
+  endif
+  if (&colorcolumn)
+    execute 'set colorcolumn='.string(&textwidth)
+  endif
+endfunction
 
-    function! s:customize_theme(...) abort
-      try
-        if a:0
-          execute 'call frescoraja#'.a:1.'()'
-        else
-          echohl ModeMsg | echo g:custom_themes_name
-        endif
-      catch /.*/
-        echohl ErrorMsg | echo v:exception
-      endtry
-    endfunction
+" Custom completion functions {{{
+function! s:get_custom_themes(a, l, p) abort
+  if !exists('s:loaded_custom_themes')
+    call <SID>load_custom_themes()
+  endif
+  return filter(
+        \ copy(s:loaded_custom_themes), 'v:val =~? "^'.a:a.'"')
+endfunction
 
-    function! s:shorten_fn_name(idx, fn_name) abort
-      return matchstr(a:fn_name, '#\zs\w\+')
-    endfunction
-    " }}}
+function! s:get_syntax_groups(a, l, p) abort
+  return filter(
+        \ map(
+        \ split(
+        \ execute('highlight'), "\n"),
+        \ 'matchstr(v:val, ''^\S\+'')'),
+        \ 'v:val =~? "'.a:a.'"')
+endfunction
+" }}}
 
-    " Initializer helpers {{{
-    function! s:load_custom_themes() abort
-      let l:themes=sort(map(
-        \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
-        \ 'fnamemodify(v:val, ":t:r")'))
-      let l:functions=map(filter(split(
-        \ execute('function'), "\n"),
-        \ 'v:val =~? "frescoraja"'),
-        \ function('<SID>shorten_fn_name'))
-      let l:custom_themes=[]
-      for fname in l:themes
-        let l:name=substitute(tolower(fname), '-', '_', 'g')
-        let l:matching_fns=filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
-        let l:custom_themes+=l:matching_fns
-      endfor
-      let s:loaded_custom_themes=uniq(sort(l:custom_themes))
-    endfunction
+" Initialize colorscheme/theme caches {{{
+function! s:load_custom_themes() abort
+  let l:themes=sort(map(
+    \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
+    \ 'fnamemodify(v:val, ":t:r")'))
+  let l:functions=map(filter(split(
+    \ execute('function'), "\n"),
+    \ 'v:val =~? "frescoraja"'),
+    \ 'matchstr(v:val, ''#\zs\w\+'')')
+  let l:custom_themes=[]
+  for fname in l:themes
+    let l:name=substitute(tolower(fname), '-', '_', 'g')
+    let l:matching_fns=filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
+    let l:custom_themes+=l:matching_fns
+  endfor
+  let s:loaded_custom_themes=uniq(sort(l:custom_themes))
+endfunction
 
-    function! s:load_colorschemes() abort
-      let s:loaded_colorschemes=uniq(sort(map(
-        \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
-        \ 'fnamemodify(v:val, ":t:r")')))
-    endfunction
-  " }}}
+function! s:load_colorschemes() abort
+  let s:loaded_colorschemes=uniq(sort(map(
+    \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
+    \ 'fnamemodify(v:val, ":t:r")')))
+endfunction
+" }}}
+
 " }}}
 
 " Theme functions {{{
@@ -412,6 +423,14 @@ function! frescoraja#blayu() abort
   colorscheme blayu
   highlight! CursorLine guifg=#32C6B9
   highlight! ColorColumn guibg=#2A3D4F
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#bold() abort
+  set termguicolors
+  let g:custom_themes_name='bold'
+  let g:airline_theme='sierra'
+  colorscheme bold-contrast
   doautocmd User CustomizedTheme
 endfunction
 
@@ -482,14 +501,6 @@ function! frescoraja#distill() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#dracula() abort
-  set termguicolors
-  let g:custom_themes_name='dracula'
-  let g:airline_theme='dracula'
-  colorscheme dracula
-  doautocmd User CustomizedTheme
-endfunction
-
 function! frescoraja#edar() abort
   set termguicolors
   let g:custom_themes_name='edar'
@@ -503,6 +514,14 @@ function! frescoraja#flatcolor() abort
   let g:custom_themes_name='flatcolor'
   let g:airline_theme='base16_nord'
   colorscheme flatcolor
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#goldfish() abort
+  set termguicolors
+  let g:custom_themes_name='goldfish'
+  let g:airline_theme='serene'
+  colorscheme goldfish-contrast
   doautocmd User CustomizedTheme
 endfunction
 
@@ -852,16 +871,13 @@ endfunction
 
 " }}}
 
-function! s:get_highlight_groups(a, l, p) abort
-  " return filter(map(split(execute('highlight'), "\n"), 'matchstr(v:val, ''^S+'')'), 'v:val =~? "^'.a:a.'"')
-  return filter(map(split(execute('highlight'), "\n"), 'matchstr(v:val, ''^\S\+'')'), 'v:val =~ "^'.a:a.'"')
-endfunction
-
 " Autoload commands {{{
 command! -nargs=? -complete=customlist,<SID>get_custom_themes
       \ CustomizeTheme call <SID>customize_theme(<f-args>)
-command! -nargs=1 -complete=customlist,<SID>get_highlight_groups
+command! -nargs=1 -complete=customlist,<SID>get_syntax_groups
       \ ColorizeSyntaxGroup call <SID>colorize_group(<f-args>)
+command! -bang -nargs=? -complete=customlist,<SID>get_syntax_groups
+      \ Italicize call <SID>italicize(<bang>0, <f-args>)
 command! -nargs=? ColorizeColumn call <SID>colorize_group('ColorColumn', <f-args>)
 command! -nargs=? ColorizeComments call <SID>colorize_group('Comment', <f-args>)
 command! -nargs=? ColorizeLineNr call <SID>colorize_group('LineNr', <f-args>)
@@ -870,7 +886,6 @@ command! -nargs=1 SetTextwidth call <SID>toggle_textwidth(<args>)
 command! -nargs=0 ToggleColumn call <SID>toggle_column()
 command! -nargs=0 ToggleBackground call <SID>toggle_background_transparency()
 command! -nargs=0 ToggleDark call <SID>toggle_dark()
-command! -bang -nargs=? Italicize call <SID>italicize(<bang>0, <f-args>)
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
 command! -nargs=0 DefaultTheme call frescoraja#default()
 command! -nargs=0 RefreshCustomThemes call <SID>load_custom_themes()
