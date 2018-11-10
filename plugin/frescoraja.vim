@@ -10,6 +10,11 @@
 "==========================================================================================================
 " }}}
 
+if !exists('+termguicolors')
+  echohl ErrorMsg | echo 'frescoraj-vim-themes relies on having a terminal with 256 colors'
+  finish
+endif
+
 if exists('g:loaded_custom_themes')
   finish
 endif
