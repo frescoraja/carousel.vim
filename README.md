@@ -68,11 +68,11 @@ Works in both gui mode and cterm mode.
 
 ### Toggle ColorColumn / Textwidth
 
-Use `<Plug>(set_textwidth)` to set &textwidth value
+Use `<Plug>(set_textwidth)` or `SetTextwidth <num>` to set &textwidth value
 
-Use `<Plug>(toggle_column)` to toggle the display of a highlighted cursorcolumn at `&textwidth` value
+Use `<Plug>(toggle_column)` or `SetTextwidth!` to toggle the cursorcolumn
 
-As an example, the following mapping would enable you to type ***tw=90<Enter>*** in normal mode to change the textwidth
+As an example, the following mapping would enable you to type `tw=90` + <kbd>Enter</kbd> in normal mode to change the textwidth
 to 90.  (It will also automatically move the colorcolumn to 90 as well)
 
 ```viml
@@ -143,15 +143,12 @@ Use the following globals to define custom default colors used by theme:
   - `g:default_comments_color_g` -> define comment color in gui mode (hex RGB), defaults to #658494 (blue-grey)
   - `g:default_column_color_c` -> define column color in cterm mode, defaults to 236 (dark grey)
   - `g:default_column_color_g` -> define column color in gui mode, defaults to #2a2a2a (dark grey)
-  - `g:default_textwidth` -> define textwidth, defaults to &texwidth
-  - `g:default_airline_theme` -> define airline theme, default to g:airline_theme
-  - `g:custom_themes_name` -> define custom theme to use, defaults to 'default'
+  - `g:default_airline_theme` -> define airline theme, defaults to g:airline_theme
+  - `g:custom_themes_name` -> define custom theme to use, default is none (no theming applied)
 
 Use `<Plug>(reset_theme)` to reset custom theme to default
 
 Use `<Plug>(refresh_theme)` to reapply current custom theme
-
-Use `<Plug>(reset_texwidth)` to reset textwidth to default
 
 Use `<Plug>(reset_comments_color)` to reset comments color to default
 

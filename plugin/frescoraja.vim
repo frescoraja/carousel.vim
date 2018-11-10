@@ -32,23 +32,23 @@ let g:custom_theme_defaults.linenr.gui        = get(g:, 'default_linenr_color_g'
 let g:custom_theme_defaults.airline           = get(g: ,'airline_theme', 'jellybeans')
 let g:custom_theme_defaults.theme             = get(g:, 'custom_themes_name', '')
 let g:custom_theme_defaults.cursors           = get(g:, 'custom_cursors_enabled', 0)
+let g:custom_theme_defaults.textwidth         = &textwidth
 " }}}
 
-let init_on_load                              = get(g:, 'custom_themes_enabled', 0)
+let s:init_on_load = get(g:, 'custom_themes_enabled', 0)
 
-if (init_on_load)
+if (s:init_on_load)
   call frescoraja#init()
 endif
 
 " Command mapping {{{
-nmap <Plug>(customize_theme) :CustomizeTheme <C-d>
+nmap <Plug>(customize_theme) :CustomizeTheme <C-D>
 nmap <Plug>(refresh_custom_themes) :RefreshCustomThemes<CR>
 nmap <Plug>(refresh_colorschemes) :RefreshColorschemes<CR>
 nmap <silent> <Plug>(reset_theme) :DefaultTheme<CR>
 nmap <silent> <Plug>(refresh_theme) :CustomThemeRefresh<CR>
 nmap <Plug>(set_textwidth) :SetTextwidth<Space>
-nmap <silent> <Plug>(reset_textwidth) :SetTextwidth 0<CR>
-nmap <Plug>(colorize_syntax_group) :ColorizeSyntaxGroup<Space>
+nmap <silent> <Plug>(toggle_column) :SetTextwidth!<CR>
 nmap <Plug>(set_column_color) :ColorizeColumn<Space>
 nmap <silent> <Plug>(reset_column_color) :ColorizeColumn<CR>
 nmap <Plug>(set_comments_color) :ColorizeComments<Space>
@@ -59,11 +59,13 @@ nmap <silent> <Plug>(cycle_custom_themes_next) :CycleCustomThemesNext<CR>
 nmap <silent> <Plug>(cycle_custom_themes_prev) :CycleCustomThemesPrev<CR>
 nmap <silent> <Plug>(cycle_colorschemes_next) :CycleColorschemesNext<CR>
 nmap <silent> <Plug>(cycle_colorschemes_prev) :CycleColorschemesPrev<CR>
-nmap <silent> <Plug>(toggle_column) :ToggleColumn<CR>
 nmap <silent> <Plug>(toggle_dark) :ToggleDark<CR>
 nmap <silent> <Plug>(toggle_background) :ToggleBackground<CR>
 nmap <silent> <Plug>(italicize) :Italicize!<CR>
 nmap <silent> <Plug>(get_syntax) :GetSyntaxGroup<CR>
+
+if !&wildcharm | set wildcharm=<C-Z> | endif
+execute 'nmap <Plug>(colorize_syntax_group) :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
 
 if !hasmapto('<Plug>(customize_theme)') && empty(maparg('<Nul>', 'n'))
   nmap <unique> <Nul> <Plug>(customize_theme)
