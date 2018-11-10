@@ -43,7 +43,7 @@ function! s:apply_gitgutter_highlights() abort
   highlight clear GitGutterChangeDelete
   execute 'highlight! GitGutterAdd guifg=#53D188 ctermfg=36 ' . l:guibg . ' ' . l:ctermbg
   execute 'highlight! GitGutterChange guifg=#5FD7FF ctermfg=81 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterDelete guifg=#FF005F ctermfg=207 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterDelete guifg=#FF005F ctermfg=196 ' . l:guibg . ' ' . l:ctermbg
   execute 'highlight! GitGutterChangeDelete guifg=#AF87FF ctermfg=141 ' . l:guibg . ' ' . l:ctermbg
 endfunction
 
@@ -57,20 +57,14 @@ function! s:apply_whitespace_highlights() abort
 endfunction
 
 function! s:cache_settings() abort
-  if !exists('s:loaded_custom_themes')
-    call <SID>load_custom_themes()
-  endif
-  if !exists('s:loaded_colorschemes')
-    call <SID>load_colorschemes()
-  endif
   if exists('g:custom_themes_name')
     let s:custom_themes_index = index(s:loaded_custom_themes, g:custom_themes_name)
   endif
   if exists('g:colors_name')
     let s:colorscheme_index = index(s:loaded_colorschemes, g:colors_name)
   endif
-  let l:term = &termguicolors ? 'gui' : 'cterm'
-  let s:cached_bg = <SID>get_highlight_attr('Normal', 'bg', l:term, 0)
+  let s:cached_bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui', 0)
+  let s:cached_bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm', 0)
 endfunction
 
 function! s:colorize_group(...) abort
@@ -107,6 +101,7 @@ endfunction
 
 function! s:colorscheme_changed() abort
   call <SID>cache_settings()
+  call <SID>apply_consistent_bg()
   if exists(':AirlineRefresh')
     AirlineRefresh
   endif
@@ -183,18 +178,17 @@ function! s:get_highlight_value(group, term) abort
 endfunction
 
 function! s:get_syntax_highlighting_under_cursor() abort
-  let l:syntax_groups = []
-  for id in synstack(line('.'), col('.'))
-    call add(l:syntax_groups, synIDattr(id, 'name'))
-  endfor
-  if (empty(l:syntax_groups))
-    let l:current_word = expand('<cword>')
+  let l:syntax_groups = map(
+        \ synstack(line('.'), col('.')),
+        \ 'synIDattr(synIDtrans(v:val), "name")')
+  let l:current_word = expand('<cword>')
+  if empty(l:syntax_groups)
     echohl ErrorMsg |
           \ echo 'No syntax groups defined for "' . l:current_word . '"'
   else
     let l:output = join(l:syntax_groups, ',')
-    execute 'echohl ' . l:syntax_groups[0]
-    echo l:syntax_groups[0] . ' => ' . l:output
+    execute 'echohl ' . l:syntax_groups[-1]
+    echo l:current_word . ' => ' . l:output
   endif
 endfunction
 
@@ -279,19 +273,18 @@ function! s:toggle_background_transparency() abort
   let l:term = &termguicolors == 0 ? 'cterm' : 'gui'
   let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term, 0)
   if !empty(l:current_bg)
-    let s:cached_bg = l:current_bg
+    let s:cached_bg[l:term] = l:current_bg
     highlight Normal guibg=NONE ctermbg=NONE
     highlight LineNr guibg=NONE ctermbg=NONE
   else
-    let l:bg = get(s:, 'cached_bg', '')
     " if no bg was cached use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
-    if empty(l:bg)
-      highlight Normal ctermbg=233 guibg=#0f0f0f
-      highlight LineNr ctermbg=234 ctermfg=yellow guibg=#1d1d1d guifg=#ff8e00
-    else
-      execute 'highlight Normal ' . l:term . 'bg=' . l:bg
+    if empty(s:cached_bg[l:term])
+      if l:term ==? 'gui' | let s:cached_bg.gui = '#0D0D0D' | endif
+      if l:term ==? 'cterm' | let s:cached_bg.cterm = 233 | endif
     endif
+
+    execute 'highlight Normal ' . l:term . 'bg=' . s:cached_bg[l:term]
   endif
   call <SID>apply_consistent_bg()
 endfunction
@@ -362,8 +355,13 @@ endfunction
 
 " Theme functions {{{
 function! frescoraja#init() abort
+  let s:cached_bg = {}
+
   call <SID>load_custom_themes()
+  call <SID>load_colorschemes()
+
   let l:theme = g:custom_theme_defaults.theme
+
   if !empty(l:theme)
     execute 'call frescoraja#' . l:theme . '()'
   endif
