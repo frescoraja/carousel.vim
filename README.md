@@ -104,7 +104,7 @@ nmap <Leader>c <Plug>(set_comments_color)
 
 You can toggle italics for any syntax group you'd like. Just use the `Italicize!` method followed by the syntax
 group you want to toggle italics for. You can specify multiple groups separated by a comma. You can make a mapping if
-you like to italicize specific groups frequently, or perhaps set and autocmd to do it for specific filetypes:
+you like to italicize specific groups frequently, or perhaps set an autocmd to do it for specific filetypes:
 
 ```viml
 " Shift+F1 to toggle italics for comments, html attributes, WildMenu
@@ -116,20 +116,21 @@ nmap <S-F2> :Italicize! String,Statement,Identifier<CR>
 autocmd FileType javascript* Italicize! Identifier
 ```
 
-### Get Syntax Highlighting group for term under cursor
+### Get Syntax Highlighting group(s) for term under cursor
 
-`<Plug>(get_syntax)` This is useful for customizing themes and defining my own syntax highlighting colors. Will print
-a statement in command line showing the highlight group name of the word under the cursor and which highlight group it
-might be linked with, ie `vimCommand => Statement`
+`<Plug>(get_syntax)` This is useful for customizing themes and defining your own syntax highlighting colors. Will print
+a statement in command line showing all the highlighting groups that apply to the word under the cursor, ie
+
+`<current word> => vimStatement, Statement`
 
 ### Custom cursor shapes
 
-Use ***g:custom_cursors_enabled*** to set the following cursors:
+Set `g:custom_cursors_enabled` to apply the following cursors:
 
-  - block in normal mode
+  - block in normal mode - ( `█` )
   - vertical line in insert mode (appears between characters so it's easier to see precisely where characters will be 
-      inserted
-  - underline in replace mode
+      inserted) - ( `▎` )
+  - underline in replace mode ( `_` )
 
 ```viml
 " enable custom cursors
