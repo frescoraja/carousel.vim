@@ -21,25 +21,6 @@ endif
 
 let g:loaded_custom_themes = 1
 
-" default settings for Airline theme, textwidth and comments/colorcolumn colors {{{
-let g:custom_theme_defaults = {}
-let g:custom_theme_defaults.colorcolumn = {}
-let g:custom_theme_defaults.comment = {}
-let g:custom_theme_defaults.linenr = {}
-
-let g:custom_theme_defaults.textwidth         = get(g:, 'default_textwidth', &textwidth)
-let g:custom_theme_defaults.comment.cterm     = get(g:, 'default_comments_color_c', 59)
-let g:custom_theme_defaults.comment.gui       = get(g:, 'default_comments_color_g', '#658494')
-let g:custom_theme_defaults.colorcolumn.cterm = get(g:, 'default_column_color_c', 236)
-let g:custom_theme_defaults.colorcolumn.gui   = get(g:, 'default_column_color_g', '#2a2a2a')
-let g:custom_theme_defaults.linenr.cterm      = get(g:, 'default_linenr_color_c', 11)
-let g:custom_theme_defaults.linenr.gui        = get(g:, 'default_linenr_color_g', 'yellow')
-let g:custom_theme_defaults.airline           = get(g: ,'airline_theme', 'jellybeans')
-let g:custom_theme_defaults.theme             = get(g:, 'custom_themes_name', '')
-let g:custom_theme_defaults.cursors           = get(g:, 'custom_cursors_enabled', 0)
-let g:custom_theme_defaults.textwidth         = &textwidth
-" }}}
-
 let s:init_on_load = get(g:, 'custom_themes_enabled', 0)
 
 if (s:init_on_load)

@@ -51,13 +51,6 @@ The following mappings are built into the plugin (if they were not already defin
 
 <kbd>Shift+F9</kbd> to cycle forwards through colorschemes
 
-**Note** if you add a new colorscheme while vim is loaded, or if for some reason the list of available
-themes/colorschemes is empty, you can refresh the cache.
-
-Use `<Plug>(refresh_colorschemes)` to reload all available colorschemes (or type `:RefreshColorschemes`)
-
-Use `<Plug>(refresh_custom_themes)` to reload all customized themes (or type `:RefreshCustomThemes`)
-
 ### Toggle Background Color and Transparency
 
 Use `<Plug>(toggle_dark)` to toggle Vim `background` option value between *dark* and *light*
@@ -80,26 +73,20 @@ to 90.  (It will also automatically move the colorcolumn to 90 as well)
 nmap tw= <Plug>(set_textwidth)
 ```
 
-### Colorize/Italicize Comments, Colorize ColorColumn, LineNr, etc
+### Colorize/Italicize
 
-Use `<Plug>(italicize)` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
-args.
+Use `<Plug>(italicize)` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
+args. You can italicize specific syntax groups by appending them as a comma-separated list to the command:
 
-Use `<Plug>(colorize_syntax_group)` to apply a color to the syntax group of your choice.
+`:Italicize! String,Comment`
 
-Use `<Plug>(set_comments_color)` to colorize Comments.
+Use `<Plug>(colorize_syntax_group)` or `:ColorizeSyntaxGroup` to apply a color to the syntax group of your choice.
 
-Use `<Plug>(set_column_color)` to colorize ColumnColor.
-
-Use `<Plug>(set_linenr_color)` to colorize LineNr.
-
-For example, the following mapping would enable you to type ***<Leader>cwhite<Enter>*** to change comments to white in
-cterm or
-gui mode. (If providing a hex color value like #fafafa, surround with quotes when typing command and , ie
-<Leader>c'#fafafa'<Enter> - the '#' is optional)
+For example, the following mapping would enable you to make the Color Column red by typing <kbd>Leader</kbd> 
++ <kbd>t</kbd> + <kbd>c</kbd> + <kbd>Enter</kbd>:
 
 ```viml
-nmap <Leader>c <Plug>(set_comments_color)
+nmap <Leader>tc :ColorizeSyntaxGroup ColorColumn red<CR>
 ```
 
 You can toggle italics for any syntax group you'd like. Just use the `Italicize!` method followed by the syntax
@@ -139,21 +126,16 @@ let g:custom_cursors_enabled=1
 
 ### Reset functions
 
-Use the following globals to define custom default colors used by theme:
-  - `g:default_comments_color_c` -> define comment color in cterm mode (0-255), defaults to 59 (grey)
-  - `g:default_comments_color_g` -> define comment color in gui mode (hex RGB), defaults to #658494 (blue-grey)
-  - `g:default_column_color_c` -> define column color in cterm mode, defaults to 236 (dark grey)
-  - `g:default_column_color_g` -> define column color in gui mode, defaults to #2a2a2a (dark grey)
-  - `g:default_airline_theme` -> define airline theme, defaults to g:airline_theme
-  - `g:custom_themes_name` -> define custom theme to use, default is none (no theming applied)
+Use `<Plug>(reset_theme)` to reset custom theme to the default defined in `g:custom_themes_name`
 
-Use `<Plug>(reset_theme)` to reset custom theme to default
+Use `<Plug>(refresh_theme)` to reload current custom theme
 
-Use `<Plug>(refresh_theme)` to reapply current custom theme
+**Note** if you add a new colorscheme while vim is loaded, or if for some reason the list of available
+themes/colorschemes is empty, you can refresh the cache:
 
-Use `<Plug>(reset_comments_color)` to reset comments color to default
+Use `<Plug>(refresh_colorschemes)` to reload all available colorschemes (or type `:RefreshColorschemes`)
 
-Use `<Plug>(reset_column_color)` to reset columncolor to default
+Use `<Plug>(refresh_custom_themes)` to reload all customized themes (or type `:RefreshCustomThemes`)
 
 ---
 

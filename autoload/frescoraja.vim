@@ -81,18 +81,12 @@ function! s:colorize_group(...) abort
   endif
   let l:fgbg = l:group ==? 'ColorColumn' ? 'bg' : 'fg'
   try
-    if !empty(l:color)
-      if !&termguicolors
-        execute 'highlight ' . l:group . ' cterm' . l:fgbg . '=' . l:color
-      else
-        let l:hexcolor = matchstr(l:color, '\zs\x\{6}')
-        let l:gui = empty(l:hexcolor) ? l:color : '#' . l:hexcolor
-        execute 'highlight ' . l:group . ' gui' . l:fgbg . '=' . l:gui
-      endif
+    if !&termguicolors
+      execute 'highlight ' . l:group . ' cterm' . l:fgbg . '=' . l:color
     else
-      let l:cc = g:custom_theme_defaults[tolower(l:group)].cterm
-      let l:cg = g:custom_theme_defaults[tolower(l:group)].gui
-      execute 'highlight ' . l:group . ' cterm' . l:fgbg . '=' . l:cc . ' gui' . l:fgbg . '=' . l:cg
+      let l:hexcolor = matchstr(l:color, '\zs\x\{6}')
+      let l:gui = empty(l:hexcolor) ? l:color : '#' . l:hexcolor
+      execute 'highlight ' . l:group . ' gui' . l:fgbg . '=' . l:gui
     endif
   catch
     echohl ErrorMsg | echo v:exception
@@ -292,14 +286,20 @@ endfunction
 function! s:set_textwidth(bang, ...) abort
   try
     if a:bang && &textwidth
-      let g:custom_theme_defaults.textwidth = &textwidth
+      let s:cached_textwidth = &textwidth
       set textwidth=0
       set colorcolumn=0
     else
-      let l:new_textwidth = get(a:, 1, g:custom_theme_defaults.textwidth)
-      let g:custom_theme_defaults.textwidth = l:new_textwidth
+      if exists('a:1')
+        let l:new_textwidth = a:1
+      elseif exists('s:cached_textwidth')
+        let l:new_textwidth = s:cached_textwidth
+      else
+        let l:new_textwidth = 80
+      endif
       execute 'set textwidth=' . l:new_textwidth
       execute 'set colorcolumn=' . l:new_textwidth
+      let s:cached_textwidth = l:new_textwidth
     endif
   catch
     echohl ErrorMsg | echo v:exception
@@ -360,7 +360,7 @@ function! frescoraja#init() abort
   call <SID>load_custom_themes()
   call <SID>load_colorschemes()
 
-  let l:theme = g:custom_theme_defaults.theme
+  let l:theme = g:custom_themes_name
 
   if !empty(l:theme)
     execute 'call frescoraja#' . l:theme . '()'
@@ -369,7 +369,7 @@ endfunction
 
 function! frescoraja#default() abort
   set background=dark
-  let g:airline_theme = g:custom_theme_defaults.airline
+  let g:airline_theme = get(g:, 'airline_theme', 'jellybeans')
   let g:custom_themes_name = 'default'
 
   colorscheme default
@@ -381,10 +381,10 @@ function! frescoraja#default() abort
   highlight! vimIsCommand ctermfg=white guifg=#f1f4cc
   highlight! Number term=bold ctermfg=86 guifg=#51AFFF
   highlight! link vimOperParen Special
+  highlight! Comment guifg=#658494 ctermfg=59
+  highlight! ColorColumn guibg=#2a2a2a ctermbg=236
 
   doautocmd User CustomizedTheme
-  call <SID>colorize_group('ColorColumn')
-  call <SID>colorize_group('Comment')
 endfunction
 
 function! frescoraja#afterglow() abort
@@ -875,9 +875,6 @@ command! -nargs=1 -complete=customlist,<SID>get_syntax_groups
       \ ColorizeSyntaxGroup call <SID>colorize_group(<f-args>)
 command! -bang -nargs=? -complete=customlist,<SID>get_syntax_groups
       \ Italicize call <SID>italicize(<bang>0, <f-args>)
-command! -nargs=? ColorizeColumn call <SID>colorize_group('ColorColumn', <f-args>)
-command! -nargs=? ColorizeComments call <SID>colorize_group('Comment', <f-args>)
-command! -nargs=? ColorizeLineNr call <SID>colorize_group('LineNr', <f-args>)
 command! -nargs=0 CustomThemeRefresh call <SID>refresh_theme()
 command! -bang -nargs=? SetTextwidth call <SID>set_textwidth(<bang>0, <args>)
 command! -nargs=0 ToggleBackground call <SID>toggle_background_transparency()
@@ -899,7 +896,7 @@ augroup custom_themes
   autocmd ColorScheme * call <SID>colorscheme_changed()
 augroup END
 
-if (g:custom_theme_defaults.cursors)
+if get(g:, 'custom_cursors_enabled')
   autocmd custom_themes VimEnter * call <SID>shape_cursor()
 endif
 " }}} end autocmds
