@@ -574,7 +574,7 @@ endfunction
 function! frescoraja#iceberg_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'iceberg_nogui'
-  let g:airline_theme = 'solarized'
+  let g:airline_theme = 'iceberg'
   colorscheme iceberg
   doautocmd User CustomizedTheme
 endfunction
