@@ -819,6 +819,14 @@ function! frescoraja#srcery() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#stellarized() abort
+  set termguicolors
+  let g:custom_themes_name='stellarized'
+  let g:airline_theme='stellarized_dark'
+  colorscheme stellarized
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#tender() abort
   set termguicolors
   let g:custom_themes_name = 'tender'
@@ -841,6 +849,14 @@ function! frescoraja#thaumaturge() abort
   let g:airline_theme = 'violet'
   colorscheme thaumaturge
   highlight ColorColumn guibg = #2c2936
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#tokyo_metro() abort
+  set termguicolors
+  let g:custom_themes_name='tokyo_metro'
+  let g:airline_theme='tomorrow'
+  colorscheme tokyo-metro
   doautocmd User CustomizedTheme
 endfunction
 

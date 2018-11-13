@@ -220,6 +220,8 @@ This is the current list of plugins that frescoraja-vim-themes integrates (They 
     - [tender](https://github.com/jacoborus/tender.vim)
     - [iceberg](https://github.com/cocopon/iceberg.vim)
     - [pink-moon](https://github.com/sts10/vim-pink-moon)
+    - [stellarized](https://github.com/nightsense/stellarized)
+    - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
     - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
         - jellybeans
         - herokudoc-gvim
