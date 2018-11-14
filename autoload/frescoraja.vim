@@ -368,8 +368,9 @@ function! frescoraja#init() abort
 endfunction
 
 function! frescoraja#default() abort
+  set termguicolors
   set background=dark
-  let g:airline_theme = get(g:, 'airline_theme', 'jellybeans')
+  let g:airline_theme = 'jellybeans'
   let g:custom_themes_name = 'default'
 
   colorscheme default
