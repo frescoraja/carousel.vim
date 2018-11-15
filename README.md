@@ -18,14 +18,14 @@ when a new theme is loaded, the background colors used by [GitGutter](https://gi
 [ALE](https://github.com/w0rp/ale) are set to complement the theme's existing background colors. See
 [dependencies](#dependencies) at the bottom for integrated plugins.
 
-Use `<Plug>(customize_theme)` to bring up autocompletion menu with available themes to load.
+Use `<Plug>CustomizeTheme` to bring up autocompletion menu with available themes to load.
 
-<kbd>Ctrl</kbd>+<kbd>Space</kbd> is built into the plugin to call `<Plug>(customize_theme)` (if it hasn't already been
+<kbd>Ctrl</kbd>+<kbd>Space</kbd> is built into the plugin to call `<Plug>CustomizeTheme` (if it hasn't already been
 defined)
 
 ```viml
 " define custom mapping:
-nmap <F1> <Plug>(customize_theme)
+nmap <F1> <Plug>CustomizeTheme
 
 " Load a specific theme:
 nmap <F12> :CustomizeTheme blayu<CR>
@@ -33,13 +33,13 @@ nmap <F12> :CustomizeTheme blayu<CR>
 
 ### Cycle Custom Themes (..or all the available colorschemes)
 
-Use `<Plug>(cycle_custom_themes_next)` to cycle forwards through available customized themes.
+Use `<Plug>NextTheme` to cycle forwards through available customized themes.
 
-Use `<Plug>(cycle_custom_thems_prev)` to cycle backwards through available customized themes.
+Use `<Plug>PrevTheme` to cycle backwards through available customized themes.
 
-Use `<Plug>(cycle_colorschemes_next)` to cycle forwards through all available colorschemes.
+Use `<Plug>NextColorscheme` to cycle forwards through all available colorschemes.
 
-Use `<Plug>(cycle_colorschemes_prev)` to cycle backwards through all available colorschemes.
+Use `<Plug>PrevColorscheme` to cycle backwards through all available colorschemes.
 
 The following mappings are built into the plugin (if they were not already defined)
 
@@ -53,34 +53,34 @@ The following mappings are built into the plugin (if they were not already defin
 
 ### Toggle Background Color and Transparency
 
-Use `<Plug>(toggle_dark)` to toggle Vim `background` option value between *dark* and *light*
+Use `<Plug>ToggleDark` to toggle Vim `background` option value between *dark* and *light*
 
-Use `<Plug>(toggle_background)` to toggle background color between the colorscheme's defined background and the
+Use `<Plug>ToggleBackground` to toggle background color between the colorscheme's defined background and the
 background color you have defined for your terminal. (sets `guibg/ctermbg` to *none*, making Vim background transparent)
 Works in both gui mode and cterm mode.
 
 ### Toggle ColorColumn / Textwidth
 
-Use `<Plug>(set_textwidth)` or `SetTextwidth <num>` to set &textwidth value
+Use `<Plug>SetTextwidth` or `SetTextwidth <num>` to set &textwidth value
 
-Use `<Plug>(toggle_column)` or `SetTextwidth!` to toggle the cursorcolumn
+Use `<Plug>ToggleColumn` or `SetTextwidth!` to toggle the cursorcolumn
 
 As an example, the following mapping would enable you to type `tw=90` + <kbd>Enter</kbd> in normal mode to change the textwidth
 to 90.  (It will also automatically move the colorcolumn to 90 as well)
 
 ```viml
 " Set textwidth
-nmap tw= <Plug>(set_textwidth)
+nmap tw= <Plug>SetTextwidth
 ```
 
 ### Colorize/Italicize
 
-Use `<Plug>(italicize)` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
+Use `<Plug>Italicize` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
 args. You can italicize specific syntax groups by appending them as a comma-separated list to the command:
 
 `:Italicize! String,Comment`
 
-Use `<Plug>(colorize_syntax_group)` or `:ColorizeSyntaxGroup` to apply a color to the syntax group of your choice.
+Use `<Plug>Colorize` or `:ColorizeSyntaxGroup` to apply a color to the syntax group of your choice.
 
 For example, the following mapping would enable you to make the Color Column red by typing <kbd>Leader</kbd> 
 + <kbd>t</kbd> + <kbd>c</kbd> + <kbd>Enter</kbd>:
@@ -95,7 +95,7 @@ you like to italicize specific groups frequently, or perhaps set an autocmd to d
 
 ```viml
 " Shift+F1 to toggle italics for comments, html attributes, WildMenu
-nmap <S-F1> <Plug>(italicize)
+nmap <S-F1> <Plug>Italicize
 " Shift+F2 to toggle italics for String, Statement, Identifier
 nmap <S-F2> :Italicize! String,Statement,Identifier<CR>
 
@@ -105,7 +105,7 @@ autocmd FileType javascript* Italicize! Identifier
 
 ### Get Syntax Highlighting group(s) for term under cursor
 
-`<Plug>(get_syntax)` This is useful for customizing themes and defining your own syntax highlighting colors. Will print
+`<Plug>GetSyntax` This is useful for customizing themes and defining your own syntax highlighting colors. Will print
 a statement in command line showing all the highlighting groups that apply to the word under the cursor, ie
 
 `<current word> => vimStatement, Statement`
@@ -126,16 +126,16 @@ let g:custom_cursors_enabled=1
 
 ### Reset functions
 
-Use `<Plug>(reset_theme)` to reset custom theme to the default defined in `g:custom_themes_name`
+Use `<Plug>DefaultTheme` to reset custom theme to the default defined in `g:custom_themes_name`
 
-Use `<Plug>(refresh_theme)` to reload current custom theme
+Use `<Plug>Refreshtheme` to reload current custom theme
 
 **Note** if you add a new colorscheme while vim is loaded, or if for some reason the list of available
 themes/colorschemes is empty, you can refresh the cache:
 
-Use `<Plug>(refresh_colorschemes)` to reload all available colorschemes (or type `:RefreshColorschemes`)
+Use `<Plug>ReloadColorschemes` to reload all available colorschemes (or type `:ReloadColorschemes`)
 
-Use `<Plug>(refresh_custom_themes)` to reload all customized themes (or type `:RefreshCustomThemes`)
+Use `<Plug>ReloadThemes` to reload all customized themes (or type `:ReloadThemes`)
 
 ---
 

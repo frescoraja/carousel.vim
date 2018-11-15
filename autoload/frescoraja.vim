@@ -44,7 +44,7 @@ function! s:apply_gitgutter_highlights() abort
   execute 'highlight! GitGutterAdd guifg=#53D188 ctermfg=36 ' . l:guibg . ' ' . l:ctermbg
   execute 'highlight! GitGutterChange guifg=#5FD7FF ctermfg=81 ' . l:guibg . ' ' . l:ctermbg
   execute 'highlight! GitGutterDelete guifg=#FF005F ctermfg=196 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChangeDelete guifg=#AF87FF ctermfg=141 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterChangeDelete guifg=#D70087 ctermfg=162 ' . l:guibg . ' ' . l:ctermbg
 endfunction
 
 function! s:apply_signcolumn_highlights() abort
@@ -56,21 +56,28 @@ function! s:apply_whitespace_highlights() abort
   highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
 endfunction
 
-function! s:cache_settings() abort
-  if exists('g:custom_themes_name')
-    let s:custom_themes_index = index(s:loaded_custom_themes, g:custom_themes_name)
+function! s:cache_colorscheme_settings() abort
+  if !exists('s:cache.colorschemes')
+    call <SID>load_colorschemes()
   endif
   if exists('g:colors_name')
-    let s:colorscheme_index = index(s:loaded_colorschemes, g:colors_name)
+    let s:colorscheme_index = index(s:cache.colorschemes, g:colors_name)
   endif
-  let s:cached_bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui', 0)
-  let s:cached_bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm', 0)
+endfunction
+
+function! s:cache_custom_theme_settings() abort
+  if !exists('s:cache.themes')
+    call <SID>load_custom_themes()
+  endif
+  let s:theme_index = index(s:cache.themes, g:custom_themes_name)
+  let s:cache.bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui', 0)
+  let s:cache.bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm', 0)
 endfunction
 
 function! s:colorize_group(...) abort
   " a:1 => syntax group name
   " a:2 => syntax color (optional)
-  " Default to foreground coloring, unless ColorColumn group specified
+  " Defaults to coloring foreground, unless `ColorColumn` group specified
   let l:args = split(a:1, '\s')
   if len(l:args) > 1
     let l:group = l:args[0]
@@ -94,8 +101,7 @@ function! s:colorize_group(...) abort
 endfunction
 
 function! s:colorscheme_changed() abort
-  call <SID>cache_settings()
-  call <SID>apply_consistent_bg()
+  call <SID>cache_colorscheme_settings()
   if exists(':AirlineRefresh')
     AirlineRefresh
   endif
@@ -109,37 +115,38 @@ function! s:customize_theme(...) abort
       echohl ModeMsg | echo g:custom_themes_name
     endif
   catch
-    echohl ErrorMsg | echo v:exception
+    echohl ErrorMsg | echo 'Custom theme could not be found'
   endtry
 endfunction
 
 function! s:cycle_colorschemes(step) abort
-  if !exists('s:loaded_colorschemes')
+  if !exists('s:cache.colorschemes')
     call <SID>load_colorschemes()
   endif
   if !exists('s:colorscheme_index')
     let s:colorscheme_index = 0
   else
-    let s:colorscheme_index = (s:colorscheme_index + a:step) % len(s:loaded_colorschemes)
+    let s:colorscheme_index = (s:colorscheme_index + a:step) % len(s:cache.colorschemes)
   endif
-  execute 'colorscheme ' . s:loaded_colorschemes[s:colorscheme_index]
+  execute 'colorscheme ' . s:cache.colorschemes[s:colorscheme_index]
 endfunction
 
 function! s:cycle_custom_theme(step) abort
-  if !exists('s:loaded_custom_themes')
+  if !exists('s:cache.themes')
     call <SID>load_custom_themes()
   endif
-  if !exists('s:custom_themes_index')
-    let s:custom_themes_index = 0
+  if !exists('s:theme_index')
+    let s:theme_index = 0
   else
-    let s:custom_themes_index = (s:custom_themes_index + a:step) % len(s:loaded_custom_themes)
+    let s:theme_index = (s:theme_index + a:step) % len(s:cache.themes)
   endif
-  let l:next_theme = s:loaded_custom_themes[s:custom_themes_index]
+  let l:next_theme = s:cache.themes[s:theme_index]
   execute 'call frescoraja#' . l:next_theme . '()'
 endfunction
 
 function! s:finalize_theme() abort
-  call <SID>cache_settings()
+  " ColorScheme autocmd already executed, which refreshes AirlineTheme
+  call <SID>cache_custom_theme_settings()
   call <SID>italicize()
   call <SID>fix_reset_highlighting()
   call <SID>apply_consistent_bg()
@@ -224,6 +231,18 @@ function! s:italicize(...) abort
   endtry
 endfunction
 
+function! s:reload_default() abort
+  let l:theme = get(s:cache, 'default_theme', '')
+  if !empty(l:theme)
+    execute 'call frescoraja#' . l:theme . '()'
+  else
+    if s:cache.termguicolors != &termguicolors
+      execute 'set ' . (s:cache.termguicolors ? '' : 'no') . 'termguicolors'
+    endif
+    execute 'colorscheme ' . s:cache.default_colorscheme
+  endif
+endfunction
+
 function! s:refresh_theme() abort
   let l:theme = get(g:, 'custom_themes_name', '')
   if !empty(l:theme)
@@ -267,18 +286,18 @@ function! s:toggle_background_transparency() abort
   let l:term = &termguicolors == 0 ? 'cterm' : 'gui'
   let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term, 0)
   if !empty(l:current_bg)
-    let s:cached_bg[l:term] = l:current_bg
+    let s:cache.bg[l:term] = l:current_bg
     highlight Normal guibg=NONE ctermbg=NONE
     highlight LineNr guibg=NONE ctermbg=NONE
   else
     " if no bg was cached use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
-    if empty(s:cached_bg[l:term])
-      if l:term ==? 'gui' | let s:cached_bg.gui = '#0D0D0D' | endif
-      if l:term ==? 'cterm' | let s:cached_bg.cterm = 233 | endif
+    if empty(s:cache.bg[l:term])
+      if l:term ==? 'gui' | let s:cache.bg.gui = '#0D0D0D' | endif
+      if l:term ==? 'cterm' | let s:cache.bg.cterm = 233 | endif
     endif
 
-    execute 'highlight Normal ' . l:term . 'bg=' . s:cached_bg[l:term]
+    execute 'highlight Normal ' . l:term . 'bg=' . s:cache.bg[l:term]
   endif
   call <SID>apply_consistent_bg()
 endfunction
@@ -286,20 +305,20 @@ endfunction
 function! s:set_textwidth(bang, ...) abort
   try
     if a:bang && &textwidth
-      let s:cached_textwidth = &textwidth
+      let s:cache.textwidth = &textwidth
       set textwidth=0
       set colorcolumn=0
     else
       if exists('a:1')
         let l:new_textwidth = a:1
-      elseif exists('s:cached_textwidth')
-        let l:new_textwidth = s:cached_textwidth
+      elseif exists('s:cache.textwidth')
+        let l:new_textwidth = s:cache.textwidth
       else
         let l:new_textwidth = 80
       endif
       execute 'set textwidth=' . l:new_textwidth
       execute 'set colorcolumn=' . l:new_textwidth
-      let s:cached_textwidth = l:new_textwidth
+      let s:cache.textwidth = l:new_textwidth
     endif
   catch
     echohl ErrorMsg | echo v:exception
@@ -308,12 +327,12 @@ endfunction
 
 " Custom completion functions {{{
 function! s:get_custom_themes(a, l, p) abort
-  if !exists('s:loaded_custom_themes')
+  if !exists('s:cache.themes')
     call <SID>load_custom_themes()
   endif
 
   return filter(
-        \ copy(s:loaded_custom_themes), 'v:val =~? "^' . a:a . '"')
+        \ copy(s:cache.themes), 'v:val =~? "^' . a:a . '"')
 endfunction
 
 function! s:get_syntax_groups(a, l, p) abort
@@ -341,11 +360,11 @@ function! s:load_custom_themes() abort
     let l:matching_fns = filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
     let l:custom_themes += l:matching_fns
   endfor
-  let s:loaded_custom_themes = uniq(sort(l:custom_themes))
+  let s:cache.themes = uniq(sort(l:custom_themes))
 endfunction
 
 function! s:load_colorschemes() abort
-  let s:loaded_colorschemes = uniq(sort(map(
+  let s:cache.colorschemes = uniq(sort(map(
     \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
     \ 'fnamemodify(v:val, ":t:r")')))
 endfunction
@@ -355,20 +374,21 @@ endfunction
 
 " Theme functions {{{
 function! frescoraja#init() abort
-  let s:cached_bg = {}
+  let s:cache = {}
+  let s:cache.bg = {}
+  let s:cache.termguicolors = &termguicolors
+  let s:cache.default_theme = get(g:, 'custom_themes_name', '')
+  let s:cache.default_colorscheme = get(g:, 'colors_name', 'default')
 
   call <SID>load_custom_themes()
   call <SID>load_colorschemes()
 
-  let l:theme = g:custom_themes_name
-
-  if !empty(l:theme)
-    execute 'call frescoraja#' . l:theme . '()'
+  if !empty(s:cache.default_theme)
+    execute 'call frescoraja#' . s:cache.default_theme . '()'
   endif
 endfunction
 
 function! frescoraja#default() abort
-  set termguicolors
   set background=dark
   let g:airline_theme = 'jellybeans'
   let g:custom_themes_name = 'default'
@@ -461,7 +481,7 @@ endfunction
 function! frescoraja#colorsbox_stnight() abort
   set termguicolors
   let g:custom_themes_name = 'colorsbox_stnight'
-  let g:airline_theme = 'afterglow'
+  let g:airline_theme = 'base16'
   colorscheme colorsbox-stnight
   doautocmd User CustomizedTheme
 endfunction
@@ -479,6 +499,9 @@ function! frescoraja#dark() abort
   let g:custom_themes_name = 'dark'
   let g:airline_theme = 'sierra'
   colorscheme dark
+  highlight Normal guibg=#181F2C
+  highlight vimBracket guifg=#AA6A22
+  highlight vimParenSep guifg=#8A3140
   doautocmd User CustomizedTheme
 endfunction
 
@@ -487,6 +510,7 @@ function! frescoraja#deus() abort
   let g:custom_themes_name = 'deus'
   let g:airline_theme = 'deus'
   colorscheme deus
+  highlight Normal guibg=#1C222B
   doautocmd User CustomizedTheme
 endfunction
 
@@ -495,7 +519,7 @@ function! frescoraja#distill() abort
   let g:custom_themes_name = 'distill'
   let g:airline_theme = 'jellybeans'
   colorscheme distill
-  highlight! ColorColumn guibg=#16181d
+  highlight! ColorColumn guibg=#16181D
   doautocmd User CustomizedTheme
 endfunction
 
@@ -520,6 +544,8 @@ function! frescoraja#goldfish() abort
   let g:custom_themes_name = 'goldfish'
   let g:airline_theme = 'serene'
   colorscheme goldfish-contrast
+  highlight LineNr guifg=#666666
+  highlight CursorLineNr guifg=#FABA4A
   doautocmd User CustomizedTheme
 endfunction
 
@@ -545,6 +571,11 @@ function! frescoraja#heroku_gvim() abort
   let g:custom_themes_name = 'heroku_gvim'
   let g:airline_theme = 'material'
   colorscheme herokudoc-gvim
+  highlight Normal guibg=#131E26
+  highlight LineNr guibg=#131E26 guifg=#ADC6EE
+  highlight Statement guifg=#505070
+  highlight vimIsCommand guifg=#2A4A6F
+  highlight vimBracket guifg=#95396C
   doautocmd User CustomizedTheme
 endfunction
 
@@ -892,18 +923,18 @@ command! -nargs=1 -complete=customlist,<SID>get_syntax_groups
       \ ColorizeSyntaxGroup call <SID>colorize_group(<f-args>)
 command! -bang -nargs=? -complete=customlist,<SID>get_syntax_groups
       \ Italicize call <SID>italicize(<bang>0, <f-args>)
-command! -nargs=0 CustomThemeRefresh call <SID>refresh_theme()
+command! -nargs=0 RefreshTheme call <SID>refresh_theme()
 command! -bang -nargs=? SetTextwidth call <SID>set_textwidth(<bang>0, <args>)
 command! -nargs=0 ToggleBackground call <SID>toggle_background_transparency()
 command! -nargs=0 ToggleDark call <SID>toggle_dark()
 command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
-command! -nargs=0 DefaultTheme call frescoraja#default()
-command! -nargs=0 RefreshCustomThemes call <SID>load_custom_themes()
-command! -nargs=0 RefreshColorschemes call <SID>load_colorschemes()
-command! -nargs=0 CycleCustomThemesPrev call <SID>cycle_custom_theme(-1)
-command! -nargs=0 CycleCustomThemesNext call <SID>cycle_custom_theme(1)
-command! -nargs=0 CycleColorschemesPrev call <SID>cycle_colorschemes(-1)
-command! -nargs=0 CycleColorschemesNext call <SID>cycle_colorschemes(1)
+command! -nargs=0 DefaultTheme call <SID>reload_default()
+command! -nargs=0 ReloadThemes call <SID>load_custom_themes()
+command! -nargs=0 ReloadColorschemes call <SID>load_colorschemes()
+command! -nargs=0 PrevTheme call <SID>cycle_custom_theme(-1)
+command! -nargs=0 NextTheme call <SID>cycle_custom_theme(1)
+command! -nargs=0 PrevColorscheme call <SID>cycle_colorschemes(-1)
+command! -nargs=0 NextColorscheme call <SID>cycle_colorschemes(1)
 " }}}
 
 " Autogroup commands {{{
