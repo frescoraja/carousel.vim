@@ -232,14 +232,14 @@ function! s:italicize(...) abort
 endfunction
 
 function! s:reload_default() abort
-  let l:theme = get(s:cache, 'default_theme', '')
+  let l:theme = s:cache.default_theme
   if !empty(l:theme)
     execute 'call frescoraja#' . l:theme . '()'
   else
-    if s:cache.termguicolors != &termguicolors
-      execute 'set ' . (s:cache.termguicolors ? '' : 'no') . 'termguicolors'
-    endif
     execute 'colorscheme ' . s:cache.default_colorscheme
+  endif
+  if s:cache.termguicolors != &termguicolors
+    execute 'set ' . (s:cache.termguicolors ? '' : 'no') . 'termguicolors'
   endif
 endfunction
 
@@ -546,6 +546,7 @@ function! frescoraja#goldfish() abort
   colorscheme goldfish-contrast
   highlight LineNr guifg=#666666
   highlight CursorLineNr guifg=#FABA4A
+  highlight clear CursorLine
   doautocmd User CustomizedTheme
 endfunction
 
