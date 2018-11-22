@@ -497,7 +497,7 @@ endfunction
 function! frescoraja#dark() abort
   set termguicolors
   let g:custom_themes_name = 'dark'
-  let g:airline_theme = 'sierra'
+  let g:airline_theme = 'dark'
   colorscheme dark
   highlight Normal guibg=#181F2C
   highlight vimBracket guifg=#AA6A22
