@@ -75,6 +75,22 @@ nmap tw= <Plug>SetTextwidth
 
 ### Colorize/Italicize
 
+***Note*** Your terminal may not support displaying italicized fonts by default. See instructions 
+[here](https://apple.stackexchange.com/questions/266333/how-to-show-italic-in-vim-in-iterm2) for enabling italics in 
+iTerm2 and Mac default Terminal. You may also have to add the following lines to your `.vimrc`:
+
+```viml
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+
+" OR
+
+set t_ZH=[3m
+set t_ZR=[23m
+" the  prefix is an escape sequence which can be generated in vim when in insert mode by pressing
+" Ctrl-V then the Escape key
+```
+
 Use `<Plug>Italicize` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
 args. You can italicize specific syntax groups by appending them as a comma-separated list to the command:
 
