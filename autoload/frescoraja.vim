@@ -1,5 +1,6 @@
 " frescoraja-vim-themes: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
 
+
 " Script Info  {{{
 "==========================================================================================================
 " Name Of File: frescoraja.vim
@@ -402,8 +403,8 @@ function! frescoraja#default() abort
   highlight! vimIsCommand ctermfg=white guifg=#f1f4cc
   highlight! Number term=bold ctermfg=86 guifg=#51AFFF
   highlight! link vimOperParen Special
-  highlight! Comment guifg=#658494 ctermfg=59
-  highlight! ColorColumn guibg=#2a2a2a ctermbg=236
+  highlight! Comment guifg=#9e9e9e ctermfg=247
+  highlight! ColorColumn guibg=#5F0000 ctermbg=52
 
   doautocmd User CustomizedTheme
 endfunction
