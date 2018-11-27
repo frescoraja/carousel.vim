@@ -28,9 +28,21 @@ function! s:apply_ale_sign_highlights() abort
   highlight! ALEInfo guifg=white ctermfg=white guibg=black ctermbg=black gui=italic cterm=italic
 endfunction
 
+function! s:apply_coc_highlights() abort
+  highlight! CocErrorSign gui=bold cterm=bold guifg=red ctermfg=red
+  highlight! CocWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow
+  highlight! CocInfoSign gui=bold cterm=bold guifg=white ctermfg=white
+  highlight! CocHintSign gui=bold cterm=bold guifg=green ctermfg=green
+  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red guibg=black ctermbg=black
+  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow guibg=black ctermbg=black
+  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white guibg=black ctermbg=black
+  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green guibg=black ctermbg=black
+endfunction
+
 function! s:apply_consistent_bg() abort
   call <SID>apply_signcolumn_highlights()
   call <SID>apply_ale_sign_highlights()
+  call <SID>apply_coc_highlights()
   call <SID>apply_gitgutter_highlights()
   call <SID>apply_whitespace_highlights()
 endfunction
@@ -414,6 +426,7 @@ function! frescoraja#default() abort
   highlight! link vimOperParen Special
   highlight! Comment guifg=#5F5F5F ctermfg=59
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
+  highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
 
   doautocmd User CustomizedTheme
 endfunction
