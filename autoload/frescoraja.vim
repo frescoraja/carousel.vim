@@ -194,6 +194,11 @@ function! s:get_syntax_highlighting_under_cursor() abort
   endif
 endfunction
 
+function! s:enable_italics() abort
+  set t_ZH=[3m
+  set t_ZR=[23m
+endfunction
+
 function! s:italicize(...) abort
   try
     let l:groups = split(
@@ -384,6 +389,10 @@ function! frescoraja#init() abort
   call <SID>load_custom_themes()
   call <SID>load_colorschemes()
 
+  if get(g:, 'custom_italics_enabled', 0)
+    call <SID>enable_italics()
+  endif
+
   if !empty(s:cache.default_theme)
     execute 'call frescoraja#' . s:cache.default_theme . '()'
   endif
@@ -403,7 +412,7 @@ function! frescoraja#default() abort
   highlight! vimIsCommand ctermfg=white guifg=#f1f4cc
   highlight! Number term=bold ctermfg=86 guifg=#51AFFF
   highlight! link vimOperParen Special
-  highlight! Comment guifg=#9e9e9e ctermfg=247
+  highlight! Comment guifg=#5F5F5F ctermfg=59
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
 
   doautocmd User CustomizedTheme

@@ -84,12 +84,13 @@ let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
 " OR
+set t_ZH=^[[3m
+set t_ZR=^[[23m
 
-set t_ZH=[3m
-set t_ZR=[23m
-" the  prefix is an escape sequence which can be generated in vim when in insert mode by pressing
-" Ctrl-V then the Escape key
+" OR have plugin enable italics
+let g:custom_italics_enabled=1
 ```
+> the `^[` above is an escape sequence you can generate in insert mode by pressing <kbd>CTRL+V</kbd> then <kbd>ESC</kbd>
 
 Use `<Plug>Italicize` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
 args. You can italicize specific syntax groups by appending them as a comma-separated list to the command:
@@ -98,12 +99,15 @@ args. You can italicize specific syntax groups by appending them as a comma-sepa
 
 Use `<Plug>Colorize` or `:ColorizeSyntaxGroup` to apply a color to the syntax group of your choice.
 
-For example, the following mapping would enable you to make the Color Column red by typing <kbd>Leader</kbd> 
-+ <kbd>t</kbd> + <kbd>c</kbd> + <kbd>Enter</kbd>:
+For example, the following mapping would enable you to make the `ColorColumn` syntax group red by typing
+
+<kbd>F1</kbd> *ColorColumn red* <kbd>Enter</kbd>
 
 ```viml
-nmap <Leader>tc :ColorizeSyntaxGroup ColorColumn red<CR>
+nmap <F1> <Plug>Colorize
 ```
+
+when `termguicolor` is enabled, you can specify hex code colors ie `#FF0000` (the `#` is optional when typing command)
 
 You can toggle italics for any syntax group you'd like. Just use the `Italicize!` method followed by the syntax
 group you want to toggle italics for. You can specify multiple groups separated by a comma. You can make a mapping if
