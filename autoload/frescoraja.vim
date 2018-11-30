@@ -54,10 +54,10 @@ function! s:apply_gitgutter_highlights() abort
   highlight clear GitGutterChange
   highlight clear GitGutterDelete
   highlight clear GitGutterChangeDelete
-  execute 'highlight! GitGutterAdd guifg=#53D188 ctermfg=36 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChange guifg=#5FD7FF ctermfg=81 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterDelete guifg=#FF005F ctermfg=196 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChangeDelete guifg=#D70087 ctermfg=162 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterAdd gui=bold cterm=bold guifg=#53D188 ctermfg=36 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterChange gui=bold cterm=bold guifg=#5FD7FF ctermfg=81 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterDelete gui=bold cterm=bold guifg=#FF005F ctermfg=196 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterChangeDelete gui=bold cterm=bold guifg=#D70087 ctermfg=162 ' . l:guibg . ' ' . l:ctermbg
 endfunction
 
 function! s:apply_signcolumn_highlights() abort
@@ -195,7 +195,11 @@ function! s:get_syntax_highlighting_under_cursor() abort
   let l:syntax_groups = map(
         \ synstack(line('.'), col('.')),
         \ 'synIDattr(synIDtrans(v:val), "name")')
+  let l:current_char = getline('.')[col('.') - 1]
   let l:current_word = expand('<cword>')
+  if (l:current_word !~? l:current_char)
+    let l:current_word = l:current_char
+  endif
   if empty(l:syntax_groups)
     echohl ErrorMsg |
           \ echo 'No syntax groups defined for "' . l:current_word . '"'
@@ -424,7 +428,7 @@ function! frescoraja#default() abort
   highlight! vimIsCommand ctermfg=white guifg=#f1f4cc
   highlight! Number term=bold ctermfg=86 guifg=#51AFFF
   highlight! link vimOperParen Special
-  highlight! Comment guifg=#5F5F5F ctermfg=59
+  highlight! Comment guifg=#7F7F7F ctermfg=243
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
   highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
 
@@ -681,6 +685,7 @@ function! frescoraja#maui() abort
   let g:custom_themes_name = 'maui'
   let g:airline_theme = 'jellybeans'
   colorscheme maui
+  highlight! LineNr guifg=#585858 ctermfg=240
   doautocmd User CustomizedTheme
 endfunction
 
