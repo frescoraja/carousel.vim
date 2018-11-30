@@ -431,6 +431,7 @@ function! frescoraja#default() abort
   highlight! Comment guifg=#7F7F7F ctermfg=243
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
   highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
+  highlight! Folded ctermbg=NONE guibg=NONE
 
   doautocmd User CustomizedTheme
 endfunction
