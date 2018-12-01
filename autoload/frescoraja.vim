@@ -1,5 +1,6 @@
 " frescoraja-vim-themes: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
-
+set encoding=utf-8
+scriptencoding utf-8
 
 " Script Info  {{{
 "==========================================================================================================
@@ -9,6 +10,12 @@
 "      Version: 0.0.1
 "
 "==========================================================================================================
+" }}}
+
+" setup script variables {{{
+" determine if inside tmux or Apple Terminal for proper escape sequences (used in shape_cursor functions)
+let s:inside_tmux = exists('$TMUX')
+let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 " }}}
 
 " colorscheme functions {{{
@@ -39,14 +46,6 @@ function! s:apply_coc_highlights() abort
   highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green guibg=black ctermbg=black
 endfunction
 
-function! s:apply_consistent_bg() abort
-  call <SID>apply_signcolumn_highlights()
-  call <SID>apply_ale_sign_highlights()
-  call <SID>apply_coc_highlights()
-  call <SID>apply_gitgutter_highlights()
-  call <SID>apply_whitespace_highlights()
-endfunction
-
 function! s:apply_gitgutter_highlights() abort
   let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
   let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
@@ -54,10 +53,18 @@ function! s:apply_gitgutter_highlights() abort
   highlight clear GitGutterChange
   highlight clear GitGutterDelete
   highlight clear GitGutterChangeDelete
-  execute 'highlight! GitGutterAdd gui=bold cterm=bold guifg=#53D188 ctermfg=36 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChange gui=bold cterm=bold guifg=#5FD7FF ctermfg=81 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterDelete gui=bold cterm=bold guifg=#FF005F ctermfg=196 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChangeDelete gui=bold cterm=bold guifg=#D70087 ctermfg=162 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterAdd gui=bold cterm=bold guifg=#87D7AF ctermfg=115 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterChange gui=bold cterm=bold guifg=#AFD7D7 ctermfg=152 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterDelete gui=bold cterm=bold guifg=#D78787 ctermfg=174 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterChangeDelete gui=bold cterm=bold guifg=#D7AFAF ctermfg=181 ' . l:guibg . ' ' . l:ctermbg
+endfunction
+
+function! s:apply_consistent_bg() abort
+  call s:apply_signcolumn_highlights()
+  call s:apply_ale_sign_highlights()
+  call s:apply_coc_highlights()
+  call s:apply_gitgutter_highlights()
+  call s:apply_whitespace_highlights()
 endfunction
 
 function! s:apply_signcolumn_highlights() abort
@@ -221,9 +228,9 @@ function! s:italicize(...) abort
           \ get(a:, 2, 'Comment,htmlArg,WildMenu'),
           \ ',')
     if get(a:, 1, 0)
-      for group in l:groups
-        let l:cterm = <SID>get_highlight_value(group, 'cterm')
-        let l:gui = <SID>get_highlight_value(group, 'gui')
+      for l:group in l:groups
+        let l:cterm = <SID>get_highlight_value(l:group, 'cterm')
+        let l:gui = <SID>get_highlight_value(l:group, 'gui')
         if (l:cterm =~? 'italic') || (l:gui =~? 'italic')
           let l:modes = join(
                 \ filter(
@@ -232,20 +239,20 @@ function! s:italicize(...) abort
                 \ ',')
           if !empty(l:modes)
             let l:new_modes = join(l:modes, ',')
-            execute 'highlight ' . group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
+            execute 'highlight ' . l:group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
           else
-            execute 'highlight ' . group . ' cterm=NONE gui=NONE'
+            execute 'highlight ' . l:group . ' cterm=NONE gui=NONE'
           endif
         else
           let l:new_modes = join(add(split(l:cterm, ','), 'italic'), ',')
-          execute 'highlight ' . group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
+          execute 'highlight ' . l:group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
         endif
       endfor
     else
-      for group in l:groups
-        let l:modes = <SID>get_highlight_value(group, 'cterm')
+      for l:group in l:groups
+        let l:modes = <SID>get_highlight_value(l:group, 'cterm')
         let l:new_modes = join(add(split(l:modes, ','), 'italic'), ',')
-        execute 'highlight ' . group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
+        execute 'highlight ' . l:group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
       endfor
     endif
   catch
@@ -272,28 +279,43 @@ function! s:refresh_theme() abort
   endif
 endfunction
 
+function! s:TmuxEscape(seq) abort
+  let l:tmux_start = "\<Esc>Ptmux;\<Esc>"
+  let l:tmux_end   = "\<Esc>\\"
+
+  return l:tmux_start . a:seq . l:tmux_end
+endfunction
+
 function! s:shape_cursor() abort
+  " cursor mode sequences:
+  " t_SI = enter Insert Mode
+  " t_SR = enter Replace Mode
+  " t_EI = enter Normal Mode
   " cursor shapes:
-  " 1 - block (blinking)
-  " 3 - underline (blinking)
-  " 5 - vertical line (blinking)
-  if &term =~? '^\(xterm\)\|\(rxvt\)'
-    call <SID>shape_cursor_normal(1)
-    call <SID>shape_cursor_replace(3)
-    call <SID>shape_cursor_insert(5)
+  " 0 - block
+  " 1 - vertical line
+  " 2 - underline
+  let l:normal_cursor  = "\<Esc>]50;CursorShape=0\x7"
+  let l:insert_cursor  = "\<Esc>]50;CursorShape=1\x7"
+  let l:replace_cursor = "\<Esc>]50;CursorShape=2\x7"
+
+  if s:inside_tmux
+    let l:normal_cursor  = <SID>TmuxEscape(l:normal_cursor)
+    let l:insert_cursor  = <SID>TmuxEscape(l:insert_cursor)
+    let l:replace_cursor = <SID>TmuxEscape(l:replace_cursor)
+  elseif s:inside_terminal
+    " cursor shapes in Apple_Terminal:
+    " 1 - block
+    " 3 - underline
+    " 5 - vertical line
+    let l:normal_cursor  = "\e[1 q"
+    let l:insert_cursor  = "\e[5 q"
+    let l:replace_cursor = "\e[3 q"
   endif
-endfunction
 
-function! s:shape_cursor_normal(shape) abort
-  let &t_EI = "\<Esc>[" . a:shape . ' q'
-endfunction
-
-function! s:shape_cursor_insert(shape) abort
-  let &t_SI = "\<Esc>[" . a:shape . ' q'
-endfunction
-
-function! s:shape_cursor_replace(shape) abort
-  let &t_SR = "\<Esc>[" . a:shape . ' q'
+  let &t_EI = l:normal_cursor
+  let &t_SI = l:insert_cursor
+  let &t_SR = l:replace_cursor
 endfunction
 
 function! s:toggle_dark() abort
@@ -348,7 +370,7 @@ function! s:set_textwidth(bang, ...) abort
 endfunction
 
 " Custom completion functions {{{
-function! s:get_custom_themes(a, l, p) abort
+function! s:get_custom_themes(a, ...) abort
   if !exists('s:cache.themes')
     call <SID>load_custom_themes()
   endif
@@ -357,7 +379,7 @@ function! s:get_custom_themes(a, l, p) abort
         \ copy(s:cache.themes), 'v:val =~? "^' . a:a . '"')
 endfunction
 
-function! s:get_syntax_groups(a, l, p) abort
+function! s:get_syntax_groups(a, ...) abort
   return filter(
         \ map(
         \ split(
@@ -377,8 +399,8 @@ function! s:load_custom_themes() abort
     \ 'v:val =~? "frescoraja"'),
     \ 'matchstr(v:val, ''#\zs\w\+'')')
   let l:custom_themes = []
-  for fname in l:themes
-    let l:name = substitute(tolower(fname), '-', '_', 'g')
+  for l:fname in l:themes
+    let l:name = substitute(tolower(l:fname), '-', '_', 'g')
     let l:matching_fns = filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
     let l:custom_themes += l:matching_fns
   endfor
@@ -654,6 +676,8 @@ function! frescoraja#jumper() abort
   let g:custom_themes_name = 'jumper'
   let g:airline_theme = 'base16'
   colorscheme jumper-contrast
+  highlight Comment guifg=#596767
+  highlight LineNr guifg=#454d4d
   doautocmd User CustomizedTheme
 endfunction
 
@@ -670,6 +694,7 @@ function! frescoraja#legacy() abort
   let g:custom_themes_name = 'legacy'
   let g:airline_theme = 'ayu'
   colorscheme legacy
+  highlight LineNr guifg=#5F6D7D
   doautocmd User CustomizedTheme
 endfunction
 
@@ -678,6 +703,7 @@ function! frescoraja#legacy_dark() abort
   let g:custom_themes_name = 'legacy_dark'
   let g:airline_theme = 'zenburn'
   colorscheme legacy-contrast
+  highlight LineNr guifg=#5F6D7D
   doautocmd User CustomizedTheme
 endfunction
 
