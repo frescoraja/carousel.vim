@@ -547,7 +547,7 @@ endfunction
 function! frescoraja#dark() abort
   set termguicolors
   let g:custom_themes_name = 'dark'
-  let g:airline_theme = 'dark'
+  let g:airline_theme = 'zenburn'
   colorscheme dark
   highlight Normal guibg=#181F2C
   highlight vimBracket guifg=#AA6A22
@@ -570,6 +570,7 @@ function! frescoraja#distill() abort
   let g:airline_theme = 'jellybeans'
   colorscheme distill
   highlight! ColorColumn guibg=#16181D
+  highlight! LineNr guifg=#474B58
   doautocmd User CustomizedTheme
 endfunction
 
@@ -876,7 +877,7 @@ function! frescoraja#quantum_light() abort
   set termguicolors
   let g:quantum_black = 0
   let g:custom_themes_name = 'quantum_light'
-  let g:airline_theme = 'deus'
+  let g:airline_theme = 'quantum'
   colorscheme quantum
   doautocmd User CustomizedTheme
 endfunction
@@ -885,7 +886,7 @@ function! frescoraja#quantum_dark() abort
   set termguicolors
   let g:quantum_black = 1
   let g:custom_themes_name = 'quantum_dark'
-  let g:airline_theme = 'murmur'
+  let g:airline_theme = 'quantum'
   colorscheme quantum
   doautocmd User CustomizedTheme
 endfunction
@@ -953,6 +954,8 @@ function! frescoraja#zacks() abort
   let g:custom_themes_name = 'zacks'
   let g:airline_theme = 'biogoo'
   colorscheme zacks-contrast
+  highlight LineNr guifg=#3A4A4A
+  highlight CursorLineNr guifg=#5A5A3A
   doautocmd User CustomizedTheme
 endfunction
 
