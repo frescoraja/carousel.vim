@@ -486,9 +486,9 @@ function! frescoraja#blayu() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#bold() abort
+function! frescoraja#bold_contrast() abort
   set termguicolors
-  let g:custom_themes_name = 'bold'
+  let g:custom_themes_name = 'bold_contrast'
   let g:airline_theme = 'sierra'
   colorscheme bold-contrast
   doautocmd User CustomizedTheme
@@ -582,9 +582,9 @@ function! frescoraja#flatcolor() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#goldfish() abort
+function! frescoraja#goldfish_contrast() abort
   set termguicolors
-  let g:custom_themes_name = 'goldfish'
+  let g:custom_themes_name = 'goldfish_contrast'
   let g:airline_theme = 'serene'
   colorscheme goldfish-contrast
   highlight LineNr guifg=#666666
@@ -664,9 +664,9 @@ function! frescoraja#jellybeans() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#jumper() abort
+function! frescoraja#jumper_contrast() abort
   set termguicolors
-  let g:custom_themes_name = 'jumper'
+  let g:custom_themes_name = 'jumper_contrast'
   let g:airline_theme = 'base16'
   colorscheme jumper-contrast
   highlight Comment guifg=#596767
@@ -691,9 +691,9 @@ function! frescoraja#legacy() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#legacy_dark() abort
+function! frescoraja#legacy_contrast() abort
   set termguicolors
-  let g:custom_themes_name = 'legacy_dark'
+  let g:custom_themes_name = 'legacy_contrast'
   let g:airline_theme = 'zenburn'
   colorscheme legacy-contrast
   highlight LineNr guifg=#5F6D7D
@@ -916,9 +916,9 @@ function! frescoraja#tender() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#tetra() abort
+function! frescoraja#tetra_contrast() abort
   set termguicolors
-  let g:custom_themes_name = 'tetra'
+  let g:custom_themes_name = 'tetra_contrast'
   let g:airline_theme = 'badcat'
   colorscheme tetra-contrast
   doautocmd User CustomizedTheme
@@ -941,9 +941,9 @@ function! frescoraja#tokyo_metro() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#zacks() abort
+function! frescoraja#zacks_contrast() abort
   set termguicolors
-  let g:custom_themes_name = 'zacks'
+  let g:custom_themes_name = 'zacks_contrast'
   let g:airline_theme = 'biogoo'
   colorscheme zacks-contrast
   highlight LineNr guifg=#3A4A4A
