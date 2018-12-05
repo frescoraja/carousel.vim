@@ -21,68 +21,61 @@ let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 " colorscheme functions {{{
 
 " Script functions {{{
-function! s:apply_ale_sign_highlights() abort
-  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
-  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
+function! s:apply_ale_sign_highlights(guibg, ctermbg) abort
   highlight clear ALEErrorSign
   highlight clear ALEWarningSign
   highlight clear ALEInfoSign
-  execute 'highlight! ALEErrorSign gui=bold cterm=bold guifg=red ctermfg=red ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! ALEWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! ALEInfoSign gui=bold cterm=bold guifg=#D7AF87 ctermfg=180 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! ALEErrorSign gui=bold cterm=bold guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEInfoSign gui=bold cterm=bold guifg=#D7AF87 ctermfg=180 ' . a:guibg . ' ' . a:ctermbg
   highlight! ALEError guifg=red ctermfg=red guibg=black ctermbg=black gui=italic cterm=italic
   highlight! ALEWarning guifg=yellow ctermfg=yellow guibg=black ctermbg=black gui=italic cterm=italic
   highlight! ALEInfo guifg=white ctermfg=white guibg=black ctermbg=black gui=italic cterm=italic
 endfunction
 
-function! s:apply_coc_highlights() abort
-  highlight! CocErrorSign gui=bold cterm=bold guifg=red ctermfg=red
-  highlight! CocWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow
-  highlight! CocInfoSign gui=bold cterm=bold guifg=white ctermfg=white
-  highlight! CocHintSign gui=bold cterm=bold guifg=green ctermfg=green
+function! s:apply_better_whitespace_highlights() abort
+  highlight clear ExtraWhitespace
+  highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
+endfunction
+
+function! s:apply_coc_highlights(guibg, ctermbg) abort
+  execute 'highlight! CocErrorSign gui=bold cterm=bold guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocInfoSign gui=bold cterm=bold guifg=white ctermfg=white ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocHintSign gui=bold cterm=bold guifg=green ctermfg=green ' . a:guibg . ' ' . a:ctermbg
   highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red guibg=black ctermbg=black
   highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow guibg=black ctermbg=black
   highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white guibg=black ctermbg=black
   highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green guibg=black ctermbg=black
 endfunction
 
-function! s:apply_gitgutter_highlights() abort
-  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
-  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
+function! s:apply_gitgutter_highlights(guibg, ctermbg) abort
   highlight clear GitGutterAdd
   highlight clear GitGutterChange
   highlight clear GitGutterDelete
   highlight clear GitGutterChangeDelete
-  execute 'highlight! GitGutterAdd gui=bold cterm=bold guifg=#87D7AF ctermfg=115 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChange gui=bold cterm=bold guifg=#AFD7D7 ctermfg=152 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterDelete gui=bold cterm=bold guifg=#D78787 ctermfg=174 ' . l:guibg . ' ' . l:ctermbg
-  execute 'highlight! GitGutterChangeDelete gui=bold cterm=bold guifg=#D7AFAF ctermfg=181 ' . l:guibg . ' ' . l:ctermbg
+  execute 'highlight! GitGutterAdd gui=bold cterm=bold guifg=#87D7AF ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChange gui=bold cterm=bold guifg=#AFD7D7 ctermfg=152 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterDelete gui=bold cterm=bold guifg=#D78787 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChangeDelete gui=bold cterm=bold guifg=#D7AFAF ctermfg=181 ' . a:guibg . ' ' . a:ctermbg
 endfunction
 
 function! s:apply_consistent_bg() abort
   call s:apply_signcolumn_highlights()
-  call s:apply_ale_sign_highlights()
-  call s:apply_coc_highlights()
-  call s:apply_gitgutter_highlights()
-  call s:apply_whitespace_highlights()
+  call s:apply_third_party_highlights()
 endfunction
 
 function! s:apply_signcolumn_highlights() abort
   highlight! link SignColumn LineNr
 endfunction
 
-function! s:apply_whitespace_highlights() abort
-  highlight clear ExtraWhitespace
-  highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
-endfunction
-
-function! s:cache_colorscheme_settings() abort
-  if !exists('s:cache.colorschemes')
-    call <SID>load_colorschemes()
-  endif
-  if exists('g:colors_name')
-    let s:colorscheme_index = index(s:cache.colorschemes, g:colors_name)
-  endif
+function! s:apply_third_party_highlights() abort
+  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
+  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
+  call s:apply_ale_sign_highlights(l:guibg, l:ctermbg)
+  call s:apply_coc_highlights(l:guibg, l:ctermbg)
+  call s:apply_gitgutter_highlights(l:guibg, l:ctermbg)
+  call s:apply_better_whitespace_highlights()
 endfunction
 
 function! s:cache_custom_theme_settings() abort
@@ -121,7 +114,6 @@ function! s:colorize_group(...) abort
 endfunction
 
 function! s:colorscheme_changed() abort
-  call <SID>cache_colorscheme_settings()
   if exists(':AirlineRefresh')
     AirlineRefresh
   endif
