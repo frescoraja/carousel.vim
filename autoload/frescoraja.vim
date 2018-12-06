@@ -611,19 +611,6 @@ function! frescoraja#gruvbox() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#heroku_gvim() abort
-  set termguicolors
-  let g:custom_themes_name = 'heroku_gvim'
-  let g:airline_theme = 'material'
-  colorscheme herokudoc-gvim
-  highlight Normal guibg=#131E26
-  highlight LineNr guibg=#131E26 guifg=#ADC6EE
-  highlight Statement guifg=#505070
-  highlight vimIsCommand guifg=#2A4A6F
-  highlight vimBracket guifg=#95396C
-  doautocmd User CustomizedTheme
-endfunction
-
 function! frescoraja#hybrid_material() abort
   set termguicolors
   let g:custom_themes_name = 'hybrid_material'
