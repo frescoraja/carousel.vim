@@ -342,8 +342,8 @@ function! s:set_textwidth(bang, ...) abort
   try
     if a:bang && &textwidth
       let s:cache.textwidth = &textwidth
-      set textwidth=0
-      set colorcolumn=0
+      setlocal textwidth=0
+      setlocal colorcolumn=0
     else
       if exists('a:1')
         let l:new_textwidth = a:1
@@ -352,8 +352,8 @@ function! s:set_textwidth(bang, ...) abort
       else
         let l:new_textwidth = 80
       endif
-      execute 'set textwidth=' . l:new_textwidth
-      execute 'set colorcolumn=' . l:new_textwidth
+      execute 'setlocal textwidth=' . l:new_textwidth
+      execute 'setlocal colorcolumn=' . l:new_textwidth
       let s:cache.textwidth = l:new_textwidth
     endif
   catch
@@ -434,6 +434,7 @@ function! frescoraja#default() abort
   let g:custom_themes_name = 'default'
 
   colorscheme default
+
   highlight! String ctermfg=13 guifg=#FFA0A0
   highlight! vimBracket ctermfg=green guifg=#33CA5F
   highlight! vimParenSep ctermfg=blue guifg=#0486F1
