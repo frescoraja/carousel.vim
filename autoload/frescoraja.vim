@@ -641,9 +641,9 @@ function! frescoraja#legacy_contrast() abort
 endfunction
 
 function! frescoraja#mango() abort
-  set termguicolors
+  set notermguicolors
   let g:custom_themes_name = 'mango'
-  let g:airline_theme = 'molokai'
+  let g:airline_theme = 'seagull'
   colorscheme mango
   highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
   highlight! Folded ctermbg=NONE guibg=NONE
@@ -780,6 +780,14 @@ function! frescoraja#neodark_nogui() abort
   let g:airline_theme = 'neodark'
   colorscheme neodark
   highlight! Normal ctermbg=233
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#night_owl() abort
+  set termguicolors
+  let g:custom_themes_name = 'night_owl'
+  let g:airline_theme = 'night_owl'
+  colorscheme night-owl
   doautocmd User CustomizedTheme
 endfunction
 
