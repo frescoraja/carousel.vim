@@ -210,41 +210,46 @@ This is the current list of plugins that frescoraja-vim-themes integrates (They 
 
 * #### [GitGutter](https://github.com/airblade/vim-gitgutter)
 
+* #### [CoC](https://github.com/neoclide/coc.nvim)
+
+* #### [Ale](https://github.com/w0rp/ale)
+
 * #### Colorschemes
-    - [default](https://github.com/vim/vim/blob/master/runtime/colors/default.vim)
+    - [afterglow](https://github.com/danilo-augusto/vim-afterglow)
     - [ayu](https://github.com/ayu-theme/ayu-vim)
+    - [blayu](https://github.com/tjammer/blayu)
+    - [ceudah](https://github.com/emhaye/ceudah.vim)
+    - [chito](https://github.com/Jimeno0/vim-chito)
+    - [colorsbox](https://github.com/mkarmona/colorsbox)
+    - [default](https://github.com/vim/vim/blob/master/runtime/colors/default.vim)
+    - [deus](https://github.com/ajmwagar/vim-deus)
+    - [distill](https://github.com/deathlyfrantic/vim-distill)
+    - [edar/elit](https://github.com/DrXVII/vim_colors)
+    - [gotham](https://github.com/whatyouhide/vim-gotham)
     - [gruvbox](https://github.com/morhetz/gruvbox)
+    - [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
+    - [iceberg](https://github.com/cocopon/iceberg.vim)
+    - [kafka/dark](https://github.com/Konstruktionist/vim)
+    - [mango](https://github.com/goatslacker/mango.vim)
+    - [material-monokai](http://github.com/skielbasa/vim-material-monokai)
+    - [material-theme](https://github.com/jdkanani/vim-material-theme)
+    - [material](https://github.com/jscappini/material.vim)
+    - [maui](https://github.com/zsoltf/vim-maui)
+    - [molokai](https://github.com/tomasr/molokai)
+    - [neodark](https://github.com/KeitaNakamura/neodark.vim)
     - [oceanic-next](https://github.com/mhartington/oceanic-next)
     - [onedark](https://github.com/joshdick/onedark.vim)
-    - [maui](https://github.com/zsoltf/vim-maui)
-    - [kafka/dark](https://github.com/Konstruktionist/vim)
-    - [distill](https://github.com/deathlyfrantic/vim-distill)
-    - [vim-material](https://github.com/hzchirs/vim-material)
-    - [material](https://github.com/jscappini/material.vim)
-    - [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
-    - [neodark](https://github.com/KeitaNakamura/neodark.vim)
-    - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
-    - [molokai](https://github.com/tomasr/molokai)
-    - [blayu](https://github.com/tjammer/blayu)
-    - [edar/elit](https://github.com/DrXVII/vim_colors)
-    - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
-    - [deus](https://github.com/ajmwagar/vim-deus)
-    - [spring-night](https://github.com/rhysd/vim-color-spring-night)
-    - [afterglow](https://github.com/danilo-augusto/vim-afterglow)
-    - [gotham](https://github.com/whatyouhide/vim-gotham)
-    - [material-theme](https://github.com/jdkanani/vim-material-theme)
-    - [ceudah](https://github.com/emhaye/ceudah.vim)
-    - [srcery](https://github.com/srcery-colors/srcery-vim)
-    - [colorsbox](https://github.com/mkarmona/colorsbox)
-    - [material-monokai](http://github.com/skielbasa/vim-material-monokai)
-    - [tender](https://github.com/jacoborus/tender.vim)
-    - [iceberg](https://github.com/cocopon/iceberg.vim)
     - [pink-moon](https://github.com/sts10/vim-pink-moon)
+    - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
+    - [spring-night](https://github.com/rhysd/vim-color-spring-night)
+    - [srcery](https://github.com/srcery-colors/srcery-vim)
     - [stellarized](https://github.com/nightsense/stellarized)
+    - [tender](https://github.com/jacoborus/tender.vim)
+    - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
     - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
+    - [vim-material](https://github.com/hzchirs/vim-material)
     - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
         - jellybeans
-        - herokudoc-gvim
         - busybee
         - flatcolor
         - znake
@@ -255,7 +260,6 @@ This is the current list of plugins that frescoraja-vim-themes integrates (They 
         - legacy
         - legacy-contrast
         - tetra-contrast
-        - zacks-contrast
 
 My appreciation goes to all the maintainers of above plugins/themes for their attention to aesthetics and detail.
 

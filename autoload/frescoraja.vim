@@ -21,61 +21,14 @@ let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 " colorscheme functions {{{
 
 " Script functions {{{
-function! s:apply_ale_sign_highlights(guibg, ctermbg) abort
-  highlight clear ALEErrorSign
-  highlight clear ALEWarningSign
-  highlight clear ALEInfoSign
-  execute 'highlight! ALEErrorSign gui=bold cterm=bold guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEInfoSign gui=bold cterm=bold guifg=#D7AF87 ctermfg=180 ' . a:guibg . ' ' . a:ctermbg
-  highlight! ALEError guifg=red ctermfg=red guibg=black ctermbg=black gui=italic cterm=italic
-  highlight! ALEWarning guifg=yellow ctermfg=yellow guibg=black ctermbg=black gui=italic cterm=italic
-  highlight! ALEInfo guifg=white ctermfg=white guibg=black ctermbg=black gui=italic cterm=italic
-endfunction
-
-function! s:apply_better_whitespace_highlights() abort
-  highlight clear ExtraWhitespace
-  highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#d32303
-endfunction
-
-function! s:apply_coc_highlights(guibg, ctermbg) abort
-  execute 'highlight! CocErrorSign gui=bold cterm=bold guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocWarningSign gui=bold cterm=bold guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocInfoSign gui=bold cterm=bold guifg=white ctermfg=white ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocHintSign gui=bold cterm=bold guifg=green ctermfg=green ' . a:guibg . ' ' . a:ctermbg
-  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red guibg=black ctermbg=black
-  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow guibg=black ctermbg=black
-  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white guibg=black ctermbg=black
-  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green guibg=black ctermbg=black
-endfunction
-
-function! s:apply_gitgutter_highlights(guibg, ctermbg) abort
-  highlight clear GitGutterAdd
-  highlight clear GitGutterChange
-  highlight clear GitGutterDelete
-  highlight clear GitGutterChangeDelete
-  execute 'highlight! GitGutterAdd gui=bold cterm=bold guifg=#87D7AF ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChange gui=bold cterm=bold guifg=#AFD7D7 ctermfg=152 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterDelete gui=bold cterm=bold guifg=#D78787 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChangeDelete gui=bold cterm=bold guifg=#D7AFAF ctermfg=181 ' . a:guibg . ' ' . a:ctermbg
-endfunction
-
-function! s:apply_consistent_bg() abort
-  call s:apply_signcolumn_highlights()
-  call s:apply_third_party_highlights()
-endfunction
-
-function! s:apply_signcolumn_highlights() abort
-  highlight! link SignColumn LineNr
-endfunction
-
-function! s:apply_third_party_highlights() abort
+function! s:apply_highlights() abort
   let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
   let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
-  call s:apply_ale_sign_highlights(l:guibg, l:ctermbg)
-  call s:apply_coc_highlights(l:guibg, l:ctermbg)
-  call s:apply_gitgutter_highlights(l:guibg, l:ctermbg)
-  call s:apply_better_whitespace_highlights()
+  call frescoraja#highlights#ale(l:guibg, l:ctermbg)
+  call frescoraja#highlights#coc(l:guibg, l:ctermbg)
+  call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
+  call frescoraja#highlights#whitespace()
+  call frescoraja#highlights#syntax()
 endfunction
 
 function! s:cache_custom_theme_settings() abort
@@ -161,7 +114,7 @@ function! s:finalize_theme() abort
   call <SID>cache_custom_theme_settings()
   call <SID>italicize()
   call <SID>fix_reset_highlighting()
-  call <SID>apply_consistent_bg()
+  call <SID>apply_highlights()
 endfunction
 
 function! s:fix_reset_highlighting() abort
@@ -335,7 +288,7 @@ function! s:toggle_background_transparency() abort
 
     execute 'highlight Normal ' . l:term . 'bg=' . s:cache.bg[l:term]
   endif
-  call <SID>apply_consistent_bg()
+  call <SID>apply_highlights()
 endfunction
 
 function! s:set_textwidth(bang, ...) abort
@@ -441,7 +394,6 @@ function! frescoraja#default() abort
   highlight! CursorLineNr cterm=bold ctermfg=50 guifg=Cyan guibg=#232323
   highlight! CursorLine cterm=NONE term=NONE guibg=NONE
   highlight! vimIsCommand ctermfg=white guifg=#f1f4cc
-  highlight! Number term=bold ctermfg=86 guifg=#51AFFF
   highlight! link vimOperParen Special
   highlight! Comment guifg=#7F7F7F ctermfg=243
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
@@ -688,6 +640,16 @@ function! frescoraja#legacy_contrast() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#mango() abort
+  set termguicolors
+  let g:custom_themes_name = 'mango'
+  let g:airline_theme = 'molokai'
+  colorscheme mango
+  highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
+  highlight! Folded ctermbg=NONE guibg=NONE
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#maui() abort
   set termguicolors
   let g:custom_themes_name = 'maui'
@@ -926,16 +888,6 @@ function! frescoraja#tokyo_metro() abort
   let g:custom_themes_name='tokyo_metro'
   let g:airline_theme='tomorrow'
   colorscheme tokyo-metro
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#zacks_contrast() abort
-  set termguicolors
-  let g:custom_themes_name = 'zacks_contrast'
-  let g:airline_theme = 'biogoo'
-  colorscheme zacks-contrast
-  highlight LineNr guifg=#3A4A4A
-  highlight CursorLineNr guifg=#5A5A3A
   doautocmd User CustomizedTheme
 endfunction
 
