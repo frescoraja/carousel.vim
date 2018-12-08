@@ -1,4 +1,3 @@
-" frescoraja-vim-themes: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
 set encoding=utf-8
 scriptencoding utf-8
 
@@ -18,16 +17,25 @@ let s:inside_tmux = exists('$TMUX')
 let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 " }}}
 
-" colorscheme functions {{{
+" Plugin functions {{{
 
 " Script functions {{{
 function! s:apply_highlights() abort
   let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
   let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
-  call frescoraja#highlights#ale(l:guibg, l:ctermbg)
-  call frescoraja#highlights#coc(l:guibg, l:ctermbg)
-  call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
-  call frescoraja#highlights#whitespace()
+  if get(g:, 'ale_enabled', 0)
+    call frescoraja#highlights#ale(l:guibg, l:ctermbg)
+  endif
+  if get(g:, 'coc_enabled', 0)
+    call frescoraja#highlights#coc(l:guibg, l:ctermbg)
+  endif
+  if get(g:, 'gitgutter_enabled', 0)
+    call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
+  endif
+  if get(g:, 'better_whitespace_enabled', 0)
+    call frescoraja#highlights#whitespace()
+  endif
+
   call frescoraja#highlights#syntax()
 endfunction
 
@@ -903,7 +911,7 @@ function! frescoraja#thaumaturge() abort
   let g:custom_themes_name = 'thaumaturge'
   let g:airline_theme = 'violet'
   colorscheme thaumaturge
-  highlight ColorColumn guibg = #2c2936
+  highlight ColorColumn guibg = #2C2936
   doautocmd User CustomizedTheme
 endfunction
 
