@@ -405,6 +405,8 @@ endfunction
 
 function! frescoraja#afterglow() abort
   set termguicolors
+  let g:afterglow_blackout = 1
+  let g:afterglow_italic_comments = 1
   let g:custom_themes_name = 'afterglow'
   let g:airline_theme = 'afterglow'
   colorscheme afterglow
@@ -512,7 +514,7 @@ endfunction
 function! frescoraja#distill() abort
   set termguicolors
   let g:custom_themes_name = 'distill'
-  let g:airline_theme = 'jellybeans'
+  let g:airline_theme = 'iceberg'
   colorscheme distill
   highlight! ColorColumn guibg=#16181D
   highlight! LineNr guifg=#474B58
