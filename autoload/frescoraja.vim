@@ -455,14 +455,6 @@ function! frescoraja#blayu() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#bold_contrast() abort
-  set termguicolors
-  let g:custom_themes_name = 'bold_contrast'
-  let g:airline_theme = 'sierra'
-  colorscheme bold-contrast
-  doautocmd User CustomizedTheme
-endfunction
-
 function! frescoraja#busybee() abort
   set notermguicolors
   let g:custom_themes_name = 'busybee'
@@ -551,17 +543,6 @@ function! frescoraja#flatcolor() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#goldfish_contrast() abort
-  set termguicolors
-  let g:custom_themes_name = 'goldfish_contrast'
-  let g:airline_theme = 'serene'
-  colorscheme goldfish-contrast
-  highlight LineNr guifg=#666666
-  highlight CursorLineNr guifg=#FABA4A
-  highlight clear CursorLine
-  doautocmd User CustomizedTheme
-endfunction
-
 function! frescoraja#gotham() abort
   set termguicolors
   let g:custom_themes_name = 'gotham'
@@ -620,39 +601,11 @@ function! frescoraja#jellybeans() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#jumper_contrast() abort
-  set termguicolors
-  let g:custom_themes_name = 'jumper_contrast'
-  let g:airline_theme = 'base16'
-  colorscheme jumper-contrast
-  highlight Comment guifg=#596767
-  highlight LineNr guifg=#454d4d
-  doautocmd User CustomizedTheme
-endfunction
-
 function! frescoraja#kafka() abort
   set termguicolors
   let g:custom_themes_name = 'kafka'
   let g:airline_theme = 'neodark'
   colorscheme kafka
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#legacy() abort
-  set termguicolors
-  let g:custom_themes_name = 'legacy'
-  let g:airline_theme = 'ayu'
-  colorscheme legacy
-  highlight LineNr guifg=#5F6D7D
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#legacy_contrast() abort
-  set termguicolors
-  let g:custom_themes_name = 'legacy_contrast'
-  let g:airline_theme = 'zenburn'
-  colorscheme legacy-contrast
-  highlight LineNr guifg=#5F6D7D
   doautocmd User CustomizedTheme
 endfunction
 
@@ -895,14 +848,6 @@ function! frescoraja#tender() abort
   let g:custom_themes_name = 'tender'
   let g:airline_theme = 'tender'
   colorscheme tender
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#tetra_contrast() abort
-  set termguicolors
-  let g:custom_themes_name = 'tetra_contrast'
-  let g:airline_theme = 'badcat'
-  colorscheme tetra-contrast
   doautocmd User CustomizedTheme
 endfunction
 

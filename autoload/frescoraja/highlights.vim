@@ -61,6 +61,8 @@ endfunction
 
 function! frescoraja#highlights#general() abort
   highlight! link SignColumn LineNr
+  highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
+  highlight! VertSplit gui=NONE cterm=NONE
 endfunction
 
 function! frescoraja#highlights#javascript() abort
