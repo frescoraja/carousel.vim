@@ -211,9 +211,10 @@ function! s:reload_default() abort
     execute 'call frescoraja#' . l:theme . '()'
   else
     execute 'colorscheme ' . s:cache.default_colorscheme
-  endif
-  if s:cache.termguicolors != &termguicolors
-    execute 'set ' . (s:cache.termguicolors ? '' : 'no') . 'termguicolors'
+
+    if s:cache.true_color != &termguicolors
+      execute 'set ' . (s:cache.true_color ? '' : 'no') . 'termguicolors'
+    endif
   endif
 endfunction
 
@@ -365,7 +366,6 @@ endfunction
 function! frescoraja#init() abort
   let s:cache = {}
   let s:cache.bg = {}
-  let s:cache.termguicolors = &termguicolors
   let s:cache.default_theme = get(g:, 'custom_themes_name', '')
   let s:cache.default_colorscheme = get(g:, 'colors_name', 'default')
 
@@ -376,13 +376,20 @@ function! frescoraja#init() abort
     call <SID>enable_italics()
   endif
 
+  if get(g:, 'custom_cursors_enabled')
+    call <SID>shape_cursor()
+  endif
+
   if !empty(s:cache.default_theme)
     execute 'call frescoraja#' . s:cache.default_theme . '()'
   endif
+
+  let s:cache.true_color = &termguicolors
 endfunction
 
 function! frescoraja#default() abort
   set background=dark
+  set notermguicolors
   let g:airline_theme = 'jellybeans'
   let g:custom_themes_name = 'default'
 
@@ -406,7 +413,6 @@ endfunction
 function! frescoraja#afterglow() abort
   set termguicolors
   let g:afterglow_blackout = 1
-  let g:afterglow_italic_comments = 1
   let g:custom_themes_name = 'afterglow'
   let g:airline_theme = 'afterglow'
   colorscheme afterglow
@@ -952,10 +958,6 @@ augroup custom_themes
   autocmd User CustomizedTheme call <SID>finalize_theme()
   autocmd ColorScheme * call <SID>colorscheme_changed()
 augroup END
-
-if get(g:, 'custom_cursors_enabled')
-  autocmd custom_themes VimEnter * call <SID>shape_cursor()
-endif
 " }}} end autocmds
 
 " vim: fdm=marker fmr={{{,}}} fen
