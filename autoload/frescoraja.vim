@@ -823,6 +823,14 @@ function! frescoraja#onedark() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#onedarkafterglow() abort
+  set termguicolors
+  let g:custom_themes_name = 'onedarkafterglow'
+  let g:airline_theme = 'onedark'
+  colorscheme onedarkafterglow
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#quantum_light() abort
   set termguicolors
   let g:quantum_black = 0

@@ -239,6 +239,7 @@ This is the current list of plugins that frescoraja-vim-themes integrates (They 
     - [neodark](https://github.com/KeitaNakamura/neodark.vim)
     - [oceanic-next](https://github.com/mhartington/oceanic-next)
     - [onedark](https://github.com/joshdick/onedark.vim)
+    - [onedarkafterglow](https://github.com/MrGuiMan/onedark-afterglow.vim)
     - [pink-moon](https://github.com/sts10/vim-pink-moon)
     - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
     - [spring-night](https://github.com/rhysd/vim-color-spring-night)
