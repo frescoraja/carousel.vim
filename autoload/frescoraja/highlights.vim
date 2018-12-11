@@ -18,10 +18,10 @@ function! frescoraja#highlights#coc(guibg, ctermbg) abort
   execute 'highlight! CocWarningSign guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! CocInfoSign guifg=white ctermfg=white ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! CocHintSign guifg=green ctermfg=green ' . a:guibg . ' ' . a:ctermbg
-  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red guibg=black ctermbg=black
-  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow guibg=black ctermbg=black
-  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white guibg=black ctermbg=black
-  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green guibg=black ctermbg=black
+  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red
+  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow
+  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white
+  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green
   " highlight! CocErrorSign guibg=red ctermbg=red guifg=white ctermfg=white
   " highlight! CocWarningSign guibg=yellow ctermbg=yellow guifg=white ctermfg=white
   " highlight! CocInfoSign guibg=black ctermbg=black guifg=white ctermfg=white
@@ -56,10 +56,18 @@ endfunction
 " Syntax Highlighting {{{
 function! frescoraja#highlights#syntax() abort
   call frescoraja#highlights#general()
-  call frescoraja#highlights#javascript()
+  if &syntax =~? 'javascript'
+    call frescoraja#highlights#javascript()
+  endif
 endfunction
 
 function! frescoraja#highlights#general() abort
+  highlight clear Error
+  highlight clear ErrorMsg
+  highlight clear WarningMsg
+  highlight Error guifg=red ctermfg=red guibg=NONE ctermbg=NONE
+  highlight link ErrorMsg Error
+  highlight WarningMsg guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
   highlight! link SignColumn LineNr
   highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
   highlight! VertSplit gui=NONE cterm=NONE

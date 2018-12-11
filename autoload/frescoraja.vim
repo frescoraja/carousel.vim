@@ -508,6 +508,16 @@ function! frescoraja#dark() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#deep_space() abort
+  set termguicolors
+  let g:custom_themes_name = 'deep_space'
+  let g:airline_theme = 'deep_space'
+  colorscheme deep-space
+  highlight Normal guibg=#111620
+  highlight Folded guifg=#525C6D
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#deus() abort
   set termguicolors
   let g:custom_themes_name = 'deus'
@@ -797,6 +807,7 @@ function! frescoraja#onedarkafterglow() abort
   let g:custom_themes_name = 'onedarkafterglow'
   let g:airline_theme = 'onedark'
   colorscheme onedarkafterglow
+  highlight Normal guibg=#080C14
   doautocmd User CustomizedTheme
 endfunction
 

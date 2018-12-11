@@ -200,7 +200,7 @@ call frescoraja#init()
 
 ## Dependencies
 
-This is the current list of plugins that frescoraja-vim-themes integrates (They are not required)
+This is the current list of plugins/colorschemes that frescoraja-vim-themes supports (They are not required)
 
 ### Plugins
 
@@ -221,6 +221,7 @@ This is the current list of plugins that frescoraja-vim-themes integrates (They 
     - [ceudah](https://github.com/emhaye/ceudah.vim)
     - [chito](https://github.com/Jimeno0/vim-chito)
     - [colorsbox](https://github.com/mkarmona/colorsbox)
+    - [deep-space](https://github.com/tyrannicaltoucan/vim-deep-space)
     - [default](https://github.com/vim/vim/blob/master/runtime/colors/default.vim)
     - [deus](https://github.com/ajmwagar/vim-deus)
     - [distill](https://github.com/deathlyfrantic/vim-distill)
@@ -254,13 +255,6 @@ This is the current list of plugins that frescoraja-vim-themes integrates (They 
         - busybee
         - flatcolor
         - znake
-    - The following themes from [rainglow](https://github.com/rainglow/vim)
-        - bold-contrast
-        - goldfish-contrast
-        - jumper-contrast
-        - legacy
-        - legacy-contrast
-        - tetra-contrast
 
 My appreciation goes to all the maintainers of above plugins/themes for their attention to aesthetics and detail.
 
