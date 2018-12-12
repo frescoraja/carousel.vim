@@ -245,7 +245,6 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
     - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
     - [spring-night](https://github.com/rhysd/vim-color-spring-night)
     - [srcery](https://github.com/srcery-colors/srcery-vim)
-    - [stellarized](https://github.com/nightsense/stellarized)
     - [tender](https://github.com/jacoborus/tender.vim)
     - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
     - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)

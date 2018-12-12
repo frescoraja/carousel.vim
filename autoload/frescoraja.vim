@@ -805,7 +805,7 @@ endfunction
 function! frescoraja#onedarkafterglow() abort
   set termguicolors
   let g:custom_themes_name = 'onedarkafterglow'
-  let g:airline_theme = 'onedark'
+  let g:airline_theme = 'quantum'
   colorscheme onedarkafterglow
   highlight Normal guibg=#080C14
   doautocmd User CustomizedTheme
@@ -843,14 +843,6 @@ function! frescoraja#srcery() abort
   let g:custom_themes_name = 'srcery'
   let g:airline_theme = 'srcery'
   colorscheme srcery
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#stellarized() abort
-  set termguicolors
-  let g:custom_themes_name='stellarized'
-  let g:airline_theme='stellarized_dark'
-  colorscheme stellarized
   doautocmd User CustomizedTheme
 endfunction
 
