@@ -32,7 +32,7 @@ nmap <Plug>ReloadColorschemes :ReloadColorschemes<CR>
 nmap <Plug>SetTextwidth :SetTextwidth<Space>
 nmap <silent> <Plug>DefaultTheme :DefaultTheme<CR>
 nmap <silent> <Plug>RefreshTheme :RefreshTheme<CR>
-nmap <silent> <Plug>ToggleColumn SetTextwidth!<CR>
+nmap <silent> <Plug>ToggleColumn :SetTextwidth!<CR>
 nmap <silent> <Plug>NextTheme :NextTheme<CR>
 nmap <silent> <Plug>PrevTheme :PrevTheme<CR>
 nmap <silent> <Plug>NextColorscheme :NextColorscheme<CR>
