@@ -1,17 +1,16 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-" Script Info  {{{
-"==========================================================================================================
+" Script Info {{{
+"=========================================================================================================
 " Name Of File: frescoraja.vim
 "  Description: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
 "   Maintainer: David James Carter <fresco.raja at gmail.com>
 "      Version: 0.0.1
-"
-"==========================================================================================================
+"=========================================================================================================
 " }}}
 
-" setup script variables {{{
+" Script Variables {{{
 " determine if inside tmux or Apple Terminal for proper escape sequences (used in shape_cursor functions)
 let s:inside_tmux = exists('$TMUX')
 let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
@@ -23,19 +22,10 @@ let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 function! s:apply_highlights() abort
   let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
   let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
-  if get(g:, 'ale_enabled', 0)
-    call frescoraja#highlights#ale(l:guibg, l:ctermbg)
-  endif
-  if get(g:, 'coc_enabled', 0)
-    call frescoraja#highlights#coc(l:guibg, l:ctermbg)
-  endif
-  if get(g:, 'gitgutter_enabled', 0)
-    call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
-  endif
-  if get(g:, 'better_whitespace_enabled', 0)
-    call frescoraja#highlights#whitespace()
-  endif
-
+  call frescoraja#highlights#ale(l:guibg, l:ctermbg)
+  call frescoraja#highlights#coc(l:guibg, l:ctermbg)
+  call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
+  call frescoraja#highlights#whitespace()
   call frescoraja#highlights#syntax()
 endfunction
 

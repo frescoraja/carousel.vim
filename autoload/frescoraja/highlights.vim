@@ -14,14 +14,14 @@ endfunction
 
 " Conquer of Completion Highlighting {{{
 function! frescoraja#highlights#coc(guibg, ctermbg) abort
-  execute 'highlight! CocErrorSign guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocWarningSign guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocInfoSign guifg=white ctermfg=white ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocHintSign guifg=green ctermfg=green ' . a:guibg . ' ' . a:ctermbg
-  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red
-  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow
-  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white
-  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green
+  execute 'highlight! CocErrorSign guifg=#DADADA ctermfg=253 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocWarningSign guifg=#00FFFF ctermfg=51 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocInfoSign guifg=#FFFFAF ctermfg=229 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocHintSign guifg=#8787AF ctermfg=103 ' . a:guibg . ' ' . a:ctermbg
+  highlight! CocErrorHighlight gui=italic cterm=italic guifg=#DADADA ctermfg=253
+  highlight! CocWarningHighlight gui=italic cterm=italic guifg=#00FFFF ctermfg=51
+  highlight! CocInfoHighlight gui=italic cterm=italic guifg=#FFFFAF ctermfg=229
+  highlight! CocHintHighlight gui=italic cterm=italic guifg=#8787AF ctermfg=103
   " highlight! CocErrorSign guibg=red ctermbg=red guifg=white ctermfg=white
   " highlight! CocWarningSign guibg=yellow ctermbg=yellow guifg=white ctermfg=white
   " highlight! CocInfoSign guibg=black ctermbg=black guifg=white ctermfg=white
