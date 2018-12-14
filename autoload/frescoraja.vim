@@ -452,16 +452,7 @@ function! frescoraja#blayu() abort
   colorscheme blayu
   highlight! CursorLine guifg=#32C6B9
   highlight! ColorColumn guibg=#2A3D4F
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#busybee() abort
-  set notermguicolors
-  let g:custom_themes_name = 'busybee'
-  let g:airline_theme = 'qwq'
-  colorscheme busybee
-  highlight! LineNr guifg=#505050 guibg=#101010
-  highlight! CursorLineNr guifg=#ff9800 guibg=#202020
+  highlight! MatchParen guifg=#AF37D0 guibg=#2E4153 cterm=bold
   doautocmd User CustomizedTheme
 endfunction
 
@@ -478,6 +469,7 @@ function! frescoraja#chito() abort
   let g:custom_themes_name = 'chito'
   let g:airline_theme = 'quantum'
   colorscheme chito
+  highlight! Normal guibg=#262A37
   doautocmd User CustomizedTheme
 endfunction
 
@@ -502,9 +494,9 @@ function! frescoraja#dark() abort
   let g:custom_themes_name = 'dark'
   let g:airline_theme = 'zenburn'
   colorscheme dark
-  highlight Normal guibg=#181F2C
-  highlight vimBracket guifg=#AA6A22
-  highlight vimParenSep guifg=#8A3140
+  highlight! Normal guibg=#080F1C
+  highlight! vimBracket guifg=#AA6A22
+  highlight! vimParenSep guifg=#8A3140
   doautocmd User CustomizedTheme
 endfunction
 
@@ -513,8 +505,8 @@ function! frescoraja#deep_space() abort
   let g:custom_themes_name = 'deep_space'
   let g:airline_theme = 'deep_space'
   colorscheme deep-space
-  highlight Normal guibg=#111620
-  highlight Folded guifg=#525C6D
+  highlight! Normal guibg=#111620
+  highlight! Folded guifg=#525C6D
   doautocmd User CustomizedTheme
 endfunction
 
@@ -523,7 +515,7 @@ function! frescoraja#deus() abort
   let g:custom_themes_name = 'deus'
   let g:airline_theme = 'deus'
   colorscheme deus
-  highlight Normal guibg=#1C222B
+  highlight! Normal guibg=#1C222B
   doautocmd User CustomizedTheme
 endfunction
 
@@ -583,6 +575,7 @@ function! frescoraja#hybrid_material_nogui() abort
   let g:custom_themes_name = 'hybrid_material_nogui'
   let g:airline_theme = 'hybrid'
   colorscheme hybrid_material
+  highlight! Normal guibg=#162228
   doautocmd User CustomizedTheme
 endfunction
 
@@ -641,18 +634,19 @@ endfunction
 function! frescoraja#material() abort
   set termguicolors
   let g:custom_themes_name = 'material'
-  let g:airline_theme = 'material'
-  colorscheme material
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#material_dark() abort
-  set termguicolors
-  let g:custom_themes_name = 'material_dark'
-  let g:airline_theme = 'materialmonokai'
+  let g:airline_theme = 'tomorrow'
   colorscheme material
   highlight! Normal guibg=#162127 ctermbg=233
   highlight! Todo guibg=#000000 guifg=#BD9800 cterm=bold
+  highlight! LineNr guifg=#56676E
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#material_theme() abort
+  set termguicolors
+  let g:custom_themes_name = 'material_theme'
+  let g:airline_theme = 'material'
+  colorscheme material-theme
   doautocmd User CustomizedTheme
 endfunction
 
@@ -662,9 +656,6 @@ function! frescoraja#vim_material() abort
   let g:custom_themes_name = 'vim_material'
   let g:airline_theme = 'material'
   colorscheme vim-material
-  highlight! TabLine guifg=#5D818E guibg=#212121 cterm=italic
-  highlight! TabLineFill guifg=#212121
-  highlight! TabLineSel guifg=#FFE57F guibg=#5D818E
   highlight! ColorColumn guibg=#374349
   highlight! CursorLine cterm=NONE
   doautocmd User CustomizedTheme
@@ -686,19 +677,12 @@ function! frescoraja#vim_material_palenight() abort
   let g:custom_themes_name = 'vim_material_palenight'
   let g:airline_theme = 'material'
   colorscheme vim-material
-  highlight! TabLine guifg=#676E95 guibg=#191919 cterm=italic
+  highlight! TabLine guifg=#676E95 guibg=#191919
   highlight! TabLineFill guifg=#191919
   highlight! TabLineSel guifg=#FFE57F guibg=#676E95
   highlight! ColorColumn guibg=#3A3E4F
   highlight! CursorLine cterm=NONE
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#material_theme() abort
-  set termguicolors
-  let g:custom_themes_name = 'material_theme'
-  let g:airline_theme = 'material'
-  colorscheme material-theme
+  highlight! Normal guibg=#191D2E
   doautocmd User CustomizedTheme
 endfunction
 
@@ -807,7 +791,7 @@ function! frescoraja#onedarkafterglow() abort
   let g:custom_themes_name = 'onedarkafterglow'
   let g:airline_theme = 'quantum'
   colorscheme onedarkafterglow
-  highlight Normal guibg=#080C14
+  highlight! Normal guibg=#080C14
   doautocmd User CustomizedTheme
 endfunction
 
@@ -817,6 +801,8 @@ function! frescoraja#quantum_light() abort
   let g:custom_themes_name = 'quantum_light'
   let g:airline_theme = 'quantum'
   colorscheme quantum
+  highlight! LineNr guifg=#627782
+  highlight! Folded guifg=#627782
   doautocmd User CustomizedTheme
 endfunction
 
@@ -826,6 +812,8 @@ function! frescoraja#quantum_dark() abort
   let g:custom_themes_name = 'quantum_dark'
   let g:airline_theme = 'quantum'
   colorscheme quantum
+  highlight! LineNr guifg=#627782
+  highlight! Folded guifg=#627782
   doautocmd User CustomizedTheme
 endfunction
 
