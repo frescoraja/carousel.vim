@@ -1,8 +1,5 @@
 " ALE Plugin Highlighting {{{
 function! frescoraja#highlights#ale(guibg, ctermbg) abort
-  highlight clear ALEErrorSign
-  highlight clear ALEWarningSign
-  highlight clear ALEInfoSign
   execute 'highlight! ALEErrorSign guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! ALEWarningSign guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! ALEInfoSign guifg=#D7AF87 ctermfg=180 ' . a:guibg . ' ' . a:ctermbg
@@ -18,10 +15,10 @@ function! frescoraja#highlights#coc(guibg, ctermbg) abort
   execute 'highlight! CocWarningSign guifg=#00FFFF ctermfg=51 ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! CocInfoSign guifg=#FFFFAF ctermfg=229 ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! CocHintSign guifg=#8787AF ctermfg=103 ' . a:guibg . ' ' . a:ctermbg
-  highlight! CocErrorHighlight gui=italic cterm=italic guifg=#DADADA ctermfg=253
-  highlight! CocWarningHighlight gui=italic cterm=italic guifg=#00FFFF ctermfg=51
-  highlight! CocInfoHighlight gui=italic cterm=italic guifg=#FFFFAF ctermfg=229
-  highlight! CocHintHighlight gui=italic cterm=italic guifg=#8787AF ctermfg=103
+  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red
+  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow
+  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white
+  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green
   " highlight! CocErrorSign guibg=red ctermbg=red guifg=white ctermfg=white
   " highlight! CocWarningSign guibg=yellow ctermbg=yellow guifg=white ctermfg=white
   " highlight! CocInfoSign guibg=black ctermbg=black guifg=white ctermfg=white
@@ -64,10 +61,12 @@ endfunction
 function! frescoraja#highlights#general() abort
   highlight clear Error
   highlight clear ErrorMsg
+  highlight clear Warning
   highlight clear WarningMsg
   highlight Error guifg=red ctermfg=red guibg=NONE ctermbg=NONE
   highlight link ErrorMsg Error
-  highlight WarningMsg guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
+  highlight Warning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
+  highlight link WarningMsg Warning
   highlight! link SignColumn LineNr
   highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
   highlight! VertSplit gui=NONE cterm=NONE
