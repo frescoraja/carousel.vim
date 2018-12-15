@@ -410,7 +410,6 @@ endfunction
 
 function! frescoraja#afterglow() abort
   set termguicolors
-  let g:afterglow_blackout = 1
   let g:custom_themes_name = 'afterglow'
   let g:airline_theme = 'afterglow'
   colorscheme afterglow
@@ -781,7 +780,6 @@ function! frescoraja#onedarkafterglow() abort
   let g:custom_themes_name = 'onedarkafterglow'
   let g:airline_theme = 'quantum'
   colorscheme onedarkafterglow
-  highlight! Normal guibg=#080C14
   doautocmd User CustomizedTheme
 endfunction
 
