@@ -416,6 +416,22 @@ function! frescoraja#afterglow() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#allomancer() abort
+  set termguicolors
+  let g:custom_themes_name = 'allomancer'
+  let g:airline_theme = 'alduin'
+  colorscheme allomancer
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#allomancer_nogui() abort
+  set notermguicolors
+  let g:custom_themes_name = 'allomancer_nogui'
+  let g:airline_theme = 'alduin'
+  colorscheme allomancer
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#ayu() abort
   set termguicolors
   let g:ayucolor = 'dark'
@@ -844,6 +860,15 @@ function! frescoraja#tokyo_metro() abort
   let g:custom_themes_name='tokyo_metro'
   let g:airline_theme='tomorrow'
   colorscheme tokyo-metro
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#two_firewatch() abort
+  set termguicolors
+  let g:custom_themes_name = 'two_firewatch'
+  let g:airline_theme = 'twofirewatch'
+  colorscheme two-firewatch
+  highlight! Normal guibg=#000000
   doautocmd User CustomizedTheme
 endfunction
 

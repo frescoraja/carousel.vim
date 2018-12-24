@@ -216,6 +216,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 
 * #### Colorschemes
     - [afterglow](https://github.com/danilo-augusto/vim-afterglow)
+    - [allomancer](https://github.com/Nequo/vim-allomancer)
     - [ayu](https://github.com/ayu-theme/ayu-vim)
     - [blayu](https://github.com/tjammer/blayu)
     - [ceudah](https://github.com/emhaye/ceudah.vim)
@@ -248,6 +249,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
     - [tender](https://github.com/jacoborus/tender.vim)
     - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
     - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
+    - [two-firewatch](https://github.com/rakr/vim-two-firewatch)
     - [vim-material](https://github.com/hzchirs/vim-material)
     - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
         - jellybeans
