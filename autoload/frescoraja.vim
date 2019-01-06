@@ -277,6 +277,7 @@ function! s:toggle_background_transparency() abort
     let s:cache.bg[l:term] = l:current_bg
     highlight Normal guibg=NONE ctermbg=NONE
     highlight LineNr guibg=NONE ctermbg=NONE
+    highlight VertSplit guibg=NONE ctermbg=NONE
   else
     " if no bg was cached use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
