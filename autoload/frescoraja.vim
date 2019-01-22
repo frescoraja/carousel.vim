@@ -433,6 +433,14 @@ function! frescoraja#allomancer_nogui() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#apprentice() abort
+  set termguicolors
+  let g:custom_themes_name = 'apprentice'
+  let g:airline_theme = 'jellybeans'
+  colorscheme apprentice
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#ayu() abort
   set termguicolors
   let g:ayucolor = 'dark'

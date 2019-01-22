@@ -217,6 +217,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 * #### Colorschemes
     - [afterglow](https://github.com/danilo-augusto/vim-afterglow)
     - [allomancer](https://github.com/Nequo/vim-allomancer)
+    - [apprentice](https://github.com/romainl/Apprentice)
     - [ayu](https://github.com/ayu-theme/ayu-vim)
     - [blayu](https://github.com/tjammer/blayu)
     - [ceudah](https://github.com/emhaye/ceudah.vim)
