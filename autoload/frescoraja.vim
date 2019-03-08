@@ -60,7 +60,7 @@ function! s:colorize_group(...) abort
       execute 'highlight ' . l:group . ' gui' . l:fgbg . '=' . l:gui
     endif
   catch
-    echohl ErrorMsg | echo v:exception
+    echohl ErrorMsg | echom v:exception
   endtry
 endfunction
 
@@ -75,10 +75,10 @@ function! s:customize_theme(...) abort
     if a:0
       execute 'call frescoraja#' . a:1 . '()'
     else
-      echohl ModeMsg | echo g:custom_themes_name
+      echohl ModeMsg | echom g:custom_themes_name
     endif
   catch
-    echohl ErrorMsg | echo 'Custom theme could not be found'
+    echohl ErrorMsg | echom 'Custom theme could not be found'
   endtry
 endfunction
 
@@ -152,11 +152,11 @@ function! s:get_syntax_highlighting_under_cursor() abort
   endif
   if empty(l:syntax_groups)
     echohl ErrorMsg |
-          \ echo 'No syntax groups defined for "' . l:current_word . '"'
+          \ echom 'No syntax groups defined for "' . l:current_word . '"'
   else
     let l:output = join(l:syntax_groups, ',')
     execute 'echohl ' . l:syntax_groups[-1]
-    echo l:current_word . ' => ' . l:output
+    echom l:current_word . ' => ' . l:output
   endif
 endfunction
 
@@ -199,7 +199,7 @@ function! s:italicize(...) abort
       endfor
     endif
   catch
-    echohl ErrorMsg | echo v:exception
+    echohl ErrorMsg | echom v:exception
   endtry
 endfunction
 
@@ -209,10 +209,6 @@ function! s:reload_default() abort
     execute 'call frescoraja#' . l:theme . '()'
   else
     execute 'colorscheme ' . s:cache.default_colorscheme
-
-    if s:cache.true_color != &termguicolors
-      execute 'set ' . (s:cache.true_color ? '' : 'no') . 'termguicolors'
-    endif
   endif
 endfunction
 
@@ -382,8 +378,30 @@ function! frescoraja#init() abort
   if !empty(s:cache.default_theme)
     execute 'call frescoraja#' . s:cache.default_theme . '()'
   endif
+endfunction
 
-  let s:cache.true_color = &termguicolors
+function! frescoraja#random() abort
+  if !has('python') && !has('python3')
+    echohl WarningMsg | echom 'Randomized theme selection requires python support in VIM. Using `default` theme.'
+    call frescoraja#default()
+  else
+    try
+      let l:py_cmd = 'py'
+      if has('python3')
+        let l:py_cmd = 'py3'
+      endif
+      let l:max_idx = len(s:cache.themes) - 1
+      if l:max_idx >= 0
+        let l:rand_idx = trim(
+              \ execute(l:py_cmd . ' import random; print(random.randint(0,' . l:max_idx . '))'))
+        let l:theme = s:cache.themes[+l:rand_idx]
+        execute 'call frescoraja#' . l:theme . '()'
+      endif
+    catch /.*/
+      echohl ErrorMsg | echom 'Random theme could not be loaded: ' . v:exception
+    endtry
+  endif
+
 endfunction
 
 function! frescoraja#default() abort
@@ -914,6 +932,7 @@ command! -nargs=0 ReloadThemes call <SID>load_custom_themes()
 command! -nargs=0 ReloadColorschemes call <SID>load_colorschemes()
 command! -nargs=0 PrevTheme call <SID>cycle_custom_theme(-1)
 command! -nargs=0 NextTheme call <SID>cycle_custom_theme(1)
+command! -nargs=0 RandomTheme call frescoraja#random()
 command! -nargs=0 PrevColorscheme call <SID>cycle_colorschemes(-1)
 command! -nargs=0 NextColorscheme call <SID>cycle_colorschemes(1)
 " }}}

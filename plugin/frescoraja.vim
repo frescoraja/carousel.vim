@@ -11,7 +11,7 @@
 " }}}
 
 if !exists('+termguicolors')
-  echohl ErrorMsg | echo 'frescoraj-vim-themes relies on having a terminal with 256 colors'
+  echohl ErrorMsg | echo 'frescoraj-vim-themes relies on terminal with true color support (termguicolors)'
   finish
 endif
 
@@ -35,6 +35,7 @@ nmap <silent> <Plug>RefreshTheme :RefreshTheme<CR>
 nmap <silent> <Plug>ToggleColumn :SetTextwidth!<CR>
 nmap <silent> <Plug>NextTheme :NextTheme<CR>
 nmap <silent> <Plug>PrevTheme :PrevTheme<CR>
+nmap <silent> <Plug>RandomTheme :RandomTheme<CR>
 nmap <silent> <Plug>NextColorscheme :NextColorscheme<CR>
 nmap <silent> <Plug>PrevColorscheme :PrevColorscheme<CR>
 nmap <silent> <Plug>ToggleDark :ToggleDark<CR>
@@ -43,7 +44,7 @@ nmap <silent> <Plug>Italicize :Italicize!<CR>
 nmap <silent> <Plug>GetSyntax :GetSyntaxGroup<CR>
 
 if !&wildcharm | set wildcharm=<C-Z> | endif
-execute 'nmap <Plug>Colorize :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
+execute 'nmap <unique> <Plug>Colorize :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
 
 if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<Nul>', 'n'))
   nmap <unique> <Nul> <Plug>CustomizeTheme
@@ -57,6 +58,10 @@ if !hasmapto('<Plug>PrevTheme') && empty(maparg('<F7>', 'n'))
   nmap <unique> <F7> <Plug>PrevTheme
 endif
 
+if !hasmapto('<Plug>RandomTheme') && empty(maparg('<F8>', 'n'))
+  nmap <unique> <F8> <Plug>RandomTheme
+endif
+
 if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<S-F9>', 'n'))
   nmap <unique> <S-F9> <Plug>NextColorscheme
 endif
@@ -64,14 +69,7 @@ endif
 if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<S-F7>', 'n'))
   nmap <unique> <S-F7> <Plug>PrevColorscheme
 endif
-
-if !hasmapto('<Plug>ReloadThemes') && empty(maparg('<F8>', 'n'))
-  nmap <unique> <F8> <Plug>ReloadThemes
-endif
-
-if !hasmapto('<Plug>ReloadColorschemes') && empty(maparg('<S-F8>', 'n'))
-  nmap <unique> <S-F8> <Plug>ReloadColorschemes
-endif
 " }}}
+
 
 " vim: ft=vim fdm=marker fmr={{{,}}} nofen
