@@ -239,6 +239,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
   - [material-theme](https://github.com/jdkanani/vim-material-theme)
   - [material](https://github.com/jscappini/material.vim)
   - [maui](https://github.com/zsoltf/vim-maui)
+  - [maui-airline](https://github.com/zsoltf/vim-maui-airline)
   - [molokai](https://github.com/tomasr/molokai)
   - [neodark](https://github.com/KeitaNakamura/neodark.vim)
   - [oceanic-next](https://github.com/mhartington/oceanic-next)

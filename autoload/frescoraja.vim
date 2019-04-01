@@ -657,9 +657,8 @@ endfunction
 function! frescoraja#maui() abort
   set termguicolors
   let g:custom_themes_name = 'maui'
-  let g:airline_theme = 'jellybeans'
+  let g:airline_theme = 'maui'
   colorscheme maui
-  highlight! LineNr guifg=#585858 ctermfg=240
   doautocmd User CustomizedTheme
 endfunction
 
