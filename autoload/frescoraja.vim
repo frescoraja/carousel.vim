@@ -438,7 +438,7 @@ endfunction
 function! frescoraja#allomancer() abort
   set termguicolors
   let g:custom_themes_name = 'allomancer'
-  let g:airline_theme = 'alduin'
+  let g:airline_theme = 'hybrid'
   colorscheme allomancer
   doautocmd User CustomizedTheme
 endfunction
@@ -446,7 +446,7 @@ endfunction
 function! frescoraja#allomancer_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'allomancer_nogui'
-  let g:airline_theme = 'alduin'
+  let g:airline_theme = 'hybridline'
   colorscheme allomancer
   doautocmd User CustomizedTheme
 endfunction
