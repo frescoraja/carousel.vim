@@ -1,6 +1,6 @@
 # FrescoRaja Themes for [Vim](http://www.vim.org)
 
-A vim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior: cursor,
+A vim/neovim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior: cursor,
 textwidth and cursorcolumn, font, background, and colorscheme.
 
 ## Functionality
@@ -48,7 +48,7 @@ Use `<Plug>SetTextwidth` or `SetTextwidth <num>` to set &textwidth value
 Use `<Plug>ToggleColumn` or `SetTextwidth!` to toggle the cursorcolumn
 
 As an example, the following mapping would enable you to type `tw=90` + <kbd>Enter</kbd> in normal mode to change the textwidth
-to 90.  (It will also automatically move the colorcolumn to 90 as well)
+to 90.  (It will also move the colorcolumn to 90)
 
 ```viml
 " Set textwidth
@@ -213,13 +213,9 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 ### Plugins
 
 - #### [Vim-Airline](https://github.com/bling/vim-airline) / [Vim-Airline-Themes](https://github.com/vim-airline/vim-airline-themes)
-
 - #### [Vim Better Whitespace](https://github.com/ntpeters/vim-better-whitespace)
-
 - #### [GitGutter](https://github.com/airblade/vim-gitgutter)
-
 - #### [CoC](https://github.com/neoclide/coc.nvim)
-
 - #### [Ale](https://github.com/w0rp/ale)
 
 ### Colorschemes
