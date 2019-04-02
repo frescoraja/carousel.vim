@@ -3,9 +3,6 @@
 A vim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior: cursor,
 textwidth and cursorcolumn, font, background, and colorscheme.
 
-> **Note:** This is for my own educational use, if you want to try it go ahead but at your own risk.. It is my first
-> time attempting to create a Vim plugin and I take no responsibility for any consequences of its use on your system.
-
 ## Functionality
 
 ### Loading Customized Themes
@@ -17,9 +14,6 @@ when a new theme is loaded, the background colors used by [GitGutter](https://gi
 [dependencies](#dependencies) at the bottom for integrated plugins.
 
 Use `<Plug>CustomizeTheme` to bring up autocompletion menu with available themes to load.
-
-<kbd>Ctrl</kbd>+<kbd>Space</kbd> is built into the plugin to call `<Plug>CustomizeTheme` (if it hasn't already been
-defined)
 
 ```viml
 " define custom mapping:
@@ -38,16 +32,6 @@ Use `<Plug>PrevTheme` to cycle backwards through available customized themes.
 Use `<Plug>NextColorscheme` to cycle forwards through all available colorschemes.
 
 Use `<Plug>PrevColorscheme` to cycle backwards through all available colorschemes.
-
-The following mappings are built into the plugin (if they were not already defined)
-
-<kbd>F7</kbd> to cycle backwards through customized theme list
-
-<kbd>F9</kbd> to cycle forwards through customized theme list
-
-<kbd>Shift+F7</kbd> to cycle backwards through colorschemes
-
-<kbd>Shift+F9</kbd> to cycle forwards through colorschemes
 
 ### Toggle Background Color and Transparency
 
@@ -190,6 +174,9 @@ let g:custom_themes_name='default'
 
 " set a random theme to load on startup:
 let g:custom_themes_name='random'
+
+" allow default key mappings
+let g:custom_themes_mappings_enabled=1
 ```
 
 Or, you can just call the initializer directly if you don't want any theming applied by default, but want the plugin
@@ -199,6 +186,25 @@ functions available:
 " this line would go after plugins loaded, ie after `call plug#end()` if using vim-plug
 call frescoraja#init()
 ```
+
+## Default Key Mappings
+
+If `g:custom_themes_mappings_enabled` is set to `1`, the following keyboard shortcuts will work automatically (if they
+are not already mapped in your `.vimrc` or by other plugins loaded before this one. Vim will emit a warning if this
+plugin tries to override any existing key mappings, and any mappings defined after plugin is loaded will override
+mappings defined by plugin):
+
+<kbd>F5</kbd> to select a custom theme from menu
+
+<kbd>Shift</kbd> + <kbd>F5</kbd> to select a random custom theme
+
+<kbd>F7</kbd> to cycle backwards through customized theme list
+
+<kbd>F9</kbd> to cycle forwards through customized theme list
+
+<kbd>Shift+F7</kbd> to cycle backwards through colorschemes
+
+<kbd>Shift+F9</kbd> to cycle forwards through colorschemes
 
 ## Dependencies
 
@@ -216,49 +222,50 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 
 - #### [Ale](https://github.com/w0rp/ale)
 
-- #### Colorschemes
-  - [afterglow](https://github.com/danilo-augusto/vim-afterglow)
-  - [allomancer](https://github.com/Nequo/vim-allomancer)
-  - [ayu](https://github.com/ayu-theme/ayu-vim)
-  - [blayu](https://github.com/tjammer/blayu)
-  - [ceudah](https://github.com/emhaye/ceudah.vim)
-  - [chito](https://github.com/Jimeno0/vim-chito)
-  - [colorsbox](https://github.com/mkarmona/colorsbox)
-  - [deep-space](https://github.com/tyrannicaltoucan/vim-deep-space)
-  - [default](https://github.com/vim/vim/blob/master/runtime/colors/default.vim)
-  - [deus](https://github.com/ajmwagar/vim-deus)
-  - [distill](https://github.com/deathlyfrantic/vim-distill)
-  - [edar/elit](https://github.com/DrXVII/vim_colors)
-  - [gotham](https://github.com/whatyouhide/vim-gotham)
-  - [gruvbox](https://github.com/morhetz/gruvbox)
-  - [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
-  - [iceberg](https://github.com/cocopon/iceberg.vim)
-  - [kafka/dark](https://github.com/Konstruktionist/vim)
-  - [mango](https://github.com/goatslacker/mango.vim)
-  - [material-monokai](http://github.com/skielbasa/vim-material-monokai)
-  - [material-theme](https://github.com/jdkanani/vim-material-theme)
-  - [material](https://github.com/jscappini/material.vim)
-  - [maui](https://github.com/zsoltf/vim-maui)
-  - [maui-airline](https://github.com/zsoltf/vim-maui-airline)
-  - [molokai](https://github.com/tomasr/molokai)
-  - [neodark](https://github.com/KeitaNakamura/neodark.vim)
-  - [oceanic-next](https://github.com/mhartington/oceanic-next)
-  - [onedark](https://github.com/joshdick/onedark.vim)
-  - [onedarkafterglow](https://github.com/MrGuiMan/onedark-afterglow.vim)
-  - [pink-moon](https://github.com/sts10/vim-pink-moon)
-  - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
-  - [spring-night](https://github.com/rhysd/vim-color-spring-night)
-  - [srcery](https://github.com/srcery-colors/srcery-vim)
-  - [tender](https://github.com/jacoborus/tender.vim)
-  - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
-  - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
-  - [two-firewatch](https://github.com/rakr/vim-two-firewatch)
-  - [vim-material](https://github.com/hzchirs/vim-material)
-  - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
-    - jellybeans
-    - busybee
-    - flatcolor
-    - znake
+### Colorschemes
+
+- [afterglow](https://github.com/danilo-augusto/vim-afterglow)
+- [allomancer](https://github.com/Nequo/vim-allomancer)
+- [ayu](https://github.com/ayu-theme/ayu-vim)
+- [blayu](https://github.com/tjammer/blayu)
+- [ceudah](https://github.com/emhaye/ceudah.vim)
+- [chito](https://github.com/Jimeno0/vim-chito)
+- [colorsbox](https://github.com/mkarmona/colorsbox)
+- [deep-space](https://github.com/tyrannicaltoucan/vim-deep-space)
+- [default](https://github.com/vim/vim/blob/master/runtime/colors/default.vim)
+- [deus](https://github.com/ajmwagar/vim-deus)
+- [distill](https://github.com/deathlyfrantic/vim-distill)
+- [edar/elit](https://github.com/DrXVII/vim_colors)
+- [gotham](https://github.com/whatyouhide/vim-gotham)
+- [gruvbox](https://github.com/morhetz/gruvbox)
+- [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
+- [iceberg](https://github.com/cocopon/iceberg.vim)
+- [kafka/dark](https://github.com/Konstruktionist/vim)
+- [mango](https://github.com/goatslacker/mango.vim)
+- [material-monokai](http://github.com/skielbasa/vim-material-monokai)
+- [material-theme](https://github.com/jdkanani/vim-material-theme)
+- [material](https://github.com/jscappini/material.vim)
+- [maui](https://github.com/zsoltf/vim-maui)
+- [maui-airline](https://github.com/zsoltf/vim-maui-airline)
+- [molokai](https://github.com/tomasr/molokai)
+- [neodark](https://github.com/KeitaNakamura/neodark.vim)
+- [oceanic-next](https://github.com/mhartington/oceanic-next)
+- [onedark](https://github.com/joshdick/onedark.vim)
+- [onedarkafterglow](https://github.com/MrGuiMan/onedark-afterglow.vim)
+- [pink-moon](https://github.com/sts10/vim-pink-moon)
+- [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
+- [spring-night](https://github.com/rhysd/vim-color-spring-night)
+- [srcery](https://github.com/srcery-colors/srcery-vim)
+- [tender](https://github.com/jacoborus/tender.vim)
+- [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
+- [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
+- [two-firewatch](https://github.com/rakr/vim-two-firewatch)
+- [vim-material](https://github.com/hzchirs/vim-material)
+- The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
+  - jellybeans
+  - busybee
+  - flatcolor
+  - znake
 
 My appreciation goes to all the maintainers of above plugins/themes for their attention to aesthetics and detail.
 

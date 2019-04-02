@@ -23,51 +23,60 @@ let g:loaded_custom_themes = 1
 
 if get(g:, 'custom_themes_enabled', 0)
   call frescoraja#init()
-endif
 
-" Command mapping {{{
-nmap <Plug>CustomizeTheme :CustomizeTheme <C-D>
-nmap <Plug>ReloadThemes :ReloadThemes<CR>
-nmap <Plug>ReloadColorschemes :ReloadColorschemes<CR>
-nmap <Plug>SetTextwidth :SetTextwidth<Space>
-nmap <silent> <Plug>DefaultTheme :DefaultTheme<CR>
-nmap <silent> <Plug>RefreshTheme :RefreshTheme<CR>
-nmap <silent> <Plug>ToggleColumn :SetTextwidth!<CR>
-nmap <silent> <Plug>NextTheme :NextTheme<CR>
-nmap <silent> <Plug>PrevTheme :PrevTheme<CR>
-nmap <silent> <Plug>RandomTheme :RandomTheme<CR>
-nmap <silent> <Plug>NextColorscheme :NextColorscheme<CR>
-nmap <silent> <Plug>PrevColorscheme :PrevColorscheme<CR>
-nmap <silent> <Plug>ToggleDark :ToggleDark<CR>
-nmap <silent> <Plug>ToggleBackground :ToggleBackground<CR>
-nmap <silent> <Plug>Italicize :Italicize!<CR>
-nmap <silent> <Plug>GetSyntax :GetSyntaxGroup<CR>
+  " Command mapping {{{
+  nmap <Plug>CustomizeTheme :CustomizeTheme <C-D>
+  nmap <Plug>ReloadThemes :ReloadThemes<CR>
+  nmap <Plug>ReloadColorschemes :ReloadColorschemes<CR>
+  nmap <Plug>SetTextwidth :SetTextwidth<Space>
+  nmap <Plug>DefaultTheme :DefaultTheme<CR>
+  nmap <Plug>RefreshTheme :RefreshTheme<CR>
+  nmap <Plug>ToggleColumn :SetTextwidth!<CR>
+  nmap <Plug>NextTheme :NextTheme<CR>
+  nmap <Plug>PrevTheme :PrevTheme<CR>
+  nmap <Plug>RandomTheme :RandomTheme<CR>
+  nmap <Plug>NextColorscheme :NextColorscheme<CR>
+  nmap <Plug>PrevColorscheme :PrevColorscheme<CR>
+  nmap <Plug>ToggleDark :ToggleDark<CR>
+  nmap <Plug>ToggleBackground :ToggleBackground<CR>
+  nmap <Plug>Italicize :Italicize!<CR>
+  nmap <Plug>GetSyntax :GetSyntaxGroup<CR>
+  if !&wildcharm | set wildcharm=<C-Z> | endif
+  execute 'nmap <Plug>Colorize :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
 
-if !&wildcharm | set wildcharm=<C-Z> | endif
-execute 'nmap <unique> <Plug>Colorize :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
+  if get(g:, 'custom_themes_mappings_enabled', 0)
+    if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<F5>', 'n'))
+      nmap <unique> <F5> <Plug>CustomizeTheme
+    endif
+    if !hasmapto('<Plug>PrevTheme') && empty(maparg('<F7>', 'n'))
+      nmap <unique> <F7> <Plug>PrevTheme
+    endif
+    if !hasmapto('<Plug>NextTheme') && empty(maparg('<F9>', 'n'))
+      nmap <unique> <F9> <Plug>NextTheme
+    endif
 
-if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<Nul>', 'n'))
-  nmap <unique> <Nul> <Plug>CustomizeTheme
-endif
-
-if !hasmapto('<Plug>NextTheme') && empty(maparg('<F9>', 'n'))
-  nmap <unique> <F9> <Plug>NextTheme
-endif
-
-if !hasmapto('<Plug>PrevTheme') && empty(maparg('<F7>', 'n'))
-  nmap <unique> <F7> <Plug>PrevTheme
-endif
-
-if !hasmapto('<Plug>RandomTheme') && empty(maparg('<F8>', 'n'))
-  nmap <unique> <F8> <Plug>RandomTheme
-endif
-
-if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<S-F9>', 'n'))
-  nmap <unique> <S-F9> <Plug>NextColorscheme
-endif
-
-if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<S-F7>', 'n'))
-  nmap <unique> <S-F7> <Plug>PrevColorscheme
+    if has('nvim')
+      if !hasmapto('<Plug>RandomTheme') && empty(maparg('<F17>', 'n'))
+        nmap <unique> <F17> <Plug>RandomTheme
+      endif
+      if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<F19>', 'n'))
+        nmap <unique> <F19> <Plug>PrevColorscheme
+      endif
+      if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<F21>', 'n'))
+        nmap <unique> <F22> <Plug>NextColorscheme
+      endif
+    else
+      if !hasmapto('<Plug>RandomTheme') && empty(maparg('<S-F5>', 'n'))
+        nmap <unique> <S-F5> <Plug>RandomTheme
+      endif
+      if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<S-F7>', 'n'))
+        nmap <unique> <S-F7> <Plug>PrevColorscheme
+      endif
+      if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<S-F9>', 'n'))
+        nmap <unique> <S-F9> <Plug>NextColorscheme
+      endif
+    endif
+  endif
 endif
 " }}}
 
