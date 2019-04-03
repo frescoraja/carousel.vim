@@ -339,7 +339,7 @@ function! s:load_custom_themes() abort
     \ execute('function'), "\n"),
     \ 'v:val =~? "frescoraja"'),
     \ 'matchstr(v:val, ''#\zs\w\+'')')
-  let l:custom_themes = []
+  let l:custom_themes = ['random']
   for l:fname in l:themes
     let l:name = substitute(tolower(l:fname), '-', '_', 'g')
     let l:matching_fns = filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
