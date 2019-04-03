@@ -898,6 +898,18 @@ function! frescoraja#two_firewatch() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#yowish() abort
+  set termguicolors
+  let g:custom_themes_name = 'yowish'
+  let g:airline_theme = 'yowish'
+  let g:yowish = {
+        \ 'term_italic': 1,
+        \ 'comment_italic': 1,
+        \ }
+  colorscheme yowish
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#znake() abort
   set termguicolors
   let g:airline_theme = 'lucius'

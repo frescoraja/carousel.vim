@@ -212,11 +212,11 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 
 ### Plugins
 
-- #### [Vim-Airline](https://github.com/bling/vim-airline) / [Vim-Airline-Themes](https://github.com/vim-airline/vim-airline-themes)
-- #### [Vim Better Whitespace](https://github.com/ntpeters/vim-better-whitespace)
-- #### [GitGutter](https://github.com/airblade/vim-gitgutter)
-- #### [CoC](https://github.com/neoclide/coc.nvim)
-- #### [Ale](https://github.com/w0rp/ale)
+- [Vim-Airline](https://github.com/bling/vim-airline) / [Vim-Airline-Themes](https://github.com/vim-airline/vim-airline-themes)
+- [Vim Better Whitespace](https://github.com/ntpeters/vim-better-whitespace)
+- [GitGutter](https://github.com/airblade/vim-gitgutter)
+- [CoC](https://github.com/neoclide/coc.nvim)
+- [Ale](https://github.com/w0rp/ale)
 
 ### Colorschemes
 
@@ -256,6 +256,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
 - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
 - [two-firewatch](https://github.com/rakr/vim-two-firewatch)
+- [yowish](https://github.com/KabbAmine/yowish.vim)
 - [vim-material](https://github.com/hzchirs/vim-material)
 - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
   - jellybeans
