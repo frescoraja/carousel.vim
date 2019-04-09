@@ -237,6 +237,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
 - [iceberg](https://github.com/cocopon/iceberg.vim)
 - [kafka/dark](https://github.com/Konstruktionist/vim)
+- [kuroi](https://github.com/aonemd/kuroi.vim)
 - [mango](https://github.com/goatslacker/mango.vim)
 - [material-monokai](http://github.com/skielbasa/vim-material-monokai)
 - [material-theme](https://github.com/jdkanani/vim-material-theme)

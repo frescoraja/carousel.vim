@@ -644,6 +644,22 @@ function! frescoraja#kafka() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#kuroi() abort
+  set termguicolors
+  let g:custom_themes_name = 'kuroi'
+  let g:airline_theme = 'neodark'
+  colorscheme kuroi
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#kuroi_nogui() abort
+  set notermguicolors
+  let g:custom_themes_name = 'kuroi_nogui'
+  let g:airline_theme = 'neodark'
+  colorscheme kuroi
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#mango() abort
   set notermguicolors
   let g:custom_themes_name = 'mango'
