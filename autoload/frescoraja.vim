@@ -480,11 +480,11 @@ endfunction
 function! frescoraja#blayu() abort
   set termguicolors
   let g:custom_themes_name = 'blayu'
-  let g:airline_theme = 'gotham'
+  let g:airline_theme = 'blayu'
   colorscheme blayu
-  highlight! CursorLine guifg=#32C6B9
+  highlight clear CursorLine
   highlight! ColorColumn guibg=#2A3D4F
-  highlight! MatchParen guifg=#AF37D0 guibg=#2E4153 cterm=bold
+  highlight! MatchParen guifg=#AF37D0 guibg=#2E4153 cterm=bold,underline
   doautocmd User CustomizedTheme
 endfunction
 
