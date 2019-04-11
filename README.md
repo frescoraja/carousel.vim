@@ -251,6 +251,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [onedarkafterglow](https://github.com/MrGuiMan/onedark-afterglow.vim)
 - [pink-moon](https://github.com/sts10/vim-pink-moon)
 - [quantum](https://github.com/tyrannicaltoucan/vim-quantum)
+- [seabird](https://github.com/nightsense/seabird)
 - [spring-night](https://github.com/rhysd/vim-color-spring-night)
 - [srcery](https://github.com/srcery-colors/srcery-vim)
 - [tender](https://github.com/jacoborus/tender.vim)

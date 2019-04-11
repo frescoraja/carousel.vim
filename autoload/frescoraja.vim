@@ -459,11 +459,11 @@ function! frescoraja#apprentice() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#ayu() abort
+function! frescoraja#ayu_dark() abort
   set termguicolors
   let g:ayucolor = 'dark'
   let g:custom_themes_name = 'ayu'
-  let g:airline_theme = 'ayu'
+  let g:airline_theme = 'ayu_dark'
   colorscheme ayu
   doautocmd User CustomizedTheme
 endfunction
@@ -838,6 +838,14 @@ function! frescoraja#onedarkafterglow() abort
   let g:custom_themes_name = 'onedarkafterglow'
   let g:airline_theme = 'quantum'
   colorscheme onedarkafterglow
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#petrel() abort
+  set termguicolors
+  let g:custom_themes_name = 'petrel'
+  let g:airline_theme = 'seagull'
+  colorscheme petrel
   doautocmd User CustomizedTheme
 endfunction
 
