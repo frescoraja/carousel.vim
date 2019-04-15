@@ -63,13 +63,15 @@ function! frescoraja#highlights#general() abort
   highlight clear ErrorMsg
   highlight clear Warning
   highlight clear WarningMsg
-  highlight Error guifg=red ctermfg=red guibg=NONE ctermbg=NONE
-  highlight link ErrorMsg Error
-  highlight Warning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
-  highlight link WarningMsg Warning
-  highlight! link SignColumn LineNr
+  highlight clear SpecialKey
+  highlight clear VertSplit
   highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
-  highlight! VertSplit gui=NONE cterm=NONE
+  highlight! Error guifg=red ctermfg=red guibg=NONE ctermbg=NONE
+  highlight! link ErrorMsg Error
+  highlight! Warning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
+  highlight! link WarningMsg Warning
+  highlight! link VertSplit Type
+  highlight! link SignColumn LineNr
 endfunction
 
 function! frescoraja#highlights#javascript() abort
