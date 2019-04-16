@@ -907,9 +907,17 @@ endfunction
 
 function! frescoraja#tokyo_metro() abort
   set termguicolors
-  let g:custom_themes_name='tokyo_metro'
-  let g:airline_theme='tomorrow'
+  let g:custom_themes_name = 'tokyo_metro'
+  let g:airline_theme = 'tomorrow'
   colorscheme tokyo-metro
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#tomorrow_night() abort
+  set termguicolors
+  let g:custom_themes_name = 'tomorrow_night'
+  let g:airline_theme = 'tomorrow'
+  colorscheme Tomorrow-Night
   doautocmd User CustomizedTheme
 endfunction
 
