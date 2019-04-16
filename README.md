@@ -3,7 +3,23 @@
 A vim/neovim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior: cursor,
 textwidth and cursorcolumn, font, background, and colorscheme.
 
-## Functionality
+---
+
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Loading Custom Themes](#loading-customized-themes)
+3. [Theme/Colorscheme Switching](#themescolorschemes-switching)
+4. [Background Toggling](#toggle-background-color-and-transparency)
+5. [Colorcolumn Toggling](#toggle-colorcolumntextwidth)
+6. [Colorize/Italicize](#colorizeitalicize)
+7. [Get Syntax Highlighting](#get-syntax-highlighting)
+8. [Cursor Shapes](#custom-cursor-shapes)
+9. [Reset Functions](#reset-functions)
+10. [Default Key Mappings](#default-key-mappings)
+11. [Dependencies](#dependencies)
+
+---
 
 ### Loading Customized Themes
 
@@ -23,7 +39,7 @@ nmap <F1> <Plug>CustomizeTheme
 nmap <F12> :CustomizeTheme blayu<CR>
 ```
 
-### Cycle Custom Themes (..or all the available colorschemes)
+### Themes/Colorschemes Switching
 
 Use `<Plug>NextTheme` to cycle forwards through available customized themes.
 
@@ -41,7 +57,7 @@ Use `<Plug>ToggleBackground` to toggle background color between the colorscheme'
 background color you have defined for your terminal. (sets `guibg/ctermbg` to *none*, making Vim background transparent)
 Works in both gui mode and cterm mode.
 
-### Toggle ColorColumn / Textwidth
+### Toggle ColorColumn/Textwidth
 
 Use `<Plug>SetTextwidth` or `SetTextwidth <num>` to set &textwidth value
 
@@ -106,14 +122,14 @@ nmap <S-F2> :Italicize! String,Statement,Identifier<CR>
 autocmd FileType javascript* Italicize! Identifier
 ```
 
-### Get Syntax Highlighting group(s) for term under cursor
+### Get Syntax Highlighting
 
 `<Plug>GetSyntax` This is useful for customizing themes and defining your own syntax highlighting colors. Will print
 a statement in command line showing all the highlighting groups that apply to the word under the cursor, ie
 
 `<current word> => vimStatement, Statement`
 
-### Custom cursor shapes
+### Custom Cursor Shapes
 
 Set `g:custom_cursors_enabled` to apply the following cursors:
 
