@@ -274,6 +274,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [thaumaturge](https://github.com/baines/vim-colorscheme-thaumaturge)
 - [tokyo-metro](https://github.com/koirand/tokyo-metro.vim)
 - [Tomorrow-Night](https://github.com/Ardakilic/vim-tomorrow-night-theme)
+- [one](https://github.com/rakr/vim-one)
 - [two-firewatch](https://github.com/rakr/vim-two-firewatch)
 - [yowish](https://github.com/KabbAmine/yowish.vim)
 - [vim-material](https://github.com/hzchirs/vim-material)

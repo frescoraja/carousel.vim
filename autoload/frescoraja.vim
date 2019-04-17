@@ -824,6 +824,15 @@ function! frescoraja#oceanicnext2() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#one() abort
+  set termguicolors
+  let g:allow_one_italics = 1
+  let g:custom_themes_name = 'one'
+  let g:airline_theme = 'one'
+  colorscheme one
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#onedark() abort
   set termguicolors
   let g:custom_themes_name = 'onedark'
