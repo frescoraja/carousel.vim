@@ -1,8 +1,8 @@
 " ALE Plugin Highlighting {{{
 function! frescoraja#highlights#ale(guibg, ctermbg) abort
-  execute 'highlight! ALEErrorSign guifg=red ctermfg=red ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEWarningSign guifg=yellow ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEInfoSign guifg=#D7AF87 ctermfg=180 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEErrorSign guifg=#C86DA7 ctermfg=red ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEWarningSign guifg=#D4BC81 ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEInfoSign guifg=#AFD890 ctermfg=150 ' . a:guibg . ' ' . a:ctermbg
   highlight! ALEError guifg=red ctermfg=red guibg=NONE ctermbg=NONE gui=italic cterm=italic
   highlight! ALEWarning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE gui=italic cterm=italic
   highlight! ALEInfo guifg=white ctermfg=white guibg=NONE ctermbg=NONE gui=italic cterm=italic
@@ -11,10 +11,10 @@ endfunction
 
 " Conquer of Completion Highlighting {{{
 function! frescoraja#highlights#coc(guibg, ctermbg) abort
-  execute 'highlight! CocErrorSign guifg=#DADADA ctermfg=253 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocWarningSign guifg=#00FFFF ctermfg=51 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocInfoSign guifg=#FFFFAF ctermfg=229 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocHintSign guifg=#8787AF ctermfg=103 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocErrorSign guifg=#9F0B40 ctermfg=125 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocWarningSign guifg=#E9AE4F ctermfg=172 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocInfoSign guifg=#AACFFF ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocHintSign guifg=#C4F4FA ctermfg=158 ' . a:guibg . ' ' . a:ctermbg
   highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red
   highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow
   highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white
@@ -36,10 +36,10 @@ function! frescoraja#highlights#gitgutter(guibg, ctermbg) abort
   highlight clear GitGutterChange
   highlight clear GitGutterDelete
   highlight clear GitGutterChangeDelete
-  execute 'highlight! GitGutterAdd guifg=#87D7AF ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChange guifg=#AFD7D7 ctermfg=152 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterAdd guifg=#76C78F ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChange guifg=#8AB2D3 ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
   execute 'highlight! GitGutterDelete guifg=#D78787 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChangeDelete guifg=#D7AFAF ctermfg=181 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChangeDelete guifg=#A77FDF ctermfg=181 ' . a:guibg . ' ' . a:ctermbg
 endfunction
 " }}}
 
