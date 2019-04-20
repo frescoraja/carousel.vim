@@ -838,14 +838,13 @@ function! frescoraja#onedark() abort
   let g:custom_themes_name = 'onedark'
   let g:airline_theme = 'onedark'
   colorscheme onedark
-  highlight! Normal guibg=#20242C
   doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#onedarkafterglow() abort
   set termguicolors
   let g:custom_themes_name = 'onedarkafterglow'
-  let g:airline_theme = 'quantum'
+  let g:airline_theme = 'onedark'
   colorscheme onedarkafterglow
   doautocmd User CustomizedTheme
 endfunction
