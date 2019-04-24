@@ -681,11 +681,12 @@ endfunction
 function! frescoraja#material() abort
   set termguicolors
   let g:custom_themes_name = 'material'
-  let g:airline_theme = 'tomorrow'
+  let g:airline_theme = 'material'
   colorscheme material
   highlight! Normal guibg=#162127 ctermbg=233
   highlight! Todo guibg=#000000 guifg=#BD9800 cterm=bold
   highlight! LineNr guifg=#56676E
+  highlight! Folded guifg=#546D7A guibg=#121E20
   doautocmd User CustomizedTheme
 endfunction
 
