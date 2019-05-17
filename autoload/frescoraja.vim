@@ -274,6 +274,7 @@ function! s:toggle_background_transparency() abort
     highlight Normal guibg=NONE ctermbg=NONE
     highlight LineNr guibg=NONE ctermbg=NONE
     highlight VertSplit guibg=NONE ctermbg=NONE
+    highlight NonText guibg=NONE ctermbg=NONE
   else
     " if no bg was cached use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
@@ -440,6 +441,7 @@ function! frescoraja#allomancer() abort
   let g:custom_themes_name = 'allomancer'
   let g:airline_theme = 'hybrid'
   colorscheme allomancer
+  highlight! NonText guifg=#676B78
   doautocmd User CustomizedTheme
 endfunction
 
@@ -456,6 +458,7 @@ function! frescoraja#apprentice() abort
   let g:custom_themes_name = 'apprentice'
   let g:airline_theme = 'jellybeans'
   colorscheme apprentice
+  highlight! NonText guifg=#909090
   doautocmd User CustomizedTheme
 endfunction
 
@@ -548,6 +551,7 @@ function! frescoraja#deus() abort
   let g:airline_theme = 'deus'
   colorscheme deus
   highlight! Normal guibg=#1C222B
+  highlight! NonText guifg=#83A598 guibg=NONE
   doautocmd User CustomizedTheme
 endfunction
 
@@ -566,6 +570,7 @@ function! frescoraja#edar() abort
   let g:custom_themes_name = 'edar'
   let g:airline_theme = 'lucius'
   colorscheme edar
+  highlight! NonText guifg=#5988B5 guibg=NONE
   doautocmd User CustomizedTheme
 endfunction
 
@@ -616,6 +621,7 @@ function! frescoraja#iceberg() abort
   let g:custom_themes_name = 'iceberg'
   let g:airline_theme = 'iceberg'
   colorscheme iceberg
+  highlight! NonText guifg=#575B68
   doautocmd User CustomizedTheme
 endfunction
 
@@ -624,6 +630,7 @@ function! frescoraja#iceberg_nogui() abort
   let g:custom_themes_name = 'iceberg_nogui'
   let g:airline_theme = 'iceberg'
   colorscheme iceberg
+  highlight! NonText ctermfg=245
   doautocmd User CustomizedTheme
 endfunction
 
@@ -649,6 +656,8 @@ function! frescoraja#kuroi() abort
   let g:custom_themes_name = 'kuroi'
   let g:airline_theme = 'neodark'
   colorscheme kuroi
+  highlight! LineNr guifg=#575B61
+  highlight! NonText guifg=#676B71
   doautocmd User CustomizedTheme
 endfunction
 
@@ -657,6 +666,8 @@ function! frescoraja#kuroi_nogui() abort
   let g:custom_themes_name = 'kuroi_nogui'
   let g:airline_theme = 'neodark'
   colorscheme kuroi
+  highlight! LineNr ctermfg=243
+  highlight! NonText ctermfg=245
   doautocmd User CustomizedTheme
 endfunction
 
@@ -831,6 +842,7 @@ function! frescoraja#one() abort
   let g:custom_themes_name = 'one'
   let g:airline_theme = 'one'
   colorscheme one
+  highlight! NonText guifg=#61AFEF
   doautocmd User CustomizedTheme
 endfunction
 
@@ -839,6 +851,7 @@ function! frescoraja#onedark() abort
   let g:custom_themes_name = 'onedark'
   let g:airline_theme = 'onedark'
   colorscheme onedark
+  highlight! NonText guifg=#D19A66
   doautocmd User CustomizedTheme
 endfunction
 
@@ -847,6 +860,7 @@ function! frescoraja#onedarkafterglow() abort
   let g:custom_themes_name = 'onedarkafterglow'
   let g:airline_theme = 'onedark'
   colorscheme onedarkafterglow
+  highlight! NonText guifg=#4B80D8
   doautocmd User CustomizedTheme
 endfunction
 
@@ -902,6 +916,8 @@ function! frescoraja#tender() abort
   let g:custom_themes_name = 'tender'
   let g:airline_theme = 'tender'
   colorscheme tender
+  highlight! LineNr guifg=#677889
+  highlight! NonText guifg=#677889
   doautocmd User CustomizedTheme
 endfunction
 
@@ -919,6 +935,7 @@ function! frescoraja#tokyo_metro() abort
   let g:custom_themes_name = 'tokyo_metro'
   let g:airline_theme = 'tomorrow'
   colorscheme tokyo-metro
+  highlight! NonText guifg=#646980
   doautocmd User CustomizedTheme
 endfunction
 
@@ -927,6 +944,7 @@ function! frescoraja#tomorrow_night() abort
   let g:custom_themes_name = 'tomorrow_night'
   let g:airline_theme = 'tomorrow'
   colorscheme Tomorrow-Night
+  highlight! NonText guifg=#787878
   doautocmd User CustomizedTheme
 endfunction
 
@@ -948,6 +966,8 @@ function! frescoraja#yowish() abort
         \ 'comment_italic': 1,
         \ }
   colorscheme yowish
+  highlight! LineNr guifg=#555555
+  highlight! NonText guifg=#757575
   doautocmd User CustomizedTheme
 endfunction
 
@@ -961,6 +981,7 @@ function! frescoraja#znake() abort
   highlight! vimFuncKey guifg=#A91A7A cterm=bold
   highlight! Comment guifg=#5A5A69
   highlight! ColorColumn guibg=#331022 guifg=#A51F2B
+  highlight! NonText guifg=#8A6044
   doautocmd User CustomizedTheme
 endfunction
 " }}} end Theme Definitions
