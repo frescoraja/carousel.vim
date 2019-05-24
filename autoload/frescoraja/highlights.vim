@@ -32,6 +32,13 @@ function! frescoraja#highlights#gitgutter() abort
   highlight! GitGutterDeleteLine guifg=#D78787 ctermfg=174
   highlight! GitGutterChangeDelete guifg=#F8B71C ctermfg=181
   highlight! GitGutterChangeDeleteLine guifg=#F8B71C ctermfg=181
+  " if not in diff mode, change Diff* highlights too
+  if &diff == 0
+    highlight! clear DiffAdd DiffChange DiffDelete
+    highlight! DiffAdd guifg=#76C78F ctermfg=115
+    highlight! DiffChange guifg=#8AB2D3 ctermfg=153
+    highlight! DiffDelete guifg=#D78787 ctermfg=174
+  endif
 endfunction
 " }}}
 

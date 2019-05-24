@@ -261,7 +261,7 @@ endfunction
 
 function! s:toggle_background_transparency() abort
   let l:term = &termguicolors == 0 ? 'cterm' : 'gui'
-  let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term, 0)
+  let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term)
   if !empty(l:current_bg)
     let s:cache.bg[l:term] = l:current_bg
     highlight Normal guibg=NONE ctermbg=NONE
