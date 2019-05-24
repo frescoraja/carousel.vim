@@ -20,11 +20,11 @@ let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 
 " Script functions {{{
 function! s:apply_highlights() abort
-  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
-  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
+  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui')
+  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm')
   call frescoraja#highlights#ale(l:guibg, l:ctermbg)
-  call frescoraja#highlights#coc(l:guibg, l:ctermbg)
-  call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
+  call frescoraja#highlights#coc()
+  call frescoraja#highlights#gitgutter()
   call frescoraja#highlights#whitespace()
   call frescoraja#highlights#syntax()
 endfunction
@@ -34,8 +34,8 @@ function! s:cache_custom_theme_settings() abort
     call <SID>load_custom_themes()
   endif
   let s:theme_index = index(s:cache.themes, g:custom_themes_name)
-  let s:cache.bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui', 0)
-  let s:cache.bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm', 0)
+  let s:cache.bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui')
+  let s:cache.bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm')
 endfunction
 
 function! s:colorize_group(...) abort
@@ -122,15 +122,8 @@ function! s:fix_reset_highlighting() abort
   endif
 endfunction
 
-function! s:get_highlight_attr(group, term, mode, include_term) abort
-  let l:hl_value = synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
-  if !empty(l:hl_value)
-    let l:result = a:include_term ? a:mode . a:term . '=' . l:hl_value : l:hl_value
-  else
-    let l:result = ''
-  endif
-
-  return l:result
+function! s:get_highlight_attr(group, term, mode) abort
+  return synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
 endfunction
 
 function! s:get_highlight_value(group, term) abort

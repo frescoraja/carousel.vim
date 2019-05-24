@@ -1,8 +1,8 @@
 " ALE Plugin Highlighting {{{
 function! frescoraja#highlights#ale(guibg, ctermbg) abort
-  execute 'highlight! ALEErrorSign guifg=#C86DA7 ctermfg=red ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEWarningSign guifg=#D4BC81 ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEInfoSign guifg=#AFD890 ctermfg=150 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEErrorSign guifg=#C86DA7 ctermfg=red guibg=' . a:guibg . ' ctermbg=' . a:ctermbg
+  execute 'highlight! ALEWarningSign guifg=#D4BC81 ctermfg=yellow guibg=' . a:guibg . ' ctermbg=' . a:ctermbg
+  execute 'highlight! ALEInfoSign guifg=#AFD890 ctermfg=150 guibg=' . a:guibg . ' ctermbg=' . a:ctermbg
   highlight! ALEError guifg=red ctermfg=red guibg=NONE ctermbg=NONE gui=italic cterm=italic
   highlight! ALEWarning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE gui=italic cterm=italic
   highlight! ALEInfo guifg=white ctermfg=white guibg=NONE ctermbg=NONE gui=italic cterm=italic
@@ -10,42 +10,34 @@ endfunction
 " }}}
 
 " Conquer of Completion Highlighting {{{
-function! frescoraja#highlights#coc(guibg, ctermbg) abort
-  execute 'highlight! CocErrorSign guifg=#9F0B40 ctermfg=125 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocWarningSign guifg=#E9AE4F ctermfg=172 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocInfoSign guifg=#AACFFF ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocHintSign guifg=#C4F4FA ctermfg=158 ' . a:guibg . ' ' . a:ctermbg
+function! frescoraja#highlights#coc() abort
+  highlight! CocErrorSign guifg=#9F0B40 ctermfg=125
+  highlight! CocWarningSign guifg=#E9AE4F ctermfg=172
+  highlight! CocInfoSign guifg=#AACFFF ctermfg=153
+  highlight! CocHintSign guifg=#C4F4FA ctermfg=158
   highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red
   highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow
   highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white
   highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green
-  " highlight! CocErrorSign guibg=red ctermbg=red guifg=white ctermfg=white
-  " highlight! CocWarningSign guibg=yellow ctermbg=yellow guifg=white ctermfg=white
-  " highlight! CocInfoSign guibg=black ctermbg=black guifg=white ctermfg=white
-  " highlight! CocHintSign guibg=green ctermbg=green guifg=white ctermfg=white
-  " highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red guibg=NONE ctermbg=NONE
-  " highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
-  " highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white guibg=NONE ctermbg=NONE
-  " highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green guibg=NONE ctermbg=NONE
 endfunction
 " }}}
 
 " GitGutter Highlighting {{{
-function! frescoraja#highlights#gitgutter(guibg, ctermbg) abort
-  highlight clear GitGutterAdd
-  highlight clear GitGutterChange
-  highlight clear GitGutterDelete
-  highlight clear GitGutterChangeDelete
-  execute 'highlight! GitGutterAdd guifg=#76C78F ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChange guifg=#8AB2D3 ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterDelete guifg=#D78787 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChangeDelete guifg=#A77FDF ctermfg=181 ' . a:guibg . ' ' . a:ctermbg
+function! frescoraja#highlights#gitgutter() abort
+  highlight! GitGutterAdd guifg=#76C78F ctermfg=115
+  highlight! GitGutterAddLine guifg=#76C78F ctermfg=115
+  highlight! GitGutterChange guifg=#8AB2D3 ctermfg=153
+  highlight! GitGutterChangeLine guifg=#8AB2D3 ctermfg=153
+  highlight! GitGutterDelete guifg=#D78787 ctermfg=174
+  highlight! GitGutterDeleteLine guifg=#D78787 ctermfg=174
+  highlight! GitGutterChangeDelete guifg=#F8B71C ctermfg=181
+  highlight! GitGutterChangeDeleteLine guifg=#F8B71C ctermfg=181
 endfunction
 " }}}
 
 " Better Whitespace Highlighting {{{
 function! frescoraja#highlights#whitespace() abort
-  highlight clear ExtraWhitespace
+  highlight! clear ExtraWhitespace
   highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#D32303
 endfunction
 " }}}
@@ -59,46 +51,47 @@ function! frescoraja#highlights#syntax() abort
 endfunction
 
 function! frescoraja#highlights#general() abort
-  highlight clear Error
-  highlight clear ErrorMsg
-  highlight clear Warning
-  highlight clear WarningMsg
-  highlight clear SpecialKey
-  highlight clear VertSplit
-  highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
+  highlight! clear Error
+  highlight! clear ErrorMsg
+  highlight! clear SignColumn
+  highlight! clear SpecialKey
+  highlight! clear VertSplit
+  highlight! clear Warning
+  highlight! clear WarningMsg
   highlight! Error guifg=red ctermfg=red guibg=NONE ctermbg=NONE
   highlight! link ErrorMsg Error
+  highlight! link SignColumn LineNr
+  highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
+  highlight! link VertSplit Type
   highlight! Warning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE
   highlight! link WarningMsg Warning
-  highlight! link VertSplit Type
-  highlight! link SignColumn LineNr
 endfunction
 
 function! frescoraja#highlights#javascript() abort
-  highlight link jsSpecial               Statement
-  highlight link jsFuncArgRest           jsSpecial
-  highlight link jsDocTags               jsSpecial
-  highlight link jsStatic                jsSpecial
-  highlight link jsSuper                 jsSpecial
-  highlight link jsPrototype             jsSpecial
-  highlight link jsArgsObj               jsSpecial
-  highlight link jsTemplateVar           jsSpecial
-  highlight link jsExceptions            jsSpecial
-  highlight link jsFutureKeys            jsSpecial
-  highlight link jsBuiltins              jsSpecial
-  highlight link jsDecorator             jsSpecial
-  highlight link jsHtmlEvents            jsSpecial
-  highlight link jsObjectKey             String
-  highlight link jsNull                  Constant
-  highlight link jsUndefined             Constant
-  highlight link jsFunctionKey           Function
-  highlight link jsFuncCall              Function
-  highlight link jsFuncAssignExpr        Function
-  highlight link jsFuncAssignIdent       Function
-  highlight link jsClassProperty         Normal
-  highlight link jsExportDefault         Include
-  highlight link jsGlobalObjects         Special
-  highlight jsThis guifg=#F07178 ctermfg=205 gui=italic cterm=italic
+  highlight! link jsSpecial               Statement
+  highlight! link jsFuncArgRest           jsSpecial
+  highlight! link jsDocTags               jsSpecial
+  highlight! link jsStatic                jsSpecial
+  highlight! link jsSuper                 jsSpecial
+  highlight! link jsPrototype             jsSpecial
+  highlight! link jsArgsObj               jsSpecial
+  highlight! link jsTemplateVar           jsSpecial
+  highlight! link jsExceptions            jsSpecial
+  highlight! link jsFutureKeys            jsSpecial
+  highlight! link jsBuiltins              jsSpecial
+  highlight! link jsDecorator             jsSpecial
+  highlight! link jsHtmlEvents            jsSpecial
+  highlight! link jsObjectKey             String
+  highlight! link jsNull                  Constant
+  highlight! link jsUndefined             Constant
+  highlight! link jsFunctionKey           Function
+  highlight! link jsFuncCall              Function
+  highlight! link jsFuncAssignExpr        Function
+  highlight! link jsFuncAssignIdent       Function
+  highlight! link jsClassProperty         Normal
+  highlight! link jsExportDefault         Include
+  highlight! link jsGlobalObjects         Special
+  highlight! jsThis guifg=#F07178 ctermfg=205 gui=italic cterm=italic
 endfunction
 " }}}
 
