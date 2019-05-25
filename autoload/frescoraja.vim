@@ -20,11 +20,11 @@ let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 
 " Script functions {{{
 function! s:apply_highlights() abort
-  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui')
-  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm')
+  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
+  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
   call frescoraja#highlights#ale(l:guibg, l:ctermbg)
   call frescoraja#highlights#coc()
-  call frescoraja#highlights#gitgutter()
+  call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
   call frescoraja#highlights#whitespace()
   call frescoraja#highlights#syntax()
 endfunction
@@ -34,8 +34,8 @@ function! s:cache_custom_theme_settings() abort
     call <SID>load_custom_themes()
   endif
   let s:theme_index = index(s:cache.themes, g:custom_themes_name)
-  let s:cache.bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui')
-  let s:cache.bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm')
+  let s:cache.bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui', 0)
+  let s:cache.bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm', 0)
 endfunction
 
 function! s:colorize_group(...) abort
@@ -122,8 +122,13 @@ function! s:fix_reset_highlighting() abort
   endif
 endfunction
 
-function! s:get_highlight_attr(group, term, mode) abort
-  return synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
+function! s:get_highlight_attr(group, term, mode, verbose) abort
+  let l:color = synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
+  if empty(l:color)
+    let l:color = 'NONE'
+  endif
+
+  return a:verbose ? a:mode . a:term . '=' . l:color : l:color
 endfunction
 
 function! s:get_highlight_value(group, term) abort
@@ -261,22 +266,22 @@ endfunction
 
 function! s:toggle_background_transparency() abort
   let l:term = &termguicolors == 0 ? 'cterm' : 'gui'
-  let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term)
-  if !empty(l:current_bg)
-    let s:cache.bg[l:term] = l:current_bg
-    highlight Normal guibg=NONE ctermbg=NONE
-    highlight LineNr guibg=NONE ctermbg=NONE
-    highlight VertSplit guibg=NONE ctermbg=NONE
-    highlight NonText guibg=NONE ctermbg=NONE
-  else
+  let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term, 0)
+  if l:current_bg ==? 'none'
     " if no bg was cached use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
-    if empty(s:cache.bg[l:term])
+    if empty(s:cache.bg[l:term]) || s:cache.bg[l:term] ==? 'none'
       if l:term ==? 'gui' | let s:cache.bg.gui = '#0D0D0D' | endif
       if l:term ==? 'cterm' | let s:cache.bg.cterm = 233 | endif
     endif
 
     execute 'highlight Normal ' . l:term . 'bg=' . s:cache.bg[l:term]
+  else
+    let s:cache.bg[l:term] = l:current_bg
+    highlight Normal guibg=NONE ctermbg=NONE
+    highlight LineNr guibg=NONE ctermbg=NONE
+    highlight VertSplit guibg=NONE ctermbg=NONE
+    highlight NonText guibg=NONE ctermbg=NONE
   endif
   call <SID>apply_highlights()
 endfunction

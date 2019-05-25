@@ -1,8 +1,8 @@
 " ALE Plugin Highlighting {{{
 function! frescoraja#highlights#ale(guibg, ctermbg) abort
-  execute 'highlight! ALEErrorSign guifg=#C86DA7 ctermfg=red guibg=' . a:guibg . ' ctermbg=' . a:ctermbg
-  execute 'highlight! ALEWarningSign guifg=#D4BC81 ctermfg=yellow guibg=' . a:guibg . ' ctermbg=' . a:ctermbg
-  execute 'highlight! ALEInfoSign guifg=#AFD890 ctermfg=150 guibg=' . a:guibg . ' ctermbg=' . a:ctermbg
+  execute 'highlight! ALEErrorSign guifg=#C86DA7 ctermfg=red ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEWarningSign guifg=#D4BC81 ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEInfoSign guifg=#AFD890 ctermfg=150 ' . a:guibg . ' ' . a:ctermbg
   highlight! ALEError guifg=red ctermfg=red guibg=NONE ctermbg=NONE gui=italic cterm=italic
   highlight! ALEWarning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE gui=italic cterm=italic
   highlight! ALEInfo guifg=white ctermfg=white guibg=NONE ctermbg=NONE gui=italic cterm=italic
@@ -23,22 +23,11 @@ endfunction
 " }}}
 
 " GitGutter Highlighting {{{
-function! frescoraja#highlights#gitgutter() abort
-  highlight! GitGutterAdd guifg=#76C78F ctermfg=115
-  highlight! GitGutterAddLine guifg=#76C78F ctermfg=115
-  highlight! GitGutterChange guifg=#8AB2D3 ctermfg=153
-  highlight! GitGutterChangeLine guifg=#8AB2D3 ctermfg=153
-  highlight! GitGutterDelete guifg=#D78787 ctermfg=174
-  highlight! GitGutterDeleteLine guifg=#D78787 ctermfg=174
-  highlight! GitGutterChangeDelete guifg=#F8B71C ctermfg=181
-  highlight! GitGutterChangeDeleteLine guifg=#F8B71C ctermfg=181
-  " if not in diff mode, change Diff* highlights too
-  if &diff == 0
-    highlight! clear DiffAdd DiffChange DiffDelete
-    highlight! DiffAdd guifg=#76C78F ctermfg=115
-    highlight! DiffChange guifg=#8AB2D3 ctermfg=153
-    highlight! DiffDelete guifg=#D78787 ctermfg=174
-  endif
+function! frescoraja#highlights#gitgutter(guibg, ctermbg) abort
+  execute 'highlight! GitGutterAdd guifg=#76C78F ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChange guifg=#8AB2D3 ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterDelete guifg=#D78787 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChangeDelete guifg=#F8B71C ctermfg=181 ' . a:guibg . ' ' . a:ctermbg
 endfunction
 " }}}
 

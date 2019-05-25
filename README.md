@@ -1,7 +1,7 @@
 # FrescoRaja Themes for [Vim](http://www.vim.org)
 
-A vim/neovim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior: cursor,
-textwidth and cursorcolumn, font, background, and colorscheme.
+A vim/neovim plugin wrapper that allows users to dynamically control several of Vim's visual elements and behavior:
+cursor, textwidth and cursorcolumn, font, background, and colorscheme.
 
 ---
 
@@ -25,9 +25,8 @@ textwidth and cursorcolumn, font, background, and colorscheme.
 
 Use `CustomizeTheme` to load specific theme of choice. Themes are a complementary colorscheme/vim-airline theme
 combination, along with some highlighting tweaks I felt were beneficial or made theming more consistent. For example,
-when a new theme is loaded, the background colors used by [GitGutter](https://github.com/airblade/vim-gitgutter) and
-[ALE](https://github.com/w0rp/ale) are set to complement the theme's existing background colors. See
-[dependencies](#dependencies) at the bottom for integrated plugins.
+when a new theme is loaded, the background colors used by [ALE](https://github.com/w0rp/ale) are set to complement the
+theme's existing background colors. See [dependencies](#dependencies) at the bottom for integrated plugins.
 
 Use `<Plug>CustomizeTheme` to bring up autocompletion menu with available themes to load.
 
@@ -63,8 +62,8 @@ Use `<Plug>SetTextwidth` or `SetTextwidth <num>` to set &textwidth value
 
 Use `<Plug>ToggleColumn` or `SetTextwidth!` to toggle the cursorcolumn
 
-As an example, the following mapping would enable you to type `tw=90` + <kbd>Enter</kbd> in normal mode to change the textwidth
-to 90.  (It will also move the colorcolumn to 90)
+As an example, the following mapping would enable you to type `tw=90` + <kbd>Enter</kbd> in normal mode to change the
+textwidth to 90.  (It will also move the colorcolumn to 90)
 
 ```viml
 " Set textwidth
@@ -91,8 +90,9 @@ let g:custom_italics_enabled=1
 
 > the `^[` above is an escape sequence you can generate in insert mode by pressing <kbd>CTRL+V</kbd> then <kbd>ESC</kbd>
 
-Use `<Plug>Italicize` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like HTML attribute
-args. You can italicize specific syntax groups by appending them as a comma-separated list to the command:
+Use `<Plug>Italicize` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like
+HTML attribute args. You can italicize specific syntax groups by appending them as a comma-separated list to the
+command:
 
 `:Italicize! String,Comment`
 
@@ -230,7 +230,6 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 
 - [Vim-Airline](https://github.com/bling/vim-airline) / [Vim-Airline-Themes](https://github.com/vim-airline/vim-airline-themes)
 - [Vim Better Whitespace](https://github.com/ntpeters/vim-better-whitespace)
-- [GitGutter](https://github.com/airblade/vim-gitgutter)
 - [CoC](https://github.com/neoclide/coc.nvim)
 - [Ale](https://github.com/w0rp/ale)
 
