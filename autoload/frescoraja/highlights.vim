@@ -1,11 +1,11 @@
 " ALE Plugin Highlighting {{{
 function! frescoraja#highlights#ale(guibg, ctermbg) abort
-  execute 'highlight! ALEErrorSign guifg=#C86DA7 ctermfg=red ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEWarningSign guifg=#D4BC81 ctermfg=yellow ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEInfoSign guifg=#AFD890 ctermfg=150 ' . a:guibg . ' ' . a:ctermbg
-  highlight! ALEError guifg=red ctermfg=red guibg=NONE ctermbg=NONE gui=italic cterm=italic
-  highlight! ALEWarning guifg=yellow ctermfg=yellow guibg=NONE ctermbg=NONE gui=italic cterm=italic
-  highlight! ALEInfo guifg=white ctermfg=white guibg=NONE ctermbg=NONE gui=italic cterm=italic
+  execute 'highlight! ALEErrorSign guifg=#FF4A64 ctermfg=167 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEWarningSign guifg=#FFBA32 ctermfg=178 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! ALEInfoSign guifg=#DFF5FF ctermfg=195 ' . a:guibg . ' ' . a:ctermbg
+  highlight! ALEError guifg=#FF4A64 ctermfg=167 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+  highlight! ALEWarning guifg=#FFBA32 ctermfg=178 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+  highlight! ALEInfo guifg=#DFF5FF ctermfg=195 guibg=NONE ctermbg=NONE gui=italic cterm=italic
 endfunction
 " }}}
 
@@ -14,11 +14,11 @@ function! frescoraja#highlights#coc() abort
   highlight! CocErrorSign guifg=#9F0B40 ctermfg=125
   highlight! CocWarningSign guifg=#E9AE4F ctermfg=172
   highlight! CocInfoSign guifg=#AACFFF ctermfg=153
-  highlight! CocHintSign guifg=#C4F4FA ctermfg=158
-  highlight! CocErrorHighlight gui=italic cterm=italic guifg=red ctermfg=red
-  highlight! CocWarningHighlight gui=italic cterm=italic guifg=yellow ctermfg=yellow
-  highlight! CocInfoHighlight gui=italic cterm=italic guifg=white ctermfg=white
-  highlight! CocHintHighlight gui=italic cterm=italic guifg=green ctermfg=green
+  highlight! CocHintSign guifg=#A4F4CA ctermfg=158
+  highlight! CocErrorHighlight gui=italic cterm=italic guifg=#9F0B40 ctermfg=125
+  highlight! CocWarningHighlight gui=italic cterm=italic guifg=#E9AE4F ctermfg=172
+  highlight! CocInfoHighlight gui=italic cterm=italic guifg=#AACFFF ctermfg=153
+  highlight! CocHintHighlight gui=italic cterm=italic guifg=#A4F4CA ctermfg=158
 endfunction
 " }}}
 
