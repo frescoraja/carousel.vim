@@ -301,8 +301,7 @@ function! s:get_custom_themes(a, ...) abort
     call <SID>load_custom_themes()
   endif
 
-  return filter(
-        \ copy(s:cache.themes), 'v:val =~? "^' . a:a . '"')
+  return filter(copy(s:cache.themes), 'v:val =~? "^' . a:a . '"')
 endfunction
 
 function! s:get_syntax_groups(a, ...) abort
@@ -344,10 +343,11 @@ endfunction
 
 " Theme functions {{{
 function! frescoraja#init() abort
-  let s:cache = {}
-  let s:cache.bg = {}
-  let s:cache.default_theme = get(g:, 'custom_themes_name', '')
-  let s:cache.default_colorscheme = get(g:, 'colors_name', 'default')
+  let s:cache = {
+        \ 'bg': {},
+        \ 'default_theme': get(g:, 'custom_themes_name', 'default'),
+        \ 'default_colorscheme': get(g:, 'colors_name', 'default')
+        \ }
 
   call <SID>load_custom_themes()
   call <SID>load_colorschemes()
@@ -356,13 +356,11 @@ function! frescoraja#init() abort
     call <SID>enable_italics()
   endif
 
-  if get(g:, 'custom_cursors_enabled')
+  if get(g:, 'custom_cursors_enabled', 0)
     call <SID>shape_cursor()
   endif
 
-  if !empty(s:cache.default_theme)
-    execute 'call frescoraja#' . s:cache.default_theme . '()'
-  endif
+  execute 'call frescoraja#' . s:cache.default_theme . '()'
 endfunction
 
 function! frescoraja#random() abort
@@ -384,11 +382,10 @@ function! frescoraja#random() abort
         let l:theme = s:cache.themes[+l:rand_idx]
         execute 'call frescoraja#' . l:theme . '()'
       endif
-    catch /.*/
+    catch
       echohl ErrorMsg | echomsg 'Random theme could not be loaded: ' . v:exception | echohl None
     endtry
   endif
-
 endfunction
 
 function! frescoraja#default() abort
