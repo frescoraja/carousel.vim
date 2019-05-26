@@ -60,7 +60,7 @@ function! s:colorize_group(...) abort
       execute 'highlight ' . l:group . ' gui' . l:fgbg . '=' . l:gui
     endif
   catch
-    echohl ErrorMsg | echom v:exception
+    echohl ErrorMsg | echomsg v:exception | echohl None
   endtry
 endfunction
 
@@ -75,10 +75,10 @@ function! s:customize_theme(...) abort
     if a:0
       execute 'call frescoraja#' . a:1 . '()'
     else
-      echohl ModeMsg | echom g:custom_themes_name
+      echohl ModeMsg | echomsg g:custom_themes_name | echohl None
     endif
   catch
-    echohl ErrorMsg | echom 'Custom theme could not be found'
+    echohl ErrorMsg | echomsg 'Custom theme could not be found' | echohl None
   endtry
 endfunction
 
@@ -149,12 +149,12 @@ function! s:get_syntax_highlighting_under_cursor() abort
     let l:current_word = l:current_char
   endif
   if empty(l:syntax_groups)
-    echohl ErrorMsg |
-          \ echom 'No syntax groups defined for "' . l:current_word . '"'
+    echohl ErrorMsg | echomsg 'No syntax groups defined for "' . l:current_word . '"' | echohl None
   else
     let l:output = join(l:syntax_groups, ',')
-    execute 'echohl ' . l:syntax_groups[-1]
-    echom l:current_word . ' => ' . l:output
+    execute 'echohl ' . l:syntax_groups[-1] |
+          \ echomsg l:current_word . ' => ' . l:output |
+          \ echohl None
   endif
 endfunction
 
@@ -165,39 +165,24 @@ endfunction
 
 function! s:italicize(...) abort
   try
+    let l:type = &termguicolors ? 'gui' : 'cterm'
     let l:groups = split(
-          \ get(a:, 2, 'Comment,htmlArg,WildMenu'),
+          \ get(a:, 2, 'Comment,htmlArg'),
           \ ',')
-    if get(a:, 1, 0)
-      for l:group in l:groups
-        let l:cterm = <SID>get_highlight_value(l:group, 'cterm')
-        let l:gui = <SID>get_highlight_value(l:group, 'gui')
-        if (l:cterm =~? 'italic') || (l:gui =~? 'italic')
-          let l:modes = join(
-                \ filter(
-                \ split(l:cterm, ','),
-                \ 'v:val !~? "italic"'),
-                \ ',')
-          if !empty(l:modes)
-            let l:new_modes = join(l:modes, ',')
-            execute 'highlight ' . l:group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
-          else
-            execute 'highlight ' . l:group . ' cterm=NONE gui=NONE'
-          endif
-        else
-          let l:new_modes = join(add(split(l:cterm, ','), 'italic'), ',')
-          execute 'highlight ' . l:group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
-        endif
-      endfor
-    else
-      for l:group in l:groups
-        let l:modes = <SID>get_highlight_value(l:group, 'cterm')
-        let l:new_modes = join(add(split(l:modes, ','), 'italic'), ',')
-        execute 'highlight ' . l:group . ' cterm=' . l:new_modes . ' gui=' . l:new_modes
-      endfor
-    endif
+    for l:group in l:groups
+      let l:modes = <SID>get_highlight_value(l:group, l:type)
+      if get(a:, 1, 0) && l:modes =~? 'italic'
+        let l:modes = filter(
+              \ split(l:modes, ','),
+              \ 'v:val !~? "italic"')
+      else
+        let l:modes = add(split(l:modes, ','), 'italic')
+      endif
+      let l:modes = empty(l:modes) ? 'NONE' : join(l:modes, ',')
+      execute 'highlight ' . l:group . ' gui=' . l:modes . ' cterm=' . l:modes
+    endfor
   catch
-    echohl ErrorMsg | echom v:exception
+    echohl ErrorMsg | echomsg v:exception | echohl None
   endtry
 endfunction
 
@@ -282,6 +267,7 @@ function! s:toggle_background_transparency() abort
     highlight LineNr guibg=NONE ctermbg=NONE
     highlight VertSplit guibg=NONE ctermbg=NONE
     highlight NonText guibg=NONE ctermbg=NONE
+    highlight EndOfBuffer guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
   endif
   call <SID>apply_highlights()
 endfunction
@@ -305,7 +291,7 @@ function! s:set_textwidth(bang, ...) abort
       let s:cache.textwidth = l:new_textwidth
     endif
   catch
-    echohl ErrorMsg | echo v:exception
+    echohl ErrorMsg | echomsg v:exception | echohl None
   endtry
 endfunction
 
@@ -381,7 +367,9 @@ endfunction
 
 function! frescoraja#random() abort
   if !has('python') && !has('python3')
-    echohl WarningMsg | echom 'Randomized theme selection requires python support in VIM. Using `default` theme.'
+    echohl WarningMsg |
+          \ echomsg 'Randomized theme selection requires python support in VIM. Using `default` theme.' |
+          \ echohl None
     call frescoraja#default()
   else
     try
@@ -397,7 +385,7 @@ function! frescoraja#random() abort
         execute 'call frescoraja#' . l:theme . '()'
       endif
     catch /.*/
-      echohl ErrorMsg | echom 'Random theme could not be loaded: ' . v:exception
+      echohl ErrorMsg | echomsg 'Random theme could not be loaded: ' . v:exception | echohl None
     endtry
   endif
 
