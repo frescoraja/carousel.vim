@@ -23,7 +23,7 @@ function! s:apply_highlights() abort
   let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
   let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
   call frescoraja#highlights#ale(l:guibg, l:ctermbg)
-  call frescoraja#highlights#coc()
+  call frescoraja#highlights#coc(l:guibg, l:ctermbg)
   call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
   call frescoraja#highlights#whitespace()
   call frescoraja#highlights#syntax()

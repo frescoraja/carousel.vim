@@ -10,11 +10,11 @@ endfunction
 " }}}
 
 " Conquer of Completion Highlighting {{{
-function! frescoraja#highlights#coc() abort
-  highlight! CocErrorSign guifg=#9F0B40 ctermfg=125
-  highlight! CocWarningSign guifg=#E9AE4F ctermfg=172
-  highlight! CocInfoSign guifg=#AACFFF ctermfg=153
-  highlight! CocHintSign guifg=#A4F4CA ctermfg=158
+function! frescoraja#highlights#coc(guibg, ctermbg) abort
+  execute 'highlight! CocErrorSign guifg=#9F0B40 ctermfg=125 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocWarningSign guifg=#E9AE4F ctermfg=172 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocInfoSign guifg=#AACFFF ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! CocHintSign guifg=#A4F4CA ctermfg=158 ' . a:guibg . ' ' . a:ctermbg
   highlight! CocErrorHighlight gui=italic cterm=italic guifg=#9F0B40 ctermfg=125
   highlight! CocWarningHighlight gui=italic cterm=italic guifg=#E9AE4F ctermfg=172
   highlight! CocInfoHighlight gui=italic cterm=italic guifg=#AACFFF ctermfg=153
