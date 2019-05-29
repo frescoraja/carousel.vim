@@ -90,20 +90,18 @@ let g:custom_italics_enabled=1
 
 > the `^[` above is an escape sequence you can generate in insert mode by pressing <kbd>CTRL+V</kbd> then <kbd>ESC</kbd>
 
-Use `<Plug>Italicize` or `:Italicize!` to toggle italics mode for Comments and some other predefined syntax groups like
+Use `<Plug>ToggleItalics` to toggle italics mode for Comments and some other predefined syntax groups like
 HTML attribute args. You can italicize specific syntax groups by appending them as a comma-separated list to the
-command:
+`<Plug>Italicize` or `:Italicize` command:
 
-`:Italicize! String,Comment`
+`:Italicize String,Comment`
 
 Use `<Plug>Colorize` or `:ColorizeSyntaxGroup` to apply a color to the syntax group of your choice.
 
-For example, the following mapping would enable you to make the `ColorColumn` syntax group red by typing
-
-<kbd>F1</kbd> *ColorColumn red* <kbd>Enter</kbd>
+For example, the following mapping would enable you to make the `ColorColumn` syntax group red by typing <kbd>F1</kbd>:
 
 ```viml
-nmap <F1> <Plug>Colorize
+nmap <F1> <Plug>Colorize ColorColumn red<CR>
 ```
 
 when `termguicolor` is enabled, you can specify hex code colors ie `#FF0000` (the `#` is optional when typing command)
@@ -114,11 +112,11 @@ you like to italicize specific groups frequently, or perhaps set an autocmd to d
 
 ```viml
 " Shift+F1 to toggle italics for comments, html attributes, WildMenu
-nmap <S-F1> <Plug>Italicize
+nmap <S-F1> <Plug>ToggleItalics
 " Shift+F2 to toggle italics for String, Statement, Identifier
-nmap <S-F2> :Italicize! String,Statement,Identifier<CR>
+nmap <S-F2> <Plug>Italicize String,Statement,Identifier<CR>
 
-" Automatically italicize keywords when opening javascript files
+" Automatically italicize Identifier keywords when opening javascript files
 autocmd FileType javascript* Italicize! Identifier
 ```
 

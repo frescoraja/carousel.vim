@@ -25,10 +25,9 @@ if get(g:, 'custom_themes_enabled', 0)
   call frescoraja#init()
 
   " Command mapping {{{
-  nmap <Plug>CustomizeTheme :CustomizeTheme <C-D>
+  " commands with no arguments:
   nmap <Plug>ReloadThemes :ReloadThemes<CR>
   nmap <Plug>ReloadColorschemes :ReloadColorschemes<CR>
-  nmap <Plug>SetTextwidth :SetTextwidth<Space>
   nmap <Plug>DefaultTheme :DefaultTheme<CR>
   nmap <Plug>RefreshTheme :RefreshTheme<CR>
   nmap <Plug>ToggleColumn :SetTextwidth!<CR>
@@ -39,10 +38,21 @@ if get(g:, 'custom_themes_enabled', 0)
   nmap <Plug>PrevColorscheme :PrevColorscheme<CR>
   nmap <Plug>ToggleDark :ToggleDark<CR>
   nmap <Plug>ToggleBackground :ToggleBackground<CR>
-  nmap <Plug>Italicize :Italicize!<CR>
+  nmap <Plug>ToggleItalics :Italicize!<CR>
   nmap <Plug>GetSyntax :GetSyntaxGroup<CR>
-  if !&wildcharm | set wildcharm=<C-Z> | endif
-  execute 'nmap <Plug>Colorize :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
+  " commands that take arguments:
+  nmap <Plug>SetTextwidth :SetTextwidth<Space>
+  " commands that take args and support auto-completion
+  if get(g:, 'custom_themes_completion_enabled', 0)
+    if !&wildcharm | set wildcharm=<C-Z> | endif
+    execute 'nmap <Plug>CustomizeTheme :CustomizeTheme ' . nr1char(&wildcharm)
+    execute 'nmap <Plug>Colorize :ColorizeSyntaxGroup ' . nr1char(&wildcharm)
+    execute 'nmap <Plug>Italicize :Italicize! ' . nr1char(&wildcharm)
+  else
+    nmap <Plug>CustomizeTheme :CustomizeTheme<Space>
+    nmap <Plug>Colorize :ColorizeSyntaxGroup<Space>
+    nmap <Plug>Italicize :Italicize
+  endif
 
   if get(g:, 'custom_themes_mappings_enabled', 0)
     if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<F5>', 'n'))
