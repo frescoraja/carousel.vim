@@ -405,7 +405,7 @@ function! frescoraja#default() abort
   highlight! link vimOperParen Special
   highlight! Comment guifg=#7F7F7F ctermfg=243
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
-  highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
+  highlight! Pmenu ctermbg=241 guibg=#343434 ctermfg=250 guifg=#ADADAD
   highlight! Folded ctermbg=NONE guibg=NONE
 
   doautocmd User CustomizedTheme
@@ -471,6 +471,7 @@ function! frescoraja#blayu() abort
   highlight clear CursorLine
   highlight! ColorColumn guibg=#2A3D4F
   highlight! MatchParen guifg=#AF37D0 guibg=#2E4153 cterm=bold,underline
+  highlight! Pmenu guibg=#4f6275
   doautocmd User CustomizedTheme
 endfunction
 
@@ -515,6 +516,7 @@ function! frescoraja#dark() abort
   highlight! Normal guibg=#080F1C
   highlight! vimBracket guifg=#AA6A22
   highlight! vimParenSep guifg=#8A3140
+  highlight! Pmenu guibg=#6F6F6F
   doautocmd User CustomizedTheme
 endfunction
 
@@ -554,6 +556,7 @@ function! frescoraja#edar() abort
   let g:airline_theme = 'lucius'
   colorscheme edar
   highlight! NonText guifg=#5988B5 guibg=NONE
+  highlight! Pmenu guibg=#303A4A
   doautocmd User CustomizedTheme
 endfunction
 
@@ -901,6 +904,7 @@ function! frescoraja#tender() abort
   colorscheme tender
   highlight! LineNr guifg=#677889
   highlight! NonText guifg=#677889
+  highlight! Pmenu guibg=#237EA4
   doautocmd User CustomizedTheme
 endfunction
 
