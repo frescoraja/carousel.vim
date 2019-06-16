@@ -804,6 +804,7 @@ function! frescoraja#night_owl() abort
   let g:custom_themes_name = 'night_owl'
   let g:airline_theme = 'night_owl'
   colorscheme night-owl
+  highlight! Folded guibg=#202000 guifg=#BFAF9F
   doautocmd User CustomizedTheme
 endfunction
 
