@@ -483,6 +483,14 @@ function! frescoraja#ceudah() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#challenger_deep() abort
+  set termguicolors
+  let g:custom_themes_name = 'challenger_deep'
+  let g:airline_theme = 'challenger_deep'
+  colorscheme challenger_deep
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#chito() abort
   set termguicolors
   let g:custom_themes_name = 'chito'
@@ -894,6 +902,14 @@ function! frescoraja#srcery() abort
   let g:custom_themes_name = 'srcery'
   let g:airline_theme = 'srcery'
   colorscheme srcery
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#taffy() abort
+  set termguicolors
+  let g:custom_themes_name = 'taffy'
+  let g:airline_theme = 'base16_nord'
+  colorscheme taffy
   doautocmd User CustomizedTheme
 endfunction
 
