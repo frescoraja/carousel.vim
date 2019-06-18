@@ -576,6 +576,17 @@ function! frescoraja#flatcolor() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#forest_night() abort
+  set termguicolors
+  let g:custom_themes_name = 'forest_night'
+  let g:airline_theme = 'spring_night'
+  colorscheme forest-night
+  highlight! Normal guibg=#1C2C35
+  highlight! LineNr guibg=#1C2C35 guifg=#616C72
+  highlight! CursorLineNr guifg=#F0A288
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#gotham() abort
   set termguicolors
   let g:custom_themes_name = 'gotham'
