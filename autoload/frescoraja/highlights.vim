@@ -41,6 +41,7 @@ endfunction
 " Syntax Highlighting {{{
 function! frescoraja#highlights#syntax() abort
   call frescoraja#highlights#general()
+  call frescoraja#highlights#nontext()
   if &syntax =~? 'javascript'
     call frescoraja#highlights#javascript()
   endif
@@ -50,17 +51,20 @@ function! frescoraja#highlights#general() abort
   highlight! clear Error
   highlight! clear ErrorMsg
   highlight! clear SignColumn
-  highlight! clear SpecialKey
   highlight! clear VertSplit
   highlight! clear Warning
   highlight! clear WarningMsg
   highlight! Error guifg=#FF5F5F ctermfg=203 guibg=NONE ctermbg=NONE
   highlight! link ErrorMsg Error
   highlight! link SignColumn LineNr
-  highlight! SpecialKey guifg=#767676 ctermfg=243 guibg=NONE ctermbg=NONE
   highlight! link VertSplit Type
   highlight! Warning guifg=#FFD700 ctermfg=220 guibg=NONE ctermbg=NONE
   highlight! link WarningMsg Warning
+endfunction
+
+function! frescoraja#highlights#nontext() abort
+  highlight! NonText guibg=NONE ctermbg=NONE
+  highlight! SpecialKey guibg=NONE ctermbg=NONE
 endfunction
 
 function! frescoraja#highlights#javascript() abort
