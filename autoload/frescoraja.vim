@@ -448,9 +448,10 @@ endfunction
 function! frescoraja#ayu_dark() abort
   set termguicolors
   let g:ayucolor = 'dark'
-  let g:custom_themes_name = 'ayu'
+  let g:custom_themes_name = 'ayu_dark'
   let g:airline_theme = 'ayu_dark'
   colorscheme ayu
+  highlight! NonText guifg=#4F5459
   doautocmd User CustomizedTheme
 endfunction
 
@@ -460,6 +461,7 @@ function! frescoraja#ayu_mirage() abort
   let g:custom_themes_name = 'ayu_mirage'
   let g:airline_theme = 'ayu_mirage'
   colorscheme ayu
+  highlight! NonText guifg=#717783
   doautocmd User CustomizedTheme
 endfunction
 
@@ -505,6 +507,7 @@ function! frescoraja#colorsbox_stnight() abort
   let g:custom_themes_name = 'colorsbox_stnight'
   let g:airline_theme = 'base16'
   colorscheme colorsbox-stnight
+  highlight! NonText guifg=#A08644
   doautocmd User CustomizedTheme
 endfunction
 
@@ -513,6 +516,7 @@ function! frescoraja#colorsbox_steighties() abort
   let g:custom_themes_name = 'colorsbox_steighties'
   let g:airline_theme = 'quantum'
   colorscheme colorsbox-steighties
+  highlight! NonText guifg=#AB9B4B
   doautocmd User CustomizedTheme
 endfunction
 
@@ -601,6 +605,7 @@ function! frescoraja#gruvbox() abort
   let g:custom_themes_name = 'gruvbox'
   let g:airline_theme = 'gruvbox'
   colorscheme gruvbox
+  highlight! NonText guifg=#83a598
   doautocmd User CustomizedTheme
 endfunction
 
@@ -617,15 +622,16 @@ function! frescoraja#hybrid_material() abort
   let g:custom_themes_name = 'hybrid_material'
   let g:airline_theme = 'hybrid'
   colorscheme hybrid_material
+  highlight! Normal guibg=#162228
   doautocmd User CustomizedTheme
 endfunction
 
-function! frescoraja#hybrid_material_nogui() abort
-  set notermguicolors
-  let g:custom_themes_name = 'hybrid_material_nogui'
+function! frescoraja#hybrid_reverse() abort
+  set termguicolors
+  let g:custom_themes_name = 'hybrid_reverse'
   let g:airline_theme = 'hybrid'
-  colorscheme hybrid_material
-  highlight! Normal guibg=#162228
+  colorscheme hybrid_reverse
+  highlight! NonText guifg=#575B61
   doautocmd User CustomizedTheme
 endfunction
 
@@ -883,6 +889,7 @@ function! frescoraja#petrel() abort
   let g:custom_themes_name = 'petrel'
   let g:airline_theme = 'seagull'
   colorscheme petrel
+  highlight! Pmenu gui=NONE
   doautocmd User CustomizedTheme
 endfunction
 
@@ -922,6 +929,7 @@ function! frescoraja#srcery() abort
   let g:custom_themes_name = 'srcery'
   let g:airline_theme = 'srcery'
   colorscheme srcery
+  highlight! NonText guifg=#F9C716
   doautocmd User CustomizedTheme
 endfunction
 
