@@ -701,11 +701,12 @@ function! frescoraja#kuroi_nogui() abort
 endfunction
 
 function! frescoraja#mango() abort
-  set notermguicolors
+  set termguicolors
   let g:custom_themes_name = 'mango'
   let g:airline_theme = 'seagull'
   colorscheme mango
-  highlight! Pmenu ctermbg=white guibg=white ctermfg=237 guifg=#1D1D1D
+  highlight! Pmenu ctermbg=232 guibg=#1D1D1D
+  highlight! NonText guifg=#5D5D5D
   highlight! Folded ctermbg=NONE guibg=NONE
   doautocmd User CustomizedTheme
 endfunction
