@@ -416,6 +416,7 @@ function! frescoraja#afterglow() abort
   let g:custom_themes_name = 'afterglow'
   let g:airline_theme = 'afterglow'
   colorscheme afterglow
+  highlight! Pmenu guibg=#2A344E
   doautocmd User CustomizedTheme
 endfunction
 
@@ -474,6 +475,15 @@ function! frescoraja#blayu() abort
   highlight! ColorColumn guibg=#2A3D4F
   highlight! MatchParen guifg=#AF37D0 guibg=#2E4153 cterm=bold,underline
   highlight! Pmenu guibg=#4f6275
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#candid() abort
+  set termguicolors
+  let g:custom_themes_name = 'candid'
+  let g:airline_theme = 'base16_nord'
+  colorscheme candid
+  highlight! Pmenu guifg=#EFEEEA guibg=#4F545F
   doautocmd User CustomizedTheme
 endfunction
 
@@ -782,6 +792,17 @@ function! frescoraja#molokai_dark_nogui() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#plastic() abort
+  set termguicolors
+  let g:custom_themes_name = 'plastic'
+  let g:airline_theme = 'onedark'
+  colorscheme plastic
+  highlight! Comment guifg=#7B828F
+  highlight! CursorLine guifg=#8BB2DF
+  highlight! CursorLineNr guifg=#FBC29F guibg=#51555B
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#pink_moon() abort
   set termguicolors
   let g:custom_themes_name = 'pink_moon'
@@ -930,14 +951,6 @@ function! frescoraja#srcery() abort
   let g:airline_theme = 'srcery'
   colorscheme srcery
   highlight! NonText guifg=#F9C716
-  doautocmd User CustomizedTheme
-endfunction
-
-function! frescoraja#taffy() abort
-  set termguicolors
-  let g:custom_themes_name = 'taffy'
-  let g:airline_theme = 'base16_nord'
-  colorscheme taffy
   doautocmd User CustomizedTheme
 endfunction
 
