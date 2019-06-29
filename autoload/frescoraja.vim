@@ -961,8 +961,9 @@ function! frescoraja#tender() abort
   let g:custom_themes_name = 'tender'
   let g:airline_theme = 'tender'
   colorscheme tender
-  highlight! LineNr guifg=#677889
-  highlight! NonText guifg=#677889
+  highlight! Normal guibg=#1F1F1F
+  highlight! LineNr guifg=#677889 guibg=#282828
+  highlight! NonText guifg=#475869
   highlight! Pmenu guibg=#237EA4
   doautocmd User CustomizedTheme
 endfunction
