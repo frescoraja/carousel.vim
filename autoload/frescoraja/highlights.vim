@@ -24,10 +24,10 @@ endfunction
 
 " GitGutter Highlighting {{{
 function! frescoraja#highlights#gitgutter(guibg, ctermbg) abort
-  execute 'highlight! GitGutterAdd guifg=#76C78F ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChange guifg=#8AB2D3 ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterDelete guifg=#D78787 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChangeDelete guifg=#FFCF6F ctermfg=222 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterAdd guifg=#30C75F ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChange guifg=#4A83D3 ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterDelete guifg=#E75737 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
+  execute 'highlight! GitGutterChangeDelete guifg=#FF9F3F ctermfg=222 ' . a:guibg . ' ' . a:ctermbg
 endfunction
 " }}}
 
