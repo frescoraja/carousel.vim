@@ -578,7 +578,7 @@ function! frescoraja#edar() abort
   let g:airline_theme = 'lucius'
   colorscheme edar
   highlight! NonText guifg=#5988B5 guibg=NONE
-  highlight! Pmenu guibg=#303A4A
+  highlight! Pmenu guibg=#202A3A
   doautocmd User CustomizedTheme
 endfunction
 
