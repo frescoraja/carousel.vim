@@ -140,9 +140,9 @@ function! s:get_highlight_value(group, term) abort
 endfunction
 
 function! s:get_syntax_highlighting_under_cursor() abort
-  let l:syntax_groups = map(
+  let l:syntax_groups = reverse(map(
         \ synstack(line('.'), col('.')),
-        \ 'synIDattr(synIDtrans(v:val), "name")')
+        \ 'synIDattr(synIDtrans(v:val), "name")'))
   let l:current_char = getline('.')[col('.') - 1]
   let l:current_word = expand('<cword>')
   if (l:current_word !~? l:current_char)
