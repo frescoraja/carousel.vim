@@ -597,7 +597,8 @@ function! frescoraja#forest_night() abort
   colorscheme forest-night
   highlight! Normal guibg=#1C2C35
   highlight! LineNr guibg=#27373F guifg=#616C72
-  highlight! CursorLineNr guifg=#F0A288
+  highlight! CursorLineNr guifg=#48B2F0 guibg=#500904
+  highlight! CursorLine guibg=#500904
   highlight! Pmenu guibg=#2C3C45
   doautocmd User CustomizedTheme
 endfunction
