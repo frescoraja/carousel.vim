@@ -992,6 +992,8 @@ function! frescoraja#tomorrow_night() abort
   let g:custom_themes_name = 'tomorrow_night'
   let g:airline_theme = 'tomorrow'
   colorscheme Tomorrow-Night
+  highlight! Normal guibg=#15191A
+  highlight! LineNr guibg=#1F2223
   highlight! NonText guifg=#787878
   doautocmd User CustomizedTheme
 endfunction
@@ -1001,7 +1003,7 @@ function! frescoraja#two_firewatch() abort
   let g:custom_themes_name = 'two_firewatch'
   let g:airline_theme = 'twofirewatch'
   colorscheme two-firewatch
-  highlight! Normal guibg=#000000
+  highlight! Normal guibg=#21252D
   doautocmd User CustomizedTheme
 endfunction
 

@@ -253,6 +253,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [gummybears](https://github.com/vim-scripts/GummyBears)
 - [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
 - [iceberg](https://github.com/cocopon/iceberg.vim)
+- [jellybeans](https://github.com/nanotech/jellybeans.vim)
 - [kafka/dark](https://github.com/Konstruktionist/vim)
 - [kuroi](https://github.com/aonemd/kuroi.vim)
 - [mango](https://github.com/goatslacker/mango.vim)
@@ -281,7 +282,6 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [yowish](https://github.com/KabbAmine/yowish.vim)
 - [vim-material](https://github.com/hzchirs/vim-material)
 - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
-  - jellybeans
   - busybee
   - flatcolor
   - znake
