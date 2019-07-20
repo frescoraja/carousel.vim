@@ -603,6 +603,16 @@ function! frescoraja#forest_night() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#glacier() abort
+  set termguicolors
+  let g:custom_themes_name = 'glacier'
+  let g:airline_theme = 'zenburn'
+  colorscheme glacier
+  highlight! ColorColumn guibg=#21272D guifg=DarkRed
+  highlight! Pmenu guibg=#23292F
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#gotham() abort
   set termguicolors
   let g:custom_themes_name = 'gotham'
