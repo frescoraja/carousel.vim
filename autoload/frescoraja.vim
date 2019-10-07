@@ -631,6 +631,14 @@ function! frescoraja#gruvbox() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#gruvbox_material() abort
+  set termguicolors
+  let g:custom_themes_name = 'gruvbox_material'
+  let g:airline_theme = 'gruvbox_material'
+  colorscheme gruvbox-material
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#gummybears() abort
   set termguicolors
   let g:custom_themes_name = 'gummybears'
