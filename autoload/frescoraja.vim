@@ -483,7 +483,6 @@ function! frescoraja#candid() abort
   let g:custom_themes_name = 'candid'
   let g:airline_theme = 'base16_nord'
   colorscheme candid
-  highlight! Pmenu guifg=#EFEEEA guibg=#4F545F
   doautocmd User CustomizedTheme
 endfunction
 
