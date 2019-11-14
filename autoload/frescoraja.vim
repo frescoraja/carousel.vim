@@ -632,6 +632,7 @@ endfunction
 
 function! frescoraja#gruvbox_material() abort
   set termguicolors
+  let g:gruvbox_material_enable_bold = 1
   let g:custom_themes_name = 'gruvbox_material'
   let g:airline_theme = 'gruvbox_material'
   colorscheme gruvbox-material
