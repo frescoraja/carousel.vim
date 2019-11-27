@@ -698,6 +698,7 @@ function! frescoraja#kafka() abort
   let g:custom_themes_name = 'kafka'
   let g:airline_theme = 'neodark'
   colorscheme kafka
+  highlight! Pmenu guibg=#4E545F
   doautocmd User CustomizedTheme
 endfunction
 
@@ -972,7 +973,7 @@ function! frescoraja#srcery() abort
   let g:custom_themes_name = 'srcery'
   let g:airline_theme = 'srcery'
   colorscheme srcery
-  highlight! NonText guifg=#F9C716
+  highlight! NonText gui=NONE guifg=#5C5B59
   doautocmd User CustomizedTheme
 endfunction
 
