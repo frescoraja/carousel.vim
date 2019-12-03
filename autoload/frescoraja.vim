@@ -5,8 +5,8 @@ scriptencoding utf-8
 "=========================================================================================================
 " Name Of File: frescoraja.vim
 "  Description: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
-"   Maintainer: David James Carter <fresco.raja at gmail.com>
-"      Version: 0.0.1
+"   Maintainer: David Carter <fresco.raja at gmail.com>
+"      Version: 0.1.0
 "=========================================================================================================
 " }}}
 
@@ -407,6 +407,7 @@ function! frescoraja#default() abort
   highlight! ColorColumn guibg=#5F0000 ctermbg=52
   highlight! Pmenu ctermbg=241 guibg=#343434 ctermfg=250 guifg=#ADADAD
   highlight! Folded ctermbg=NONE guibg=NONE
+  highlight! NonText ctermfg=green guifg=#008065
 
   doautocmd User CustomizedTheme
 endfunction
@@ -645,6 +646,7 @@ function! frescoraja#gummybears() abort
   let g:custom_themes_name = 'gummybears'
   let g:airline_theme = 'jellybeans'
   colorscheme gummybears
+  highlight! NonText guifg=#595950
   doautocmd User CustomizedTheme
 endfunction
 
