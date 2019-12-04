@@ -250,6 +250,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [forest-night](https://github.com/sainnhe/vim-color-forest-night)
 - [gotham](https://github.com/whatyouhide/vim-gotham)
 - [gruvbox](https://github.com/morhetz/gruvbox)
+- [gruvbox8](https://github.com/lifepillar/vim-gruvbox8)
 - [gruvbox-material](https://github.com/sainnhe/gruvbox-material)
 - [gummybears](https://github.com/vim-scripts/GummyBears)
 - [hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
