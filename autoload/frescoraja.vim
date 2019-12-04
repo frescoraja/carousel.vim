@@ -627,6 +627,7 @@ function! frescoraja#gruvbox() abort
   let g:custom_themes_name = 'gruvbox'
   let g:airline_theme = 'gruvbox'
   colorscheme gruvbox
+  highlight! NonText ctermfg=12 guifg=#504945
   doautocmd User CustomizedTheme
 endfunction
 
