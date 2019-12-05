@@ -93,6 +93,16 @@ function! frescoraja#highlights#javascript() abort
   highlight! link jsGlobalObjects         Special
   highlight! jsThis guifg=#F07178 ctermfg=205 gui=italic cterm=italic
 endfunction
+
+" add comment support for jsonc/json5 files
+function! frescoraja#highlights#json() abort
+  syntax region      jsoncLineComment     start=+\/\/+ end=+$+ keepend
+  syntax region      jsoncLineComment     start=+^\s*\/\/+ skip=+\n\s*\/\/+ end=+$+ keepend fold
+  syntax region      jsoncComment         start="/\*"  end="\*/" fold
+
+  highlight def link jsoncLineComment     Comment
+  highlight def link jsoncComment         Comment
+endfunction
 " }}}
 
 " vim: fdm=marker fmr={{{,}}} fen

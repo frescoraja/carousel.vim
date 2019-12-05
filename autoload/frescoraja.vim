@@ -1095,6 +1095,9 @@ augroup custom_themes
   au!
   autocmd User CustomizedTheme call <SID>finalize_theme()
   autocmd ColorScheme * call <SID>colorscheme_changed()
+
+  " JSONc/JSON5 syntax highlighting (comment support)
+  autocmd BufRead coc-settings.json,.eslintrc call frescoraja#highlights#json()
 augroup END
 " }}} end autocmds
 
