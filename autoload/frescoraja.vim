@@ -547,7 +547,7 @@ function! frescoraja#deep_space() abort
   let g:custom_themes_name = 'deep_space'
   let g:airline_theme = 'deep_space'
   colorscheme deep-space
-  highlight! Normal guibg=#111620
+  highlight! Normal guibg=#090E18
   highlight! Folded guifg=#525C6D
   doautocmd User CustomizedTheme
 endfunction
