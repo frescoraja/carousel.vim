@@ -301,7 +301,7 @@ function! s:get_custom_themes(a, ...) abort
     call <SID>load_custom_themes()
   endif
 
-  return filter(copy(s:cache.themes), 'v:val =~? "^' . a:a . '"')
+  return filter(copy(s:cache.themes), 'v:val =~? "' . a:a . '"')
 endfunction
 
 function! s:get_syntax_groups(a, ...) abort
