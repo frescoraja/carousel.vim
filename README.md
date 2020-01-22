@@ -247,6 +247,7 @@ This is the current list of plugins/colorschemes that frescoraja-vim-themes supp
 - [deus](https://github.com/ajmwagar/vim-deus)
 - [distill](https://github.com/deathlyfrantic/vim-distill)
 - [edar/elit](https://github.com/DrXVII/vim_colors)
+- [edge](https://github.com/sainnhe/edge)
 - [forest-night](https://github.com/sainnhe/vim-color-forest-night)
 - [gotham](https://github.com/whatyouhide/vim-gotham)
 - [gruvbox](https://github.com/morhetz/gruvbox)

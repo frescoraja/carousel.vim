@@ -582,6 +582,15 @@ function! frescoraja#edar() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#edge() abort
+  set termguicolors
+  let g:custom_themes_name = 'edge'
+  let g:airline_theme = 'edge'
+  let g:edge_style = 'neon'
+  colorscheme edge
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#flatcolor() abort
   set termguicolors
   let g:custom_themes_name = 'flatcolor'
