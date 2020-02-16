@@ -1,15 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-" Script Info {{{
-"=========================================================================================================
-" Name Of File: frescoraja.vim
-"  Description: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
-"   Maintainer: David Carter <fresco.raja at gmail.com>
-"      Version: 0.1.0
-"=========================================================================================================
-" }}}
-
 " Script Variables {{{
 " determine if inside tmux or Apple Terminal for proper escape sequences (used in shape_cursor functions)
 let s:inside_tmux = exists('$TMUX')
@@ -19,9 +10,9 @@ let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 " Plugin functions {{{
 
 " Script functions {{{
-function! s:apply_highlights() abort
-  let l:guibg = <SID>get_highlight_attr('LineNr', 'bg', 'gui', 1)
-  let l:ctermbg = <SID>get_highlight_attr('LineNr', 'bg', 'cterm', 1)
+function! frescoraja#apply_highlights() abort
+  let l:guibg = frescoraja#get_highlight_attr('LineNr', 'bg', 'gui', 1)
+  let l:ctermbg = frescoraja#get_highlight_attr('LineNr', 'bg', 'cterm', 1)
   call frescoraja#highlights#ale(l:guibg, l:ctermbg)
   call frescoraja#highlights#coc(l:guibg, l:ctermbg)
   call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
@@ -29,16 +20,16 @@ function! s:apply_highlights() abort
   call frescoraja#highlights#syntax()
 endfunction
 
-function! s:cache_custom_theme_settings() abort
-  if !exists('s:cache.themes')
-    call <SID>load_custom_themes()
+function! frescoraja#cache_custom_theme_settings() abort
+  if !exists('g:custom_themes_cache.themes')
+    call frescoraja#load_custom_themes()
   endif
-  let s:theme_index = index(s:cache.themes, g:custom_themes_name)
-  let s:cache.bg.gui = <SID>get_highlight_attr('Normal', 'bg', 'gui', 0)
-  let s:cache.bg.cterm = <SID>get_highlight_attr('Normal', 'bg', 'cterm', 0)
+  let g:theme_index = index(g:custom_themes_cache.themes, g:custom_themes_name)
+  let g:custom_themes_cache.bg.gui = frescoraja#get_highlight_attr('Normal', 'bg', 'gui', 0)
+  let g:custom_themes_cache.bg.cterm = frescoraja#get_highlight_attr('Normal', 'bg', 'cterm', 0)
 endfunction
 
-function! s:colorize_group(...) abort
+function! frescoraja#colorize_group(...) abort
   " a:1 => syntax group name
   " a:2 => syntax color (optional)
   " Defaults to coloring foreground, unless `ColorColumn` group specified
@@ -64,13 +55,13 @@ function! s:colorize_group(...) abort
   endtry
 endfunction
 
-function! s:colorscheme_changed() abort
+function! frescoraja#colorscheme_changed() abort
   if exists(':AirlineRefresh')
     AirlineRefresh
   endif
 endfunction
 
-function! s:customize_theme(...) abort
+function! frescoraja#customize_theme(...) abort
   try
     if a:0
       execute 'call frescoraja#' . a:1 . '()'
@@ -82,47 +73,47 @@ function! s:customize_theme(...) abort
   endtry
 endfunction
 
-function! s:cycle_colorschemes(step) abort
-  if !exists('s:cache.colorschemes')
-    call <SID>load_colorschemes()
+function! frescoraja#cycle_colorschemes(step) abort
+  if !exists('g:custom_themes_cache.colorschemes')
+    call frescoraja#load_colorschemes()
   endif
-  if !exists('s:colorscheme_index')
-    let s:colorscheme_index = 0
+  if !exists('g:colorscheme_index')
+    let g:colorscheme_index = 0
   else
-    let s:colorscheme_index = (s:colorscheme_index + a:step) % len(s:cache.colorschemes)
+    let g:colorscheme_index = (g:colorscheme_index + a:step) % len(g:custom_themes_cache.colorschemes)
   endif
-  execute 'colorscheme ' . s:cache.colorschemes[s:colorscheme_index]
+  execute 'colorscheme ' . g:custom_themes_cache.colorschemes[g:colorscheme_index]
 endfunction
 
-function! s:cycle_custom_theme(step) abort
-  if !exists('s:cache.themes')
-    call <SID>load_custom_themes()
+function! frescoraja#cycle_custom_theme(step) abort
+  if !exists('g:custom_themes_cache.themes')
+    call frescoraja#load_custom_themes()
   endif
-  if !exists('s:theme_index')
-    let s:theme_index = 0
+  if !exists('g:theme_index')
+    let g:theme_index = 0
   else
-    let s:theme_index = (s:theme_index + a:step) % len(s:cache.themes)
+    let g:theme_index = (g:theme_index + a:step) % len(g:custom_themes_cache.themes)
   endif
-  let l:next_theme = s:cache.themes[s:theme_index]
+  let l:next_theme = g:custom_themes_cache.themes[g:theme_index]
   execute 'call frescoraja#' . l:next_theme . '()'
 endfunction
 
-function! s:finalize_theme() abort
+function! frescoraja#finalize_theme() abort
   " ColorScheme autocmd already executed, which refreshes AirlineTheme
-  call <SID>cache_custom_theme_settings()
-  call <SID>italicize()
-  call <SID>fix_reset_highlighting()
-  call <SID>apply_highlights()
+  call frescoraja#cache_custom_theme_settings()
+  call frescoraja#italicize()
+  call frescoraja#fix_reset_highlighting()
+  call frescoraja#apply_highlights()
 endfunction
 
-function! s:fix_reset_highlighting() abort
+function! frescoraja#fix_reset_highlighting() abort
   " TODO: find broken highlights after switching themes
   if get(g:, 'colors_name', '') =~# 'maui'
     highlight! link vimCommand Statement
   endif
 endfunction
 
-function! s:get_highlight_attr(group, term, mode, verbose) abort
+function! frescoraja#get_highlight_attr(group, term, mode, verbose) abort
   let l:color = synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
   if empty(l:color)
     let l:color = 'NONE'
@@ -131,7 +122,7 @@ function! s:get_highlight_attr(group, term, mode, verbose) abort
   return a:verbose ? a:mode . a:term . '=' . l:color : l:color
 endfunction
 
-function! s:get_highlight_value(group, term) abort
+function! frescoraja#get_highlight_value(group, term) abort
    try
     return matchstr(execute('highlight ' . a:group), a:term . '=\zs\S\+')
   catch
@@ -139,7 +130,7 @@ function! s:get_highlight_value(group, term) abort
   endtry
 endfunction
 
-function! s:get_syntax_highlighting_under_cursor() abort
+function! frescoraja#get_syntax_highlighting_under_cursor() abort
   let l:syntax_groups = reverse(map(
         \ synstack(line('.'), col('.')),
         \ 'synIDattr(synIDtrans(v:val), "name")'))
@@ -158,19 +149,19 @@ function! s:get_syntax_highlighting_under_cursor() abort
   endif
 endfunction
 
-function! s:enable_italics() abort
+function! frescoraja#enable_italics() abort
   set t_ZH=[3m
   set t_ZR=[23m
 endfunction
 
-function! s:italicize(...) abort
+function! frescoraja#italicize(...) abort
   try
     let l:type = &termguicolors ? 'gui' : 'cterm'
     let l:groups = split(
           \ get(a:, 2, 'Comment,htmlArg'),
           \ ',')
     for l:group in l:groups
-      let l:modes = <SID>get_highlight_value(l:group, l:type)
+      let l:modes = frescoraja#get_highlight_value(l:group, l:type)
       if get(a:, 1, 0) && l:modes =~? 'italic'
         let l:modes = filter(
               \ split(l:modes, ','),
@@ -186,30 +177,30 @@ function! s:italicize(...) abort
   endtry
 endfunction
 
-function! s:reload_default() abort
-  let l:theme = s:cache.default_theme
+function! frescoraja#reload_default() abort
+  let l:theme = g:custom_themes_cache.default_theme
   if !empty(l:theme)
     execute 'call frescoraja#' . l:theme . '()'
   else
-    execute 'colorscheme ' . s:cache.default_colorscheme
+    execute 'colorscheme ' . g:custom_themes_cache.default_colorscheme
   endif
 endfunction
 
-function! s:refresh_theme() abort
+function! frescoraja#refresh_theme() abort
   let l:theme = get(g:, 'custom_themes_name', '')
   if !empty(l:theme)
     execute 'call frescoraja#' . l:theme . '()'
   endif
 endfunction
 
-function! s:TmuxEscape(seq) abort
+function! frescoraja#TmuxEscape(seq) abort
   let l:tmux_start = "\<Esc>Ptmux;\<Esc>"
   let l:tmux_end   = "\<Esc>\\"
 
   return l:tmux_start . a:seq . l:tmux_end
 endfunction
 
-function! s:shape_cursor() abort
+function! frescoraja#shape_cursor() abort
   " cursor mode sequences:
   " t_SI = enter Insert Mode
   " t_SR = enter Replace Mode
@@ -223,9 +214,9 @@ function! s:shape_cursor() abort
   let l:replace_cursor = "\<Esc>]50;CursorShape=2\x7"
 
   if s:inside_tmux
-    let l:normal_cursor  = <SID>TmuxEscape(l:normal_cursor)
-    let l:insert_cursor  = <SID>TmuxEscape(l:insert_cursor)
-    let l:replace_cursor = <SID>TmuxEscape(l:replace_cursor)
+    let l:normal_cursor  = frescoraja#TmuxEscape(l:normal_cursor)
+    let l:insert_cursor  = frescoraja#TmuxEscape(l:insert_cursor)
+    let l:replace_cursor = frescoraja#TmuxEscape(l:replace_cursor)
   elseif s:inside_terminal
     " cursor shapes in Apple_Terminal:
     " 1 - block
@@ -241,7 +232,7 @@ function! s:shape_cursor() abort
   let &t_SR = l:replace_cursor
 endfunction
 
-function! s:toggle_dark() abort
+function! frescoraja#toggle_dark() abort
   if &background ==? 'light'
     set background=dark
   else
@@ -249,46 +240,46 @@ function! s:toggle_dark() abort
   endif
 endfunction
 
-function! s:toggle_background_transparency() abort
+function! frescoraja#toggle_background_transparency() abort
   let l:term = &termguicolors == 0 ? 'cterm' : 'gui'
-  let l:current_bg = <SID>get_highlight_attr('Normal', 'bg', l:term, 0)
+  let l:current_bg = frescoraja#get_highlight_attr('Normal', 'bg', l:term, 0)
   if l:current_bg ==? 'none'
     " if no bg was cached use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
-    if empty(s:cache.bg[l:term]) || s:cache.bg[l:term] ==? 'none'
-      if l:term ==? 'gui' | let s:cache.bg.gui = '#0D0D0D' | endif
-      if l:term ==? 'cterm' | let s:cache.bg.cterm = 233 | endif
+    if empty(g:custom_themes_cache.bg[l:term]) || g:custom_themes_cache.bg[l:term] ==? 'none'
+      if l:term ==? 'gui' | let g:custom_themes_cache.bg.gui = '#0D0D0D' | endif
+      if l:term ==? 'cterm' | let g:custom_themes_cache.bg.cterm = 233 | endif
     endif
 
-    execute 'highlight Normal ' . l:term . 'bg=' . s:cache.bg[l:term]
+    execute 'highlight Normal ' . l:term . 'bg=' . g:custom_themes_cache.bg[l:term]
   else
-    let s:cache.bg[l:term] = l:current_bg
+    let g:custom_themes_cache.bg[l:term] = l:current_bg
     highlight Normal guibg=NONE ctermbg=NONE
     highlight LineNr guibg=NONE ctermbg=NONE
     highlight VertSplit guibg=NONE ctermbg=NONE
     highlight NonText guibg=NONE ctermbg=NONE
     highlight EndOfBuffer guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
   endif
-  call <SID>apply_highlights()
+  call frescoraja#apply_highlights()
 endfunction
 
-function! s:set_textwidth(bang, ...) abort
+function! frescoraja#set_textwidth(bang, ...) abort
   try
     if a:bang && &textwidth
-      let s:cache.textwidth = &textwidth
+      let g:custom_themes_cache.textwidth = &textwidth
       setlocal textwidth=0
       setlocal colorcolumn=0
     else
       if exists('a:1')
         let l:new_textwidth = a:1
-      elseif exists('s:cache.textwidth')
-        let l:new_textwidth = s:cache.textwidth
+      elseif exists('g:custom_themes_cache.textwidth')
+        let l:new_textwidth = g:custom_themes_cache.textwidth
       else
         let l:new_textwidth = 80
       endif
       execute 'setlocal textwidth=' . l:new_textwidth
       execute 'setlocal colorcolumn=' . l:new_textwidth
-      let s:cache.textwidth = l:new_textwidth
+      let g:custom_themes_cache.textwidth = l:new_textwidth
     endif
   catch
     echohl ErrorMsg | echomsg v:exception | echohl None
@@ -296,15 +287,15 @@ function! s:set_textwidth(bang, ...) abort
 endfunction
 
 " Custom completion functions {{{
-function! s:get_custom_themes(a, ...) abort
-  if !exists('s:cache.themes')
-    call <SID>load_custom_themes()
+function! frescoraja#get_custom_themes(a, ...) abort
+  if !exists('g:custom_themes_cache.themes')
+    call frescoraja#load_custom_themes()
   endif
 
-  return filter(copy(s:cache.themes), 'v:val =~? "' . a:a . '"')
+  return filter(copy(g:custom_themes_cache.themes), 'v:val =~? "' . a:a . '"')
 endfunction
 
-function! s:get_syntax_groups(a, ...) abort
+function! frescoraja#get_syntax_groups(a, ...) abort
   return filter(
         \ map(
         \ split(
@@ -312,10 +303,18 @@ function! s:get_syntax_groups(a, ...) abort
         \ 'matchstr(v:val, ''^\S\+'')'),
         \ 'v:val =~? "' . a:a . '"')
 endfunction
+
+function! frescoraja#get_themes_list() abort
+  if !exists('g:custom_themes_cache.themes')
+    call frescoraja#load_custom_themes()
+  endif
+
+  return copy(g:custom_themes_cache.themes)
+endfunction
 " }}}
 
 " Initialize colorscheme/theme caches {{{
-function! s:load_custom_themes() abort
+function! frescoraja#load_custom_themes() abort
   let l:themes = sort(map(
     \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
     \ 'fnamemodify(v:val, ":t:r")'))
@@ -329,11 +328,11 @@ function! s:load_custom_themes() abort
     let l:matching_fns = filter(copy(l:functions), 'v:val =~? "'.l:name.'"')
     let l:custom_themes += l:matching_fns
   endfor
-  let s:cache.themes = uniq(sort(l:custom_themes))
+  let g:custom_themes_cache.themes = uniq(sort(l:custom_themes))
 endfunction
 
-function! s:load_colorschemes() abort
-  let s:cache.colorschemes = uniq(sort(map(
+function! frescoraja#load_colorschemes() abort
+  let g:custom_themes_cache.colorschemes = uniq(sort(map(
     \ globpath(&runtimepath, 'colors/*.vim', 0, 1),
     \ 'fnamemodify(v:val, ":t:r")')))
 endfunction
@@ -343,24 +342,24 @@ endfunction
 
 " Theme functions {{{
 function! frescoraja#init() abort
-  let s:cache = {
+  let g:custom_themes_cache = {
         \ 'bg': {},
         \ 'default_theme': get(g:, 'custom_themes_name', 'default'),
         \ 'default_colorscheme': get(g:, 'colors_name', 'default')
         \ }
 
-  call <SID>load_custom_themes()
-  call <SID>load_colorschemes()
+  call frescoraja#load_custom_themes()
+  call frescoraja#load_colorschemes()
 
   if get(g:, 'custom_italics_enabled', 0)
-    call <SID>enable_italics()
+    call frescoraja#enable_italics()
   endif
 
   if get(g:, 'custom_cursors_enabled', 0)
-    call <SID>shape_cursor()
+    call frescoraja#shape_cursor()
   endif
 
-  execute 'call frescoraja#' . s:cache.default_theme . '()'
+  execute 'call frescoraja#' . g:custom_themes_cache.default_theme . '()'
 endfunction
 
 function! frescoraja#random() abort
@@ -375,11 +374,11 @@ function! frescoraja#random() abort
       if has('python3')
         let l:py_cmd = 'py3'
       endif
-      let l:max_idx = len(s:cache.themes) - 1
+      let l:max_idx = len(g:custom_themes_cache.themes) - 1
       if l:max_idx >= 0
         let l:rand_idx = trim(
               \ execute(l:py_cmd . ' import random; print(random.randint(0,' . l:max_idx . '))'))
-        let l:theme = s:cache.themes[+l:rand_idx]
+        let l:theme = g:custom_themes_cache.themes[+l:rand_idx]
         execute 'call frescoraja#' . l:theme . '()'
       endif
     catch
@@ -1078,32 +1077,32 @@ endfunction
 " }}}
 
 " Autoload commands {{{
-command! -nargs=? -complete=customlist,<SID>get_custom_themes
-      \ CustomizeTheme call <SID>customize_theme(<f-args>)
-command! -nargs=1 -complete=customlist,<SID>get_syntax_groups
-      \ ColorizeSyntaxGroup call <SID>colorize_group(<f-args>)
-command! -bang -nargs=? -complete=customlist,<SID>get_syntax_groups
-      \ Italicize call <SID>italicize(<bang>0, <f-args>)
-command! -nargs=0 RefreshTheme call <SID>refresh_theme()
-command! -bang -nargs=? SetTextwidth call <SID>set_textwidth(<bang>0, <args>)
-command! -nargs=0 ToggleBackground call <SID>toggle_background_transparency()
-command! -nargs=0 ToggleDark call <SID>toggle_dark()
-command! -nargs=0 GetSyntaxGroup call <SID>get_syntax_highlighting_under_cursor()
-command! -nargs=0 DefaultTheme call <SID>reload_default()
-command! -nargs=0 ReloadThemes call <SID>load_custom_themes()
-command! -nargs=0 ReloadColorschemes call <SID>load_colorschemes()
-command! -nargs=0 PrevTheme call <SID>cycle_custom_theme(-1)
-command! -nargs=0 NextTheme call <SID>cycle_custom_theme(1)
+command! -nargs=? -complete=customlist,frescoraja#get_custom_themes
+      \ CustomizeTheme call frescoraja#customize_theme(<f-args>)
+command! -nargs=1 -complete=customlist,frescoraja#get_syntax_groups
+      \ ColorizeSyntaxGroup call frescoraja#colorize_group(<f-args>)
+command! -bang -nargs=? -complete=customlist,frescoraja#get_syntax_groups
+      \ Italicize call frescoraja#italicize(<bang>0, <f-args>)
+command! -nargs=0 RefreshTheme call frescoraja#refresh_theme()
+command! -bang -nargs=? SetTextwidth call frescoraja#set_textwidth(<bang>0, <args>)
+command! -nargs=0 ToggleBackground call frescoraja#toggle_background_transparency()
+command! -nargs=0 ToggleDark call frescoraja#toggle_dark()
+command! -nargs=0 GetSyntaxGroup call frescoraja#get_syntax_highlighting_under_cursor()
+command! -nargs=0 DefaultTheme call frescoraja#reload_default()
+command! -nargs=0 ReloadThemes call frescoraja#load_custom_themes()
+command! -nargs=0 ReloadColorschemes call frescoraja#load_colorschemes()
+command! -nargs=0 PrevTheme call frescoraja#cycle_custom_theme(-1)
+command! -nargs=0 NextTheme call frescoraja#cycle_custom_theme(1)
 command! -nargs=0 RandomTheme call frescoraja#random()
-command! -nargs=0 PrevColorscheme call <SID>cycle_colorschemes(-1)
-command! -nargs=0 NextColorscheme call <SID>cycle_colorschemes(1)
+command! -nargs=0 PrevColorscheme call frescoraja#cycle_colorschemes(-1)
+command! -nargs=0 NextColorscheme call frescoraja#cycle_colorschemes(1)
 " }}}
 
 " Autogroup commands {{{
 augroup custom_themes
   au!
-  autocmd User CustomizedTheme call <SID>finalize_theme()
-  autocmd ColorScheme * call <SID>colorscheme_changed()
+  autocmd User CustomizedTheme call frescoraja#finalize_theme()
+  autocmd ColorScheme * call frescoraja#colorscheme_changed()
 
   " JSONc/JSON5 syntax highlighting (comment support)
   autocmd BufRead coc-settings.json,.eslintrc call frescoraja#highlights#json()

@@ -224,12 +224,27 @@ mappings defined by plugin):
 
 This is the current list of plugins/colorschemes that frescoraja-vim-themes supports (They are not required)
 
-### Plugins
+### Plugin Support
+> FrescoRaja Themes plugin will try to apply highlights to components from the following plugins consistent with the
+> selected colorscheme
 
+- [Ale](https://github.com/w0rp/ale)
+- [CoC](https://github.com/neoclide/coc.nvim)
 - [Vim-Airline](https://github.com/bling/vim-airline) / [Vim-Airline-Themes](https://github.com/vim-airline/vim-airline-themes)
 - [Vim Better Whitespace](https://github.com/ntpeters/vim-better-whitespace)
-- [CoC](https://github.com/neoclide/coc.nvim)
-- [Ale](https://github.com/w0rp/ale)
+
+#### [Vim-Clap](https://github.com/liuchengxu/vim-clap) Support
+
+For integration with `Vim-Clap`, you can define the following custom `clap` provider in your `.vimrc`:
+
+```vim
+let g:clap_provider_themes = {
+    \ 'source': function('frescoraja#get_themes_list'),
+    \ 'filter': function('frescoraja#get_custom_themes'),
+    \ 'sink': function('frescoraja#customize_theme')
+```
+
+You can then use `:Clap themes` to quickly filter/select from your installed color themes
 
 ### Colorschemes
 
