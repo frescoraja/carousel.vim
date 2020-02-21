@@ -34,7 +34,7 @@ endfunction
 " Better Whitespace Highlighting {{{
 function! frescoraja#highlights#whitespace() abort
   highlight! clear ExtraWhitespace
-  highlight! ExtraWhitespace cterm=undercurl ctermfg=red guifg=#D32303
+  highlight! ExtraWhitespace cterm=undercurl gui=undercurl ctermfg=red guifg=#D32303
 endfunction
 " }}}
 

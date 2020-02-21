@@ -17,7 +17,7 @@ cursor, textwidth and cursorcolumn, font, background, and colorscheme.
 8. [Cursor Shapes](#custom-cursor-shapes)
 9. [Reset Functions](#reset-functions)
 10. [Default Key Mappings](#default-key-mappings)
-11. [Dependencies](#dependencies)
+11. [Dependencies/Integrations](#integrations)
 
 ---
 
@@ -206,11 +206,11 @@ call frescoraja#init()
 If `g:custom_themes_mappings_enabled` is set to `1`, the following keyboard shortcuts will work automatically (if they
 are not already mapped in your `.vimrc` or by other plugins loaded before this one. Vim will emit a warning if this
 plugin tries to override any existing key mappings, and any mappings defined after plugin is loaded will override
-mappings defined by plugin):
+mappings defined by this plugin):
 
-<kbd>F5</kbd> to select a custom theme from menu
+<kbd>F5</kbd> to select a custom theme from menu (see [here](#vim-clap-support) for vim-clap alternative)
 
-<kbd>Shift</kbd> + <kbd>F5</kbd> to select a random custom theme
+<kbd>Shift</kbd> + <kbd>F5</kbd> to select a random theme
 
 <kbd>F7</kbd> to cycle backwards through customized theme list
 
@@ -220,31 +220,36 @@ mappings defined by plugin):
 
 <kbd>Shift+F9</kbd> to cycle forwards through colorschemes
 
-## Dependencies
+## Integrations
 
-This is the current list of plugins/colorschemes that frescoraja-vim-themes supports (They are not required)
+Here is a list of plugins and colorschemes that frescoraja-vim-themes supports (They are not required)
 
-### Plugin Support
-> FrescoRaja Themes plugin will try to apply highlights to components from the following plugins consistent with the
-> selected colorscheme
+### Plugins
 
 - [Ale](https://github.com/w0rp/ale)
+    - ALE Warning, Error, and Info message highlights are customized
+    - (can be disabled by adding `let g:custom_themes_ale_highlights = 0` to `vimrc`
 - [CoC](https://github.com/neoclide/coc.nvim)
+    - CoC Warning, Error, Info message as well as GitGutter highlights are customized
+    - (can be disabled by adding `let g:custom_themes_coc_highlights = 0` to `vimrc`
 - [Vim-Airline](https://github.com/bling/vim-airline) / [Vim-Airline-Themes](https://github.com/vim-airline/vim-airline-themes)
+    - Vim-Airline automatically selects airline_theme based on colorscheme, this plugin makes some customizations
+    - (can be disabled by adding `let g:custom_themes_airline_highlights = 0` to `vimrc`
 - [Vim Better Whitespace](https://github.com/ntpeters/vim-better-whitespace)
+    - Vim-Better-Whitespace ExtraWhitespace highlight is underlined in red
+    - (can be disabled by adding `let g:custom_themes_extra_whitespace_highlights = 0` to `vimrc`
+- [Vim Clap](https://github.com/liuchengxu/vim-clap)
+    - Define a custom `vim-clap` provider to quickly search and select color themes in a floating window
 
-#### [Vim-Clap](https://github.com/liuchengxu/vim-clap) Support
-
-For integration with `Vim-Clap`, you can define the following custom `clap` provider in your `.vimrc`:
-
-```vim
+To define a custom provider, add the following to your `.vimrc`:
+```viml
 let g:clap_provider_themes = {
     \ 'source': function('frescoraja#get_themes_list'),
     \ 'filter': function('frescoraja#get_custom_themes'),
     \ 'sink': function('frescoraja#customize_theme')
 ```
+Then use the `:Clap themes` command to open
 
-You can then use `:Clap themes` to quickly filter/select from your installed color themes
 
 ### Colorschemes
 

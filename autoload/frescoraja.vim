@@ -2,21 +2,84 @@ set encoding=utf-8
 scriptencoding utf-8
 
 " Script Variables {{{
+
 " determine if inside tmux or Apple Terminal for proper escape sequences (used in shape_cursor functions)
 let s:inside_tmux = exists('$TMUX')
 let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
+
+" theme -> airline theme mapping
+let s:airline_theme_mapping = {
+      \ 'apply': function('frescoraja#apply_airline_theme'),
+      \ 'default': 'jellybeans',
+      \ 'allomancer': 'hybrid',
+      \ 'allomancer_nogui': 'hybridline',
+      \ 'apprentice': 'jellybeans',
+      \ 'candid': 'base16_nord',
+      \ 'ceudah': 'quantum',
+      \ 'chito': 'quantum',
+      \ 'colorsbox_stnight': 'base16',
+      \ 'colorsbox_steighties': 'quantum',
+      \ 'dark': 'zenburn',
+      \ 'distill': 'iceberg',
+      \ 'edar': 'lucius',
+      \ 'flatcolor': 'base16_nord',
+      \ 'glacier': 'zenburn',
+      \ 'gotham': 'gotham256',
+      \ 'gruvbox8': 'gruvbox',
+      \ 'gummybears': 'jellybeans',
+      \ 'hybrid_material': 'hybrid',
+      \ 'hybrid_reverse': 'hybrid',
+      \ 'iceberg_nogui': 'iceberg',
+      \ 'kafka': 'neodark',
+      \ 'kuroi': 'neodark',
+      \ 'kuroi_nogui': 'neodark',
+      \ 'mango': 'seagull',
+      \ 'material_theme': 'material',
+      \ 'vim_material': 'material',
+      \ 'vim_material_oceanic': 'material',
+      \ 'vim_material_palenight': 'material',
+      \ 'molokai_dark_nogui': 'molokai',
+      \ 'plastic': 'onedark',
+      \ 'pink_moon': 'lucius',
+      \ 'orange_moon': 'lucius',
+      \ 'yellow_moon': 'lucius',
+      \ 'neodark_nogui': 'neodark',
+      \ 'oceanicnext2': 'oceanicnext',
+      \ 'onedarkafterglow': 'onedark',
+      \ 'petrel': 'seagull',
+      \ 'quantum_light': 'quantum',
+      \ 'quantum_dark': 'quantum',
+      \ 'thaumaturge': 'violet',
+      \ 'tokyo_metro': 'tomorrow',
+      \ 'tomorrow_night': 'tomorrow',
+      \ 'two_firewatch': 'twofirewatch',
+      \ 'znake': 'lucius'
+      \ }
 " }}}
 
 " Plugin functions {{{
 
 " Script functions {{{
+function! frescoraja#apply_airline_theme(theme_name) dict abort
+  if exists(':AirlineRefresh')
+    let g:airline_theme = has_key(l:self, a:theme_name) ? l:self[a:theme_name] : a:theme_name
+    AirlineRefresh
+  endif
+endfunction
+
 function! frescoraja#apply_highlights() abort
   let l:guibg = frescoraja#get_highlight_attr('LineNr', 'bg', 'gui', 1)
   let l:ctermbg = frescoraja#get_highlight_attr('LineNr', 'bg', 'cterm', 1)
-  call frescoraja#highlights#ale(l:guibg, l:ctermbg)
-  call frescoraja#highlights#coc(l:guibg, l:ctermbg)
-  call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
-  call frescoraja#highlights#whitespace()
+  if get(g:, 'custom_themes_ale_highlights', 1)
+    call frescoraja#highlights#ale(l:guibg, l:ctermbg)
+  endif
+  if get (g:, 'custom_themes_coc_highlights', 1)
+    call frescoraja#highlights#coc(l:guibg, l:ctermbg)
+    call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
+  endif
+  if get(g:, 'custom_themes_extra_whitespace_highlights', 1)
+    call frescoraja#highlights#whitespace()
+  endif
   call frescoraja#highlights#syntax()
 endfunction
 
@@ -27,6 +90,7 @@ function! frescoraja#cache_custom_theme_settings() abort
   let g:theme_index = index(g:custom_themes_cache.themes, g:custom_themes_name)
   let g:custom_themes_cache.bg.gui = frescoraja#get_highlight_attr('Normal', 'bg', 'gui', 0)
   let g:custom_themes_cache.bg.cterm = frescoraja#get_highlight_attr('Normal', 'bg', 'cterm', 0)
+  let g:custom_themes_cache.random_times = 0
 endfunction
 
 function! frescoraja#colorize_group(...) abort
@@ -56,8 +120,8 @@ function! frescoraja#colorize_group(...) abort
 endfunction
 
 function! frescoraja#colorscheme_changed() abort
-  if exists(':AirlineRefresh')
-    AirlineRefresh
+  if get(g:, 'custom_themes_airline_highlights', 1)
+    call s:airline_theme_mapping.apply(g:custom_themes_name)
   endif
 endfunction
 
@@ -99,7 +163,6 @@ function! frescoraja#cycle_custom_theme(step) abort
 endfunction
 
 function! frescoraja#finalize_theme() abort
-  " ColorScheme autocmd already executed, which refreshes AirlineTheme
   call frescoraja#cache_custom_theme_settings()
   call frescoraja#italicize()
   call frescoraja#fix_reset_highlighting()
@@ -178,12 +241,7 @@ function! frescoraja#italicize(...) abort
 endfunction
 
 function! frescoraja#reload_default() abort
-  let l:theme = g:custom_themes_cache.default_theme
-  if !empty(l:theme)
-    execute 'call frescoraja#' . l:theme . '()'
-  else
-    execute 'colorscheme ' . g:custom_themes_cache.default_colorscheme
-  endif
+   execute 'call frescoraja#' . g:custom_themes_cache.default_theme . '()'
 endfunction
 
 function! frescoraja#refresh_theme() abort
@@ -345,7 +403,6 @@ function! frescoraja#init() abort
   let g:custom_themes_cache = {
         \ 'bg': {},
         \ 'default_theme': get(g:, 'custom_themes_name', 'default'),
-        \ 'default_colorscheme': get(g:, 'colors_name', 'default')
         \ }
 
   call frescoraja#load_custom_themes()
@@ -363,34 +420,35 @@ function! frescoraja#init() abort
 endfunction
 
 function! frescoraja#random() abort
-  if !has('python') && !has('python3')
-    echohl WarningMsg |
-          \ echomsg 'Randomized theme selection requires python support in VIM. Using `default` theme.' |
-          \ echohl None
+  try
+    " check for python support
+    if !has('python') && !has('python3')
+      throw 'randomized theme selection requires python support.'
+    endif
+    let l:py_cmd = has('python3') ? 'py3' : 'py'
+    let l:available_themes = filter(
+          \ copy(g:custom_themes_cache.themes),
+          \ 'v:val !~# "random"'
+          \)
+    let l:max_idx = len(l:available_themes)
+    if l:max_idx > 0
+      let l:rand_idx = trim(
+            \ execute(l:py_cmd . ' import random; print(random.randint(0,' . (l:max_idx+1) . '))')
+            \ )
+      let l:theme = l:available_themes[+l:rand_idx]
+      execute 'call frescoraja#' . l:theme . '()'
+    else
+      throw 'no themes in g:custom_themes_cache'
+    endif
+  catch
+    echohl ErrorMsg | echomsg 'Random theme could not be loaded: ' . v:exception . '. Loading `default` theme.' | echohl None
     call frescoraja#default()
-  else
-    try
-      let l:py_cmd = 'py'
-      if has('python3')
-        let l:py_cmd = 'py3'
-      endif
-      let l:max_idx = len(g:custom_themes_cache.themes) - 1
-      if l:max_idx >= 0
-        let l:rand_idx = trim(
-              \ execute(l:py_cmd . ' import random; print(random.randint(0,' . l:max_idx . '))'))
-        let l:theme = g:custom_themes_cache.themes[+l:rand_idx]
-        execute 'call frescoraja#' . l:theme . '()'
-      endif
-    catch
-      echohl ErrorMsg | echomsg 'Random theme could not be loaded: ' . v:exception | echohl None
-    endtry
-  endif
+  endtry
 endfunction
 
 function! frescoraja#default() abort
   set background=dark
   set notermguicolors
-  let g:airline_theme = 'jellybeans'
   let g:custom_themes_name = 'default'
 
   colorscheme default
@@ -414,7 +472,6 @@ endfunction
 function! frescoraja#afterglow() abort
   set termguicolors
   let g:custom_themes_name = 'afterglow'
-  let g:airline_theme = 'afterglow'
   colorscheme afterglow
   highlight! Pmenu guibg=#2A344E
   doautocmd User CustomizedTheme
@@ -423,7 +480,6 @@ endfunction
 function! frescoraja#allomancer() abort
   set termguicolors
   let g:custom_themes_name = 'allomancer'
-  let g:airline_theme = 'hybrid'
   colorscheme allomancer
   highlight! NonText guifg=#676B78
   doautocmd User CustomizedTheme
@@ -432,7 +488,6 @@ endfunction
 function! frescoraja#allomancer_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'allomancer_nogui'
-  let g:airline_theme = 'hybridline'
   colorscheme allomancer
   doautocmd User CustomizedTheme
 endfunction
@@ -440,7 +495,6 @@ endfunction
 function! frescoraja#apprentice() abort
   set termguicolors
   let g:custom_themes_name = 'apprentice'
-  let g:airline_theme = 'jellybeans'
   colorscheme apprentice
   highlight! NonText guifg=#909090
   doautocmd User CustomizedTheme
@@ -450,7 +504,6 @@ function! frescoraja#ayu_dark() abort
   set termguicolors
   let g:ayucolor = 'dark'
   let g:custom_themes_name = 'ayu_dark'
-  let g:airline_theme = 'ayu_dark'
   colorscheme ayu
   highlight! NonText guifg=#4F5459
   doautocmd User CustomizedTheme
@@ -460,7 +513,6 @@ function! frescoraja#ayu_mirage() abort
   set termguicolors
   let g:ayucolor = 'mirage'
   let g:custom_themes_name = 'ayu_mirage'
-  let g:airline_theme = 'ayu_mirage'
   colorscheme ayu
   highlight! NonText guifg=#717783
   doautocmd User CustomizedTheme
@@ -469,7 +521,6 @@ endfunction
 function! frescoraja#blayu() abort
   set termguicolors
   let g:custom_themes_name = 'blayu'
-  let g:airline_theme = 'blayu'
   colorscheme blayu
   highlight clear CursorLine
   highlight! ColorColumn guibg=#2A3D4F
@@ -481,7 +532,6 @@ endfunction
 function! frescoraja#candid() abort
   set termguicolors
   let g:custom_themes_name = 'candid'
-  let g:airline_theme = 'base16_nord'
   colorscheme candid
   doautocmd User CustomizedTheme
 endfunction
@@ -489,7 +539,6 @@ endfunction
 function! frescoraja#ceudah() abort
   set termguicolors
   let g:custom_themes_name = 'ceudah'
-  let g:airline_theme = 'quantum'
   colorscheme ceudah
   doautocmd User CustomizedTheme
 endfunction
@@ -497,7 +546,6 @@ endfunction
 function! frescoraja#challenger_deep() abort
   set termguicolors
   let g:custom_themes_name = 'challenger_deep'
-  let g:airline_theme = 'challenger_deep'
   colorscheme challenger_deep
   doautocmd User CustomizedTheme
 endfunction
@@ -505,7 +553,6 @@ endfunction
 function! frescoraja#chito() abort
   set termguicolors
   let g:custom_themes_name = 'chito'
-  let g:airline_theme = 'quantum'
   colorscheme chito
   highlight! Normal guibg=#262A37
   doautocmd User CustomizedTheme
@@ -514,7 +561,6 @@ endfunction
 function! frescoraja#colorsbox_stnight() abort
   set termguicolors
   let g:custom_themes_name = 'colorsbox_stnight'
-  let g:airline_theme = 'base16'
   colorscheme colorsbox-stnight
   highlight! NonText guifg=#A08644
   doautocmd User CustomizedTheme
@@ -523,7 +569,6 @@ endfunction
 function! frescoraja#colorsbox_steighties() abort
   set termguicolors
   let g:custom_themes_name = 'colorsbox_steighties'
-  let g:airline_theme = 'quantum'
   colorscheme colorsbox-steighties
   highlight! NonText guifg=#AB9B4B
   doautocmd User CustomizedTheme
@@ -532,7 +577,6 @@ endfunction
 function! frescoraja#dark() abort
   set termguicolors
   let g:custom_themes_name = 'dark'
-  let g:airline_theme = 'zenburn'
   colorscheme dark
   highlight! Normal guibg=#080F1C
   highlight! vimBracket guifg=#AA6A22
@@ -544,7 +588,6 @@ endfunction
 function! frescoraja#deep_space() abort
   set termguicolors
   let g:custom_themes_name = 'deep_space'
-  let g:airline_theme = 'deep_space'
   colorscheme deep-space
   highlight! Normal guibg=#090E18
   highlight! Folded guifg=#525C6D
@@ -554,7 +597,6 @@ endfunction
 function! frescoraja#deus() abort
   set termguicolors
   let g:custom_themes_name = 'deus'
-  let g:airline_theme = 'deus'
   colorscheme deus
   highlight! Normal guibg=#1C222B
   highlight! NonText guifg=#83A598 guibg=NONE
@@ -564,7 +606,6 @@ endfunction
 function! frescoraja#distill() abort
   set termguicolors
   let g:custom_themes_name = 'distill'
-  let g:airline_theme = 'iceberg'
   colorscheme distill
   highlight! ColorColumn guibg=#16181D
   highlight! LineNr guifg=#474B58
@@ -574,7 +615,6 @@ endfunction
 function! frescoraja#edar() abort
   set termguicolors
   let g:custom_themes_name = 'edar'
-  let g:airline_theme = 'lucius'
   colorscheme edar
   highlight! NonText guifg=#5988B5 guibg=NONE
   highlight! Pmenu guibg=#202A3A
@@ -584,7 +624,6 @@ endfunction
 function! frescoraja#edge() abort
   set termguicolors
   let g:custom_themes_name = 'edge'
-  let g:airline_theme = 'edge'
   let g:edge_style = 'neon'
   colorscheme edge
   doautocmd User CustomizedTheme
@@ -593,7 +632,6 @@ endfunction
 function! frescoraja#flatcolor() abort
   set termguicolors
   let g:custom_themes_name = 'flatcolor'
-  let g:airline_theme = 'base16_nord'
   colorscheme flatcolor
   doautocmd User CustomizedTheme
 endfunction
@@ -601,7 +639,6 @@ endfunction
 function! frescoraja#forest_night() abort
   set termguicolors
   let g:custom_themes_name = 'forest_night'
-  let g:airline_theme = 'forest_night'
   colorscheme forest-night
   highlight! Normal guibg=#1C2C35
   highlight! LineNr guibg=#27373F guifg=#616C72
@@ -614,7 +651,6 @@ endfunction
 function! frescoraja#glacier() abort
   set termguicolors
   let g:custom_themes_name = 'glacier'
-  let g:airline_theme = 'zenburn'
   colorscheme glacier
   highlight! ColorColumn guibg=#21272D guifg=DarkRed
   highlight! Pmenu guibg=#23292F
@@ -624,7 +660,6 @@ endfunction
 function! frescoraja#gotham() abort
   set termguicolors
   let g:custom_themes_name = 'gotham'
-  let g:airline_theme = 'gotham256'
   colorscheme gotham
   doautocmd User CustomizedTheme
 endfunction
@@ -633,7 +668,6 @@ function! frescoraja#gruvbox() abort
   set termguicolors
   let g:gruvbox_contrast_dark = 'hard'
   let g:custom_themes_name = 'gruvbox'
-  let g:airline_theme = 'gruvbox'
   colorscheme gruvbox
   highlight! NonText ctermfg=12 guifg=#504945
   doautocmd User CustomizedTheme
@@ -642,7 +676,6 @@ endfunction
 function! frescoraja#gruvbox8() abort
   set termguicolors
   let g:custom_themes_name = 'gruvbox8'
-  let g:airline_theme = 'gruvbox'
   colorscheme gruvbox8_soft
   doautocmd User CustomizedTheme
 endfunction
@@ -652,7 +685,6 @@ function! frescoraja#gruvbox_material() abort
   let g:gruvbox_material_enable_bold = 1
   let g:gruvbox_material_background='hard'
   let g:custom_themes_name = 'gruvbox_material'
-  let g:airline_theme = 'gruvbox_material'
   colorscheme gruvbox-material
   doautocmd User CustomizedTheme
 endfunction
@@ -660,7 +692,6 @@ endfunction
 function! frescoraja#gummybears() abort
   set termguicolors
   let g:custom_themes_name = 'gummybears'
-  let g:airline_theme = 'jellybeans'
   colorscheme gummybears
   highlight! NonText guifg=#595950
   doautocmd User CustomizedTheme
@@ -669,7 +700,6 @@ endfunction
 function! frescoraja#hybrid_material() abort
   set termguicolors
   let g:custom_themes_name = 'hybrid_material'
-  let g:airline_theme = 'hybrid'
   colorscheme hybrid_material
   highlight! Normal guibg=#162228
   doautocmd User CustomizedTheme
@@ -678,7 +708,6 @@ endfunction
 function! frescoraja#hybrid_reverse() abort
   set termguicolors
   let g:custom_themes_name = 'hybrid_reverse'
-  let g:airline_theme = 'hybrid'
   colorscheme hybrid_reverse
   highlight! NonText guifg=#575B61
   doautocmd User CustomizedTheme
@@ -687,7 +716,6 @@ endfunction
 function! frescoraja#iceberg() abort
   set termguicolors
   let g:custom_themes_name = 'iceberg'
-  let g:airline_theme = 'iceberg'
   colorscheme iceberg
   highlight! NonText guifg=#575B68
   doautocmd User CustomizedTheme
@@ -696,7 +724,6 @@ endfunction
 function! frescoraja#iceberg_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'iceberg_nogui'
-  let g:airline_theme = 'iceberg'
   colorscheme iceberg
   highlight! NonText ctermfg=245
   doautocmd User CustomizedTheme
@@ -706,7 +733,6 @@ function! frescoraja#jellybeans() abort
   set termguicolors
   let g:jellybeans_use_term_italics = 1
   let g:custom_themes_name = 'jellybeans'
-  let g:airline_theme = 'jellybeans'
   colorscheme jellybeans
   doautocmd User CustomizedTheme
 endfunction
@@ -714,7 +740,6 @@ endfunction
 function! frescoraja#kafka() abort
   set termguicolors
   let g:custom_themes_name = 'kafka'
-  let g:airline_theme = 'neodark'
   colorscheme kafka
   highlight! Pmenu guibg=#4E545F
   doautocmd User CustomizedTheme
@@ -723,7 +748,6 @@ endfunction
 function! frescoraja#kuroi() abort
   set termguicolors
   let g:custom_themes_name = 'kuroi'
-  let g:airline_theme = 'neodark'
   colorscheme kuroi
   highlight! LineNr guifg=#575B61
   highlight! NonText guifg=#676B71
@@ -733,7 +757,6 @@ endfunction
 function! frescoraja#kuroi_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'kuroi_nogui'
-  let g:airline_theme = 'neodark'
   colorscheme kuroi
   highlight! LineNr ctermfg=243
   highlight! NonText ctermfg=245
@@ -743,7 +766,6 @@ endfunction
 function! frescoraja#mango() abort
   set termguicolors
   let g:custom_themes_name = 'mango'
-  let g:airline_theme = 'seagull'
   colorscheme mango
   highlight! Pmenu ctermbg=232 guibg=#1D1D1D
   highlight! NonText guifg=#5D5D5D
@@ -754,7 +776,6 @@ endfunction
 function! frescoraja#maui() abort
   set termguicolors
   let g:custom_themes_name = 'maui'
-  let g:airline_theme = 'maui'
   colorscheme maui
   doautocmd User CustomizedTheme
 endfunction
@@ -762,7 +783,6 @@ endfunction
 function! frescoraja#material() abort
   set termguicolors
   let g:custom_themes_name = 'material'
-  let g:airline_theme = 'material'
   colorscheme material
   highlight! Normal guibg=#162127 ctermbg=233
   highlight! Todo guibg=#000000 guifg=#BD9800 cterm=bold
@@ -774,7 +794,6 @@ endfunction
 function! frescoraja#material_theme() abort
   set termguicolors
   let g:custom_themes_name = 'material_theme'
-  let g:airline_theme = 'material'
   colorscheme material-theme
   doautocmd User CustomizedTheme
 endfunction
@@ -783,7 +802,6 @@ function! frescoraja#vim_material() abort
   set termguicolors
   let g:material_style = 'dark'
   let g:custom_themes_name = 'vim_material'
-  let g:airline_theme = 'material'
   colorscheme vim-material
   highlight! ColorColumn guibg=#374349
   highlight! CursorLine cterm=NONE
@@ -794,7 +812,6 @@ function! frescoraja#vim_material_oceanic() abort
   set termguicolors
   let g:material_style = 'oceanic'
   let g:custom_themes_name = 'vim_material_oceanic'
-  let g:airline_theme = 'material'
   colorscheme vim-material
   highlight! CursorLine cterm=NONE
   doautocmd User CustomizedTheme
@@ -804,7 +821,6 @@ function! frescoraja#vim_material_palenight() abort
   set termguicolors
   let g:material_style = 'palenight'
   let g:custom_themes_name = 'vim_material_palenight'
-  let g:airline_theme = 'material'
   colorscheme vim-material
   highlight! TabLine guifg=#676E95 guibg=#191919
   highlight! TabLineFill guifg=#191919
@@ -820,7 +836,6 @@ function! frescoraja#molokai() abort
   let g:molokai_original = 1
   let g:rehash256 = 1
   let g:custom_themes_name = 'molokai'
-  let g:airline_theme = 'molokai'
   colorscheme molokai
   doautocmd User CustomizedTheme
 endfunction
@@ -828,7 +843,6 @@ endfunction
 function! frescoraja#molokai_dark_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'molokai_dark_nogui'
-  let g:airline_theme = 'molokai'
   colorscheme molokai_dark
   doautocmd User CustomizedTheme
 endfunction
@@ -836,7 +850,6 @@ endfunction
 function! frescoraja#plastic() abort
   set termguicolors
   let g:custom_themes_name = 'plastic'
-  let g:airline_theme = 'onedark'
   colorscheme plastic
   highlight! Comment guifg=#7B828F
   highlight! CursorLine guifg=#8BB2DF
@@ -847,7 +860,6 @@ endfunction
 function! frescoraja#pink_moon() abort
   set termguicolors
   let g:custom_themes_name = 'pink_moon'
-  let g:airline_theme = 'lucius'
   colorscheme pink-moon
   doautocmd User CustomizedTheme
 endfunction
@@ -855,7 +867,6 @@ endfunction
 function! frescoraja#orange_moon() abort
   set termguicolors
   let g:custom_themes_name = 'orange_moon'
-  let g:airline_theme = 'lucius'
   colorscheme orange-moon
   doautocmd User CustomizedTheme
 endfunction
@@ -863,7 +874,6 @@ endfunction
 function! frescoraja#yellow_moon() abort
   set termguicolors
   let g:custom_themes_name = 'yellow_moon'
-  let g:airline_theme = 'lucius'
   colorscheme yellow-moon
   doautocmd User CustomizedTheme
 endfunction
@@ -871,7 +881,6 @@ endfunction
 function! frescoraja#neodark() abort
   set termguicolors
   let g:custom_themes_name = 'neodark'
-  let g:airline_theme = 'neodark'
   colorscheme neodark
   highlight! Normal guibg=#0e1e27
   doautocmd User CustomizedTheme
@@ -880,7 +889,6 @@ endfunction
 function! frescoraja#neodark_nogui() abort
   set notermguicolors
   let g:custom_themes_name = 'neodark_nogui'
-  let g:airline_theme = 'neodark'
   colorscheme neodark
   highlight! Normal ctermbg=233
   doautocmd User CustomizedTheme
@@ -889,7 +897,6 @@ endfunction
 function! frescoraja#night_owl() abort
   set termguicolors
   let g:custom_themes_name = 'night_owl'
-  let g:airline_theme = 'night_owl'
   colorscheme night-owl
   highlight! Folded guibg=#202000 guifg=#BFAF9F
   doautocmd User CustomizedTheme
@@ -898,7 +905,6 @@ endfunction
 function! frescoraja#oceanicnext() abort
   set termguicolors
   let g:custom_themes_name = 'oceanicnext'
-  let g:airline_theme = 'oceanicnext'
   colorscheme OceanicNext
   highlight! Normal guibg=#0E1E27
   highlight! LineNr guibg=#0E1E27
@@ -909,7 +915,6 @@ endfunction
 function! frescoraja#oceanicnext2() abort
   set termguicolors
   let g:custom_themes_name = 'oceanicnext2'
-  let g:airline_theme = 'oceanicnext'
   colorscheme OceanicNext2
   highlight! LineNr guibg=#141E23
   highlight! CursorLineNr guifg=#72C7D1
@@ -922,7 +927,6 @@ function! frescoraja#one() abort
   set termguicolors
   let g:allow_one_italics = 1
   let g:custom_themes_name = 'one'
-  let g:airline_theme = 'one'
   colorscheme one
   highlight! NonText guifg=#61AFEF
   doautocmd User CustomizedTheme
@@ -931,7 +935,6 @@ endfunction
 function! frescoraja#onedark() abort
   set termguicolors
   let g:custom_themes_name = 'onedark'
-  let g:airline_theme = 'onedark'
   colorscheme onedark
   highlight! NonText guifg=#D19A66
   doautocmd User CustomizedTheme
@@ -940,7 +943,6 @@ endfunction
 function! frescoraja#onedarkafterglow() abort
   set termguicolors
   let g:custom_themes_name = 'onedarkafterglow'
-  let g:airline_theme = 'onedark'
   colorscheme onedarkafterglow
   highlight! NonText guifg=#4B80D8
   doautocmd User CustomizedTheme
@@ -949,7 +951,6 @@ endfunction
 function! frescoraja#petrel() abort
   set termguicolors
   let g:custom_themes_name = 'petrel'
-  let g:airline_theme = 'seagull'
   colorscheme petrel
   highlight! Pmenu gui=NONE
   doautocmd User CustomizedTheme
@@ -959,7 +960,6 @@ function! frescoraja#quantum_light() abort
   set termguicolors
   let g:quantum_black = 0
   let g:custom_themes_name = 'quantum_light'
-  let g:airline_theme = 'quantum'
   colorscheme quantum
   highlight! LineNr guifg=#627782
   highlight! Folded guifg=#627782
@@ -970,7 +970,6 @@ function! frescoraja#quantum_dark() abort
   set termguicolors
   let g:quantum_black = 1
   let g:custom_themes_name = 'quantum_dark'
-  let g:airline_theme = 'quantum'
   colorscheme quantum
   highlight! LineNr guifg=#627782
   highlight! Folded guifg=#627782
@@ -980,7 +979,6 @@ endfunction
 function! frescoraja#spring_night() abort
   set termguicolors
   let g:custom_themes_name = 'spring_night'
-  let g:airline_theme = 'spring_night'
   colorscheme spring-night
   highlight! LineNr guifg=#767f89 guibg=#1d2d42
   doautocmd User CustomizedTheme
@@ -989,7 +987,6 @@ endfunction
 function! frescoraja#srcery() abort
   set termguicolors
   let g:custom_themes_name = 'srcery'
-  let g:airline_theme = 'srcery'
   colorscheme srcery
   highlight! NonText gui=NONE guifg=#5C5B59
   doautocmd User CustomizedTheme
@@ -998,7 +995,6 @@ endfunction
 function! frescoraja#tender() abort
   set termguicolors
   let g:custom_themes_name = 'tender'
-  let g:airline_theme = 'tender'
   colorscheme tender
   highlight! Normal guibg=#1F1F1F
   highlight! LineNr guifg=#677889 guibg=#282828
@@ -1010,7 +1006,6 @@ endfunction
 function! frescoraja#thaumaturge() abort
   set termguicolors
   let g:custom_themes_name = 'thaumaturge'
-  let g:airline_theme = 'violet'
   colorscheme thaumaturge
   highlight ColorColumn guibg = #2C2936
   doautocmd User CustomizedTheme
@@ -1019,7 +1014,6 @@ endfunction
 function! frescoraja#tokyo_metro() abort
   set termguicolors
   let g:custom_themes_name = 'tokyo_metro'
-  let g:airline_theme = 'tomorrow'
   colorscheme tokyo-metro
   highlight! NonText guifg=#646980
   doautocmd User CustomizedTheme
@@ -1028,7 +1022,6 @@ endfunction
 function! frescoraja#tomorrow_night() abort
   set termguicolors
   let g:custom_themes_name = 'tomorrow_night'
-  let g:airline_theme = 'tomorrow'
   colorscheme Tomorrow-Night
   highlight! Normal guibg=#15191A
   highlight! LineNr guibg=#1F2223
@@ -1039,7 +1032,6 @@ endfunction
 function! frescoraja#two_firewatch() abort
   set termguicolors
   let g:custom_themes_name = 'two_firewatch'
-  let g:airline_theme = 'twofirewatch'
   colorscheme two-firewatch
   highlight! Normal guibg=#21252D
   doautocmd User CustomizedTheme
@@ -1048,7 +1040,6 @@ endfunction
 function! frescoraja#yowish() abort
   set termguicolors
   let g:custom_themes_name = 'yowish'
-  let g:airline_theme = 'yowish'
   let g:yowish = {
         \ 'term_italic': 1,
         \ 'comment_italic': 1,
@@ -1061,7 +1052,6 @@ endfunction
 
 function! frescoraja#znake() abort
   set termguicolors
-  let g:airline_theme = 'lucius'
   let g:custom_themes_name = 'znake'
   colorscheme znake
   highlight! Normal guifg=#DCCFEE

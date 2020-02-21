@@ -5,7 +5,7 @@
 " Name Of File: frescoraja.vim
 "  Description: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
 "   Maintainer: David Carter <fresco.raja at gmail.com>
-"      Version: 0.0.2
+"      Version: 0.0.3
 "
 "==========================================================================================================
 " }}}
