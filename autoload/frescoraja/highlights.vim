@@ -1,40 +1,53 @@
+let s:none = 'NONE'
+
+function! s:HL(highlight, guifg, guibg, ctermfg, ctermbg, gui)
+  execute 'highlight! clear ' . a:highlight
+  let l:cmd = 'highlight! ' . a:highlight
+  let l:gf = len(a:guifg) ? 'guifg=' . a:guifg : ''
+  let l:gb = len(a:guibg) ? 'guibg=' . a:guibg : ''
+  let l:cf = len(a:ctermfg) ? 'ctermfg=' . a:ctermfg : ''
+  let l:cb = len(a:ctermbg) ? 'ctermbg=' . a:ctermbg : ''
+  let l:g = len(a:gui) ? 'gui=' . a:gui : ''
+  let l:c = len(a:gui) ? 'cterm=' . a:gui : ''
+  execute join([l:cmd, l:gf, l:gb, l:g, l:cf, l:cb, l:c], ' ')
+endfunction
+
 " ALE Plugin Highlighting {{{
-function! frescoraja#highlights#ale(guibg, ctermbg) abort
-  execute 'highlight! ALEErrorSign guifg=#FF4A64 ctermfg=167 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEWarningSign guifg=#FFFF8F ctermfg=228 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! ALEInfoSign guifg=#DFF5FF ctermfg=195 ' . a:guibg . ' ' . a:ctermbg
-  highlight! ALEError guifg=#FF4A64 ctermfg=167 guibg=NONE ctermbg=NONE gui=italic cterm=italic
-  highlight! ALEWarning guifg=#FFFF8F ctermfg=228 guibg=NONE ctermbg=NONE gui=italic cterm=italic
-  highlight! ALEInfo guifg=#DFF5FF ctermfg=195 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+function! frescoraja#highlights#ale() abort
+  call s:HL('ALEErrorSign', '#FF4A64', s:none, '167', s:none, '')
+  call s:HL('ALEWarningSign', '#FFFF8F', s:none, '228', s:none, '')
+  call s:HL('ALEInfoSign', '#DFF5FF', s:none, '195', s:none, '')
+  call s:HL('ALEError', '#FF4A64', s:none, '167', s:none, 'italic')
+  call s:HL('ALEWarning', '#FFFF8F', s:none, '228', s:none, 'italic')
+  call s:HL('ALEInfo', '#DFF5FF', s:none, '195', s:none, 'italic')
 endfunction
 " }}}
 
 " Conquer of Completion Highlighting {{{
-function! frescoraja#highlights#coc(guibg, ctermbg) abort
-  execute 'highlight! CocErrorSign guifg=#BF3B70 ctermfg=125 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocWarningSign guifg=#FF9750 ctermfg=215 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocInfoSign guifg=#AACFFF ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! CocHintSign guifg=#A4F4CA ctermfg=158 ' . a:guibg . ' ' . a:ctermbg
-  highlight! CocErrorHighlight gui=italic cterm=italic guifg=#BF3B70 ctermfg=125
-  highlight! CocWarningHighlight gui=italic cterm=italic guifg=#FF9750 ctermfg=215
-  highlight! CocInfoHighlight gui=italic cterm=italic guifg=#AACFFF ctermfg=153
-  highlight! CocHintHighlight gui=italic cterm=italic guifg=#A4F4CA ctermfg=158
+function! frescoraja#highlights#coc() abort
+  call s:HL('CocErrorSign', '#BF3B70', s:none, '125', s:none, '')
+  call s:HL('CocErrorHighlight', '#BF3B70', s:none, '125', s:none, 'italic')
+  call s:HL('CocWarningSign', '#FF9750', s:none, '215', s:none, '')
+  call s:HL('CocWarningHighlight', '#FF9750', s:none, '215', s:none, 'italic')
+  call s:HL('CocInfoSign', '#AACFFF', s:none, '153', s:none, '')
+  call s:HL('CocInfoHighlight', '#AACFFF', s:none, '153', s:none, 'italic')
+  call s:HL('CocHintSign', '#A4F4CA', s:none, '158', s:none, '')
+  call s:HL('CocHintHighlight', '#A4F4CA', s:none, '158', s:none, 'italic')
 endfunction
 " }}}
 
 " GitGutter Highlighting {{{
-function! frescoraja#highlights#gitgutter(guibg, ctermbg) abort
-  execute 'highlight! GitGutterAdd guifg=#30C75F ctermfg=115 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChange guifg=#4A83D3 ctermfg=153 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterDelete guifg=#E75737 ctermfg=174 ' . a:guibg . ' ' . a:ctermbg
-  execute 'highlight! GitGutterChangeDelete guifg=#FF9F3F ctermfg=222 ' . a:guibg . ' ' . a:ctermbg
+function! frescoraja#highlights#gitgutter() abort
+  call s:HL('GitGutterAdd', '#30C75F', s:none, '115', s:none, '')
+  call s:HL('GitGutterChange', '#4A83D3', s:none, '153', s:none, '')
+  call s:HL('GitGutterDelete', '#E75737', s:none, '174', s:none, '')
+  call s:HL('GitGutterChangeDelete', '#FF9F3F', s:none, '222', s:none, '')
 endfunction
 " }}}
 
 " Better Whitespace Highlighting {{{
 function! frescoraja#highlights#whitespace() abort
-  highlight! clear ExtraWhitespace
-  highlight! ExtraWhitespace cterm=undercurl gui=undercurl ctermfg=red guifg=#D32303
+  call s:HL('ExtraWhitespace', '#D32303', s:none, 'red', s:none, 'undercurl')
 endfunction
 " }}}
 
@@ -48,23 +61,19 @@ function! frescoraja#highlights#syntax() abort
 endfunction
 
 function! frescoraja#highlights#general() abort
-  highlight! clear Error
-  highlight! clear ErrorMsg
   highlight! clear SignColumn
   highlight! clear VertSplit
-  highlight! clear Warning
-  highlight! clear WarningMsg
-  highlight! Error guifg=#FF5F5F ctermfg=203 guibg=NONE ctermbg=NONE
-  highlight! link ErrorMsg Error
   highlight! link SignColumn LineNr
   highlight! link VertSplit Type
-  highlight! Warning guifg=#FFD700 ctermfg=220 guibg=NONE ctermbg=NONE
-  highlight! link WarningMsg Warning
+  call s:HL('Error', '#FF5F5F', s:none, '203', s:none, 'bold')
+  call s:HL('ErrorMsg', '#FF5F5F', s:none, '203', s:none, 'bold')
+  call s:HL('Warning', '#FFD700', s:none, '220', s:none, '')
+  call s:HL('WarningMsg', '#FFD700', s:none, '220', s:none, '')
 endfunction
 
 function! frescoraja#highlights#nontext() abort
-  highlight! NonText guibg=NONE ctermbg=NONE
-  highlight! SpecialKey guibg=NONE ctermbg=NONE
+  call s:HL('NonText', '', s:none, '', s:none, '')
+  call s:HL('SpecialKey', '', s:none, '', s:none, '')
 endfunction
 
 function! frescoraja#highlights#javascript() abort
@@ -91,7 +100,7 @@ function! frescoraja#highlights#javascript() abort
   highlight! link jsClassProperty         Normal
   highlight! link jsExportDefault         Include
   highlight! link jsGlobalObjects         Special
-  highlight! jsThis guifg=#F07178 ctermfg=205 gui=italic cterm=italic
+  call s:HL('jsThis', '#F04158', s:none, '205', s:none, 'italic')
 endfunction
 
 " add comment support for jsonc/json5 files

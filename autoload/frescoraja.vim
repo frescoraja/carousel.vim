@@ -68,14 +68,12 @@ function! frescoraja#apply_airline_theme(theme_name) dict abort
 endfunction
 
 function! frescoraja#apply_highlights() abort
-  let l:guibg = frescoraja#get_highlight_attr('LineNr', 'bg', 'gui', 1)
-  let l:ctermbg = frescoraja#get_highlight_attr('LineNr', 'bg', 'cterm', 1)
   if get(g:, 'custom_themes_ale_highlights', 1)
-    call frescoraja#highlights#ale(l:guibg, l:ctermbg)
+    call frescoraja#highlights#ale()
   endif
   if get (g:, 'custom_themes_coc_highlights', 1)
-    call frescoraja#highlights#coc(l:guibg, l:ctermbg)
-    call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
+    call frescoraja#highlights#coc()
+    call frescoraja#highlights#gitgutter()
   endif
   if get(g:, 'custom_themes_extra_whitespace_highlights', 1)
     call frescoraja#highlights#whitespace()
