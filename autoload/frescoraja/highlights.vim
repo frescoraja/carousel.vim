@@ -1,47 +1,50 @@
-let s:none = 'NONE'
+" Highlighting {{{
 
+" Helpers {{{
+let s:none = 'NONE'
 function! s:HL(highlight, guifg, guibg, ctermfg, ctermbg, gui)
   execute 'highlight! clear ' . a:highlight
   let l:cmd = 'highlight! ' . a:highlight
-  let l:gf = len(a:guifg) ? 'guifg=' . a:guifg : ''
-  let l:gb = len(a:guibg) ? 'guibg=' . a:guibg : ''
-  let l:cf = len(a:ctermfg) ? 'ctermfg=' . a:ctermfg : ''
-  let l:cb = len(a:ctermbg) ? 'ctermbg=' . a:ctermbg : ''
-  let l:g = len(a:gui) ? 'gui=' . a:gui : ''
-  let l:c = len(a:gui) ? 'cterm=' . a:gui : ''
+  let l:gf = empty(a:guifg) ? '' : 'guifg=' . a:guifg
+  let l:gb = empty(a:guibg) ? '' : 'guibg=' . a:guibg
+  let l:cf = empty(a:ctermfg) ? '' : 'ctermfg=' . a:ctermfg
+  let l:cb = empty(a:ctermbg) ? '' : 'ctermbg=' . a:ctermbg
+  let l:g = empty(a:gui) ? '' : 'gui=' . a:gui
+  let l:c = empty(a:gui) ? '' : 'cterm=' . a:gui
   execute join([l:cmd, l:gf, l:gb, l:g, l:cf, l:cb, l:c], ' ')
 endfunction
+" }}}
 
 " ALE Plugin Highlighting {{{
-function! frescoraja#highlights#ale() abort
-  call s:HL('ALEErrorSign', '#FF4A64', s:none, '167', s:none, '')
-  call s:HL('ALEWarningSign', '#FFFF8F', s:none, '228', s:none, '')
-  call s:HL('ALEInfoSign', '#DFF5FF', s:none, '195', s:none, '')
-  call s:HL('ALEError', '#FF4A64', s:none, '167', s:none, 'italic')
-  call s:HL('ALEWarning', '#FFFF8F', s:none, '228', s:none, 'italic')
-  call s:HL('ALEInfo', '#DFF5FF', s:none, '195', s:none, 'italic')
+function! frescoraja#highlights#ale(guibg, ctermbg) abort
+  call s:HL('ALEErrorSign', '#FF4A64', a:guibg, '167', a:ctermbg, '')
+  call s:HL('ALEWarningSign', '#FFEFAF', a:guibg, '228', a:ctermbg, '')
+  call s:HL('ALEInfoSign', '#CFE5FF', a:guibg, '195', a:ctermbg, 'italic')
+  call s:HL('ALEError', '#FF4A64', a:guibg, '167', a:ctermbg, '')
+  call s:HL('ALEWarning', '#FFEFAF', a:guibg, '228', a:ctermbg, '')
+  call s:HL('ALEInfo', '#CFE5FF', a:guibg, '195', a:ctermbg, 'italic')
 endfunction
 " }}}
 
 " Conquer of Completion Highlighting {{{
-function! frescoraja#highlights#coc() abort
-  call s:HL('CocErrorSign', '#BF3B70', s:none, '125', s:none, '')
-  call s:HL('CocErrorHighlight', '#BF3B70', s:none, '125', s:none, 'italic')
-  call s:HL('CocWarningSign', '#FF9750', s:none, '215', s:none, '')
-  call s:HL('CocWarningHighlight', '#FF9750', s:none, '215', s:none, 'italic')
-  call s:HL('CocInfoSign', '#AACFFF', s:none, '153', s:none, '')
-  call s:HL('CocInfoHighlight', '#AACFFF', s:none, '153', s:none, 'italic')
-  call s:HL('CocHintSign', '#A4F4CA', s:none, '158', s:none, '')
-  call s:HL('CocHintHighlight', '#A4F4CA', s:none, '158', s:none, 'italic')
+function! frescoraja#highlights#coc(guibg, ctermbg) abort
+  call s:HL('CocErrorSign', '#DF0B70', a:guibg, '125', a:ctermbg, '')
+  call s:HL('CocErrorHighlight', '#DF0B70', a:guibg, '125', a:ctermbg, '')
+  call s:HL('CocWarningSign', '#FF7A40', a:guibg, '215', a:ctermbg, '')
+  call s:HL('CocWarningHighlight', '#FF8A40', a:guibg, '215', a:ctermbg, '')
+  call s:HL('CocInfoSign', '#4A9FCF', a:guibg, '153', a:ctermbg, '')
+  call s:HL('CocInfoHighlight', '#4A9FCF', a:guibg, '153', a:ctermbg, 'italic')
+  call s:HL('CocHintSign', '#A4F4CA', a:guibg, '158', a:ctermbg, '')
+  call s:HL('CocHintHighlight', '#A4F4CA', a:guibg, '158', a:ctermbg, 'italic')
 endfunction
 " }}}
 
 " GitGutter Highlighting {{{
-function! frescoraja#highlights#gitgutter() abort
-  call s:HL('GitGutterAdd', '#30C75F', s:none, '115', s:none, '')
-  call s:HL('GitGutterChange', '#4A83D3', s:none, '153', s:none, '')
-  call s:HL('GitGutterDelete', '#E75737', s:none, '174', s:none, '')
-  call s:HL('GitGutterChangeDelete', '#FF9F3F', s:none, '222', s:none, '')
+function! frescoraja#highlights#gitgutter(guibg, ctermbg) abort
+  call s:HL('GitGutterAdd', '#30C75F', a:guibg, '115', a:ctermbg, '')
+  call s:HL('GitGutterChange', '#4A83D3', a:guibg, '153', a:ctermbg, '')
+  call s:HL('GitGutterDelete', '#E75737', a:guibg, '174', a:ctermbg, '')
+  call s:HL('GitGutterChangeDelete', '#FF9F3F', a:guibg, '222', a:ctermbg, '')
 endfunction
 " }}}
 
@@ -112,6 +115,8 @@ function! frescoraja#highlights#json() abort
   highlight def link jsoncLineComment     Comment
   highlight def link jsoncComment         Comment
 endfunction
+" }}}
+
 " }}}
 
 " vim: fdm=marker fmr={{{,}}} fen

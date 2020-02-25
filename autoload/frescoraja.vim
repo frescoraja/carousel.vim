@@ -68,12 +68,14 @@ function! frescoraja#apply_airline_theme(theme_name) dict abort
 endfunction
 
 function! frescoraja#apply_highlights() abort
+  let l:guibg = frescoraja#get_highlight_attr('LineNr', 'bg', 'gui')
+  let l:ctermbg = frescoraja#get_highlight_attr('LineNr', 'bg', 'cterm')
   if get(g:, 'custom_themes_ale_highlights', 1)
-    call frescoraja#highlights#ale()
+    call frescoraja#highlights#ale(l:guibg, l:ctermbg)
   endif
   if get (g:, 'custom_themes_coc_highlights', 1)
-    call frescoraja#highlights#coc()
-    call frescoraja#highlights#gitgutter()
+    call frescoraja#highlights#coc(l:guibg, l:ctermbg)
+    call frescoraja#highlights#gitgutter(l:guibg, l:ctermbg)
   endif
   if get(g:, 'custom_themes_extra_whitespace_highlights', 1)
     call frescoraja#highlights#whitespace()
@@ -86,8 +88,8 @@ function! frescoraja#cache_custom_theme_settings() abort
     call frescoraja#load_custom_themes()
   endif
   let g:theme_index = index(g:custom_themes_cache.themes, g:custom_themes_name)
-  let g:custom_themes_cache.bg.gui = frescoraja#get_highlight_attr('Normal', 'bg', 'gui', 0)
-  let g:custom_themes_cache.bg.cterm = frescoraja#get_highlight_attr('Normal', 'bg', 'cterm', 0)
+  let g:custom_themes_cache.bg.gui = frescoraja#get_highlight_attr('Normal', 'bg', 'gui')
+  let g:custom_themes_cache.bg.cterm = frescoraja#get_highlight_attr('Normal', 'bg', 'cterm')
   let g:custom_themes_cache.random_times = 0
 endfunction
 
@@ -95,23 +97,16 @@ function! frescoraja#colorize_group(...) abort
   " a:1 => syntax group name
   " a:2 => syntax color (optional)
   " Defaults to coloring foreground, unless `ColorColumn` group specified
-  let l:args = split(a:1, '\s')
-  if len(l:args) > 1
-    let l:group = l:args[0]
-    let l:color = l:args[1]
-  else
-    let l:group = a:1
-    let l:color = get(a:, 2, '')
-  endif
-  let l:fgbg = l:group ==? 'ColorColumn' ? 'bg' : 'fg'
   try
-    if !&termguicolors
-      execute 'highlight ' . l:group . ' cterm' . l:fgbg . '=' . l:color
-    else
-      let l:hexcolor = matchstr(l:color, '\zs\x\{6}')
-      let l:gui = empty(l:hexcolor) ? l:color : '#' . l:hexcolor
-      execute 'highlight ' . l:group . ' gui' . l:fgbg . '=' . l:gui
+    let l:fgbg = a:1 ==? 'ColorColumn' ? 'bg' : 'fg'
+    if a:0 == 3 " override fg/bg with arg if provided
+      let l:fgbg = a:3
     endif
+    let l:hexcolor = matchstr(a:2, '\zs\x\{6}')
+    let l:color = empty(l:hexcolor) ? a:2 : '#' . l:hexcolor
+    " l:term should be something like 'guifg=#FF11AA' or 'ctermbg=black'
+    let l:term = (&termguicolors ? 'gui' : 'cterm') . l:fgbg . '=' . l:color
+    execute join(['highlight', a:1, l:term], ' ')
   catch
     echohl ErrorMsg | echomsg v:exception | echohl None
   endtry
@@ -174,13 +169,8 @@ function! frescoraja#fix_reset_highlighting() abort
   endif
 endfunction
 
-function! frescoraja#get_highlight_attr(group, term, mode, verbose) abort
-  let l:color = synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
-  if empty(l:color)
-    let l:color = 'NONE'
-  endif
-
-  return a:verbose ? a:mode . a:term . '=' . l:color : l:color
+function! frescoraja#get_highlight_attr(group, term, mode) abort
+  return synIDattr(synIDtrans(hlID(a:group)), a:term, a:mode)
 endfunction
 
 function! frescoraja#get_highlight_value(group, term) abort
@@ -298,11 +288,11 @@ endfunction
 
 function! frescoraja#toggle_background_transparency() abort
   let l:term = &termguicolors == 0 ? 'cterm' : 'gui'
-  let l:current_bg = frescoraja#get_highlight_attr('Normal', 'bg', l:term, 0)
-  if l:current_bg ==? 'none'
-    " if no bg was cached use default dark settings
+  let l:current_bg = frescoraja#get_highlight_attr('Normal', 'bg', l:term)
+  if empty(l:current_bg)
+    " if no bg was cached (or bg was not set) use default dark settings
     " if termguicolors was changed, cached bg may be invalid, use default dark settings
-    if empty(g:custom_themes_cache.bg[l:term]) || g:custom_themes_cache.bg[l:term] ==? 'none'
+    if empty(g:custom_themes_cache.bg[l:term])
       if l:term ==? 'gui' | let g:custom_themes_cache.bg.gui = '#0D0D0D' | endif
       if l:term ==? 'cterm' | let g:custom_themes_cache.bg.cterm = 233 | endif
     endif
@@ -1067,7 +1057,7 @@ endfunction
 " Autoload commands {{{
 command! -nargs=? -complete=customlist,frescoraja#get_custom_themes
       \ CustomizeTheme call frescoraja#customize_theme(<f-args>)
-command! -nargs=1 -complete=customlist,frescoraja#get_syntax_groups
+command! -nargs=+ -complete=customlist,frescoraja#get_syntax_groups
       \ ColorizeSyntaxGroup call frescoraja#colorize_group(<f-args>)
 command! -bang -nargs=? -complete=customlist,frescoraja#get_syntax_groups
       \ Italicize call frescoraja#italicize(<bang>0, <f-args>)
