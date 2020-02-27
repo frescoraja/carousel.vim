@@ -5,7 +5,7 @@
 " Name Of File: frescoraja.vim
 "  Description: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
 "   Maintainer: David Carter <fresco.raja at gmail.com>
-"      Version: 0.0.4
+"      Version: 0.0.5
 "==========================================================================================================
 " }}}
 
@@ -41,48 +41,50 @@ if get(g:, 'custom_themes_enabled', 0)
   nmap <Plug>GetSyntax :GetSyntaxGroup<CR>
   " commands that take arguments:
   nmap <Plug>SetTextwidth :SetTextwidth<Space>
-  " commands that take args and support auto-completion
+  " commands that take arguments and support auto-completion
   if get(g:, 'custom_themes_completion_enabled', 0)
     if !&wildcharm | set wildcharm=<C-Z> | endif
-    execute 'nmap <Plug>CustomizeTheme :CustomizeTheme ' . nr1char(&wildcharm)
-    execute 'nmap <Plug>Colorize :ColorizeSyntaxGroup ' . nr1char(&wildcharm)
-    execute 'nmap <Plug>Italicize :Italicize! ' . nr1char(&wildcharm)
+    execute 'nmap <Plug>CustomizeTheme :CustomizeTheme ' . nr2char(&wildcharm)
+    execute 'nmap <Plug>Colorize :ColorizeSyntaxGroup ' . nr2char(&wildcharm)
+    execute 'nmap <Plug>Italicize :Italicize! ' . nr2char(&wildcharm)
   else
     nmap <Plug>CustomizeTheme :CustomizeTheme<Space>
     nmap <Plug>Colorize :ColorizeSyntaxGroup<Space>
     nmap <Plug>Italicize :Italicize
   endif
 
+  " add key maps if enabled
   if get(g:, 'custom_themes_mappings_enabled', 0)
     if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<F5>', 'n'))
-      nmap <unique> <F5> <Plug>CustomizeTheme
+      nmap <silent> <unique> <F5> <Plug>CustomizeTheme
     endif
     if !hasmapto('<Plug>PrevTheme') && empty(maparg('<F7>', 'n'))
-      nmap <unique> <F7> <Plug>PrevTheme
+      nmap <silent> <unique> <F7> <Plug>PrevTheme
     endif
     if !hasmapto('<Plug>NextTheme') && empty(maparg('<F9>', 'n'))
-      nmap <unique> <F9> <Plug>NextTheme
+      nmap <silent> <unique> <F9> <Plug>NextTheme
     endif
 
-    if has('nvim')
+    if has('nvim') && !exists('$TMUX')
+      " Shift + Fn keys in nvim map differently than vim, but not in tmux
       if !hasmapto('<Plug>RandomTheme') && empty(maparg('<F17>', 'n'))
-        nmap <unique> <F17> <Plug>RandomTheme
+        nmap <silent> <unique> <F17> <Plug>RandomTheme
       endif
       if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<F19>', 'n'))
-        nmap <unique> <F19> <Plug>PrevColorscheme
+        nmap <silent> unique> <F19> <Plug>PrevColorscheme
       endif
       if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<F21>', 'n'))
-        nmap <unique> <F22> <Plug>NextColorscheme
+        nmap <silent> <unique> <F21> <Plug>NextColorscheme
       endif
     else
       if !hasmapto('<Plug>RandomTheme') && empty(maparg('<S-F5>', 'n'))
-        nmap <unique> <S-F5> <Plug>RandomTheme
+        nmap <silent> <unique> <S-F5> <Plug>RandomTheme
       endif
       if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<S-F7>', 'n'))
-        nmap <unique> <S-F7> <Plug>PrevColorscheme
+        nmap <silent> <unique> <S-F7> <Plug>PrevColorscheme
       endif
       if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<S-F9>', 'n'))
-        nmap <unique> <S-F9> <Plug>NextColorscheme
+        nmap <silent> <unique> <S-F9> <Plug>NextColorscheme
       endif
     endif
   endif
