@@ -852,6 +852,7 @@ function! frescoraja#pink_moon() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'pink_moon'
   colorscheme pink-moon
+  highlight! NonText guifg=#344451
   doautocmd User CustomizedTheme
 endfunction
 
@@ -859,6 +860,7 @@ function! frescoraja#orange_moon() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'orange_moon'
   colorscheme orange-moon
+  highlight! NonText guifg=#69666A
   doautocmd User CustomizedTheme
 endfunction
 
@@ -866,6 +868,7 @@ function! frescoraja#yellow_moon() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'yellow_moon'
   colorscheme yellow-moon
+  highlight! NonText guifg=#69666A
   doautocmd User CustomizedTheme
 endfunction
 
