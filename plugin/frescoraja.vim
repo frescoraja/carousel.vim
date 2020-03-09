@@ -56,35 +56,35 @@ if get(g:, 'custom_themes_enabled', 0)
   " add key maps if enabled
   if get(g:, 'custom_themes_mappings_enabled', 0)
     if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<F5>', 'n'))
-      nmap <silent> <unique> <F5> <Plug>CustomizeTheme
+      nmap <F5> <Plug>CustomizeTheme
     endif
     if !hasmapto('<Plug>PrevTheme') && empty(maparg('<F7>', 'n'))
-      nmap <silent> <unique> <F7> <Plug>PrevTheme
+      nmap <silent> <F7> <Plug>PrevTheme
     endif
     if !hasmapto('<Plug>NextTheme') && empty(maparg('<F9>', 'n'))
-      nmap <silent> <unique> <F9> <Plug>NextTheme
+      nmap <silent> <F9> <Plug>NextTheme
     endif
 
     if has('nvim') && !exists('$TMUX')
       " Shift + Fn keys in nvim map differently than vim, but not in tmux
       if !hasmapto('<Plug>RandomTheme') && empty(maparg('<F17>', 'n'))
-        nmap <silent> <unique> <F17> <Plug>RandomTheme
+        nmap <silent> <F17> <Plug>RandomTheme
       endif
       if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<F19>', 'n'))
-        nmap <silent> unique> <F19> <Plug>PrevColorscheme
+        nmap <silent> <F19> <Plug>PrevColorscheme
       endif
       if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<F21>', 'n'))
-        nmap <silent> <unique> <F21> <Plug>NextColorscheme
+        nmap <silent> <F21> <Plug>NextColorscheme
       endif
     else
       if !hasmapto('<Plug>RandomTheme') && empty(maparg('<S-F5>', 'n'))
-        nmap <silent> <unique> <S-F5> <Plug>RandomTheme
+        nmap <silent> <S-F5> <Plug>RandomTheme
       endif
       if !hasmapto('<Plug>PrevColorscheme') && empty(maparg('<S-F7>', 'n'))
-        nmap <silent> <unique> <S-F7> <Plug>PrevColorscheme
+        nmap <silent> <S-F7> <Plug>PrevColorscheme
       endif
       if !hasmapto('<Plug>NextColorscheme') && empty(maparg('<S-F9>', 'n'))
-        nmap <silent> <unique> <S-F9> <Plug>NextColorscheme
+        nmap <silent> <S-F9> <Plug>NextColorscheme
       endif
     endif
   endif
