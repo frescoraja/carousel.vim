@@ -9,17 +9,74 @@ cursor, textwidth and cursorcolumn, font, background, and colorscheme.
 
 1. [Installation](#installation)
 2. [Loading Custom Themes](#loading-customized-themes)
-3. [Theme/Colorscheme Switching](#themescolorschemes-switching)
-4. [Background Toggling](#toggle-background-color-and-transparency)
-5. [Colorcolumn Toggling](#toggle-colorcolumntextwidth)
-6. [Colorize/Italicize](#colorizeitalicize)
-7. [Get Syntax Highlighting](#get-syntax-highlighting)
-8. [Cursor Shapes](#custom-cursor-shapes)
-9. [Reset Functions](#reset-functions)
-10. [Default Key Mappings](#default-key-mappings)
-11. [Dependencies/Integrations](#integrations)
+3. [Loading Random Theme](#load-random-theme)
+4. [Theme/Colorscheme Switching](#themescolorschemes-switching)
+5. [Background Toggling](#toggle-background-color-and-transparency)
+6. [Colorcolumn Toggling](#toggle-colorcolumntextwidth)
+7. [Colorize/Italicize](#colorizeitalicize)
+8. [Get Syntax Highlighting](#get-syntax-highlighting)
+9. [Cursor Shapes](#custom-cursor-shapes)
+10. [Reset Functions](#reset-functions)
+11. [Default Key Mappings](#default-key-mappings)
+12. [Dependencies/Integrations](#integrations)
 
 ---
+
+## Installation
+
+I use and highly recommend [vim-plug](https://github.com/junegunn/vim-plug), in which case you would add this to your `.vimrc`:
+
+```viml
+Plug 'frescoraja/frescoraja-vim-themes'
+```
+
+Then, just type `:PlugInstall` from within Vim, or `vim -c PlugInstall` from the command line.
+
+Alternatively, this repo can be cloned to a your plugin manager's defined location (ie for
+[pathogen](https://github.com/tpope/vim-pathogen))
+
+```shell
+git clone https://github.com/frescoraja/frescoraja-vim-themes ~/.vim/bundle
+```
+
+***To enable theming functionality, the following global variable must be set:***
+
+```viml
+let g:custom_themes_enabled=1
+```
+
+To set a default theme to load on startup:
+
+```viml
+let g:custom_themes_name='default'
+```
+
+To set apprentice theme to load on startup in `diff` mode, with `iceberg` theme otherwise:
+
+```viml
+if &diff
+    let g:custom_themes_name='apprentice'
+else
+    let g:custom_themes_name='iceberg'
+endif
+```
+
+To use [default key mappings](#default-key-mappings):
+
+```viml
+let g:custom_themes_mappings_enabled=1
+```
+
+### Load Random Theme
+
+Just put the following in your `vimrc`:
+
+```viml
+let g:custom_themes_name='random'
+```
+
+
+## Plugin Commands Usage
 
 ### Loading Customized Themes
 
@@ -155,51 +212,6 @@ Use `<Plug>ReloadColorschemes` to reload all available colorschemes (or type `:R
 Use `<Plug>ReloadThemes` to reload all customized themes (or type `:ReloadThemes`)
 
 ---
-
-## Installation
-
-I use and highly recommend [vim-plug](https://github.com/junegunn/vim-plug), in which case you would add something like
-this to your `.vimrc`:
-
-```viml
-call plug#begin('/your-plugin-path')
-
-Plug 'frescoraja/frescoraja-vim-themes'
-
-call plug#end()
-```
-
-Then, just type `:PlugInstall` from within Vim, or `vim -c PlugInstall` from the command line.
-
-Alternatively, this repo can be cloned to a your plugin manager's defined location (like for
-[pathogen](https://github.com/tpope/vim-pathogen))
-
-```shell
-git clone https://github.com/frescoraja/frescoraja-vim-themes ~/.vim/bundle
-```
-
-To initialize theming functionality, set a global trigger in vimrc:
-
-```viml
-let g:custom_themes_enabled=1
-
-" set a default theme to load on startup:
-let g:custom_themes_name='default'
-
-" set a random theme to load on startup:
-let g:custom_themes_name='random'
-
-" allow default key mappings
-let g:custom_themes_mappings_enabled=1
-```
-
-Or, you can just call the initializer directly if you don't want any theming applied by default, but want the plugin
-functions available:
-
-```viml
-" this line would go after plugins loaded, ie after `call plug#end()` if using vim-plug
-call frescoraja#init()
-```
 
 ## Default Key Mappings
 
