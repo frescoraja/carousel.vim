@@ -280,7 +280,7 @@ Then use the `:Clap themes` command to open
 - [distill](https://github.com/deathlyfrantic/vim-distill)
 - [edar/elit](https://github.com/DrXVII/vim_colors)
 - [edge](https://github.com/sainnhe/edge)
-- [forest-night](https://github.com/sainnhe/vim-color-forest-night)
+- [forest-night](https://github.com/sainnhe/forest-night)
 - [gotham](https://github.com/whatyouhide/vim-gotham)
 - [gruvbox](https://github.com/morhetz/gruvbox)
 - [gruvbox8](https://github.com/lifepillar/vim-gruvbox8)
