@@ -859,6 +859,13 @@ function! frescoraja#molokai_dark_nogui() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! frescoraja#nord() abort
+  call frescoraja#initialize_theme()
+  let g:custom_themes_name = 'nord'
+  colorscheme nord
+  doautocmd User CustomizedTheme
+endfunction
+
 function! frescoraja#plastic() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'plastic'

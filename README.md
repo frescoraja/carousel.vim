@@ -300,6 +300,7 @@ Then use the `:Clap themes` command to open
 - [miramare](https://github.com/franbach/miramare)
 - [molokai](https://github.com/tomasr/molokai)
 - [neodark](https://github.com/KeitaNakamura/neodark.vim)
+- [nord](https://github.com/arcticicestudio/nord-vim)
 - [oceanic-next](https://github.com/mhartington/oceanic-next)
 - [onedark](https://github.com/joshdick/onedark.vim)
 - [onedarkafterglow](https://github.com/MrGuiMan/onedark-afterglow.vim)
