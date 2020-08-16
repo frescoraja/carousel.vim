@@ -7,7 +7,7 @@ scriptencoding utf-8
 let s:inside_tmux = exists('$TMUX')
 let s:inside_terminal = $TERM_PROGRAM ==? 'Apple_Terminal'
 
-" theme -> airline theme mapping
+" theme -> airline theme mapping (only necessary if airline theme name != colorscheme name
 let s:airline_theme_mapping = {
       \ 'apply': function('frescoraja#apply_airline_theme'),
       \ 'default': 'jellybeans',
@@ -819,6 +819,17 @@ function! frescoraja#vim_material_palenight() abort
   highlight! ColorColumn guibg=#3A3E4F
   highlight! CursorLine cterm=NONE
   highlight! Normal guibg=#191D2E
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#miramare() abort
+  call frescoraja#initialize_theme()
+  let g:miramare_transparent_background = 0
+  let g:miramare_enable_italic = 1
+  let g:miramare_cursor = 'blue'
+  let g:miramare_current_word = 'bold'
+  let g:custom_themes_name = 'miramare'
+  colorscheme miramare
   doautocmd User CustomizedTheme
 endfunction
 

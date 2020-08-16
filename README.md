@@ -297,6 +297,7 @@ Then use the `:Clap themes` command to open
 - [material](https://github.com/jscappini/material.vim)
 - [maui](https://github.com/zsoltf/vim-maui)
 - [maui-airline](https://github.com/zsoltf/vim-maui-airline)
+- [miramare](https://github.com/franbach/miramare)
 - [molokai](https://github.com/tomasr/molokai)
 - [neodark](https://github.com/KeitaNakamura/neodark.vim)
 - [oceanic-next](https://github.com/mhartington/oceanic-next)
