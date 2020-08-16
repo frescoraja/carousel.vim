@@ -34,6 +34,7 @@ let s:airline_theme_mapping = {
       \ 'kuroi': 'neodark',
       \ 'kuroi_nogui': 'neodark',
       \ 'mango': 'seagull',
+      \ 'material_monokai': 'materialmonokai',
       \ 'material_theme': 'material',
       \ 'vim_material': 'material',
       \ 'vim_material_oceanic': 'material',
@@ -820,6 +821,14 @@ function! frescoraja#vim_material_palenight() abort
   highlight! ColorColumn guibg=#3A3E4F
   highlight! CursorLine cterm=NONE
   highlight! Normal guibg=#191D2E
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#material_monokai() abort
+  call frescoraja#initialize_theme()
+  let g:custom_themes_name = 'material_monokai'
+  let g:materialmonokai_italic = 1
+  colorscheme material-monokai
   doautocmd User CustomizedTheme
 endfunction
 
