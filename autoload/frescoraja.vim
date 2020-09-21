@@ -828,6 +828,7 @@ function! frescoraja#material_monokai() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'material_monokai'
   let g:materialmonokai_italic = 1
+  let g:materialmonokai_custom_lint_indicators = 0
   colorscheme material-monokai
   doautocmd User CustomizedTheme
 endfunction
