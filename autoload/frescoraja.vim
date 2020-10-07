@@ -670,6 +670,7 @@ function! frescoraja#gruvbox8() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'gruvbox8'
   colorscheme gruvbox8_soft
+  highlight! NonText ctermfg=248 guifg=#62605F
   doautocmd User CustomizedTheme
 endfunction
 
@@ -1082,7 +1083,7 @@ function! frescoraja#znake() abort
   highlight! vimFuncKey guifg=#A91A7A cterm=bold
   highlight! Comment guifg=#5A5A69
   highlight! ColorColumn guibg=#331022 guifg=#A51F2B
-  highlight! NonText guifg=#8A6044
+  " highlight! NonText guifg=#8A6044
   doautocmd User CustomizedTheme
 endfunction
 " }}} end Theme Definitions
@@ -1122,4 +1123,4 @@ augroup custom_themes
 augroup END
 " }}} end autocmds
 
-" vim: fdm=marker fmr={{{,}}} fen
+" vim: fdm=marker fmr={{{,}}} fen sw=2 sts=2 ts=2 et
