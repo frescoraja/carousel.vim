@@ -1,11 +1,11 @@
 " frescoraja-vim-themes: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
-    "
+"
 " Script Info  {{{
 "==========================================================================================================
 " Name Of File: frescoraja.vim
 "  Description: A vim plugin wrapper for dynamic theme loading and customizing vim appearance.
 "   Maintainer: David Carter <fresco.raja at gmail.com>
-"      Version: 0.0.5
+"      Version: 0.0.6
 "==========================================================================================================
 " }}}
 
@@ -23,8 +23,9 @@ let g:loaded_custom_themes = 1
 if get(g:, 'custom_themes_enabled', 0)
   call frescoraja#init()
 
-  " Command mapping {{{
-  " commands with no arguments:
+  " Plugin Mappings {{{
+  " Commands {{{
+  " No Args {{{
   nmap <Plug>ReloadThemes :ReloadThemes<CR>
   nmap <Plug>ReloadColorschemes :ReloadColorschemes<CR>
   nmap <Plug>DefaultTheme :DefaultTheme<CR>
@@ -39,9 +40,10 @@ if get(g:, 'custom_themes_enabled', 0)
   nmap <Plug>ToggleBackground :ToggleBackground<CR>
   nmap <Plug>ToggleItalics :Italicize!<CR>
   nmap <Plug>GetSyntax :GetSyntaxGroup<CR>
-  " commands that take arguments:
+  " }}} end No Args Commands
+
+  " With Args {{{
   nmap <Plug>SetTextwidth :SetTextwidth<Space>
-  " commands that take arguments and support auto-completion
   if get(g:, 'custom_themes_completion_enabled', 0)
     if !&wildcharm | set wildcharm=<C-Z> | endif
     execute 'nmap <Plug>CustomizeTheme :CustomizeTheme ' . nr2char(&wildcharm)
@@ -52,8 +54,10 @@ if get(g:, 'custom_themes_enabled', 0)
     nmap <Plug>Colorize :ColorizeSyntaxGroup<Space>
     nmap <Plug>Italicize :Italicize
   endif
+  " }}} end Commands with args mappings
+  " }}} end Commands
 
-  " add key maps if enabled
+  " Keymaps {{{
   if get(g:, 'custom_themes_mappings_enabled', 0)
     if !hasmapto('<Plug>CustomizeTheme') && empty(maparg('<F5>', 'n'))
       nmap <F5> <Plug>CustomizeTheme
@@ -64,7 +68,6 @@ if get(g:, 'custom_themes_enabled', 0)
     if !hasmapto('<Plug>NextTheme') && empty(maparg('<F9>', 'n'))
       nmap <silent> <F9> <Plug>NextTheme
     endif
-
     if has('nvim') && !exists('$TMUX')
       " Shift + Fn keys in nvim map differently than vim, but not in tmux
       if !hasmapto('<Plug>RandomTheme') && empty(maparg('<F17>', 'n'))
@@ -88,8 +91,9 @@ if get(g:, 'custom_themes_enabled', 0)
       endif
     endif
   endif
+  " }}} end Keymaps
+  " }}} end Plugin Mappings
 endif
-" }}}
 
 
 " vim: ft=vim fdm=marker fmr={{{,}}} nofen
