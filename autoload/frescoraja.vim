@@ -26,6 +26,9 @@ let s:airline_theme_mapping = {
       \ 'glacier': 'zenburn',
       \ 'gotham': 'gotham256',
       \ 'gruvbox8': 'gruvbox',
+      \ 'gruvbox8_soft': 'gruvbox',
+      \ 'gruvbox_hard': 'gruvbox',
+      \ 'gruvbox_material_hard': 'gruvbox_material',
       \ 'gummybears': 'jellybeans',
       \ 'hybrid_material': 'hybrid',
       \ 'hybrid_reverse': 'hybrid',
@@ -648,6 +651,10 @@ endfunction
 function! frescoraja#Theme__gruvbox() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'gruvbox'
+  let g:gruvbox_contrast_light = 1
+  if exists('g:gruvbox_contrast_dark')
+    unlet g:gruvbox_contrast_dark
+  endif
   colorscheme gruvbox
   highlight! NonText ctermfg=12 guifg=#504945
   doautocmd User CustomizedTheme
@@ -655,8 +662,11 @@ endfunction
 
 function! frescoraja#Theme__gruvbox_hard() abort
   call frescoraja#initialize_theme()
-  let g:gruvbox_contrast_dark = 'hard'
   let g:custom_themes_name = 'gruvbox_hard'
+  let g:gruvbox_contrast_dark = 'hard'
+  if exists('g:gruvbox_contrast_light')
+    unlet g:gruvbox_contrast_light
+  endif
   colorscheme gruvbox
   highlight! NonText ctermfg=12 guifg=#504945
   doautocmd User CustomizedTheme
@@ -665,6 +675,16 @@ endfunction
 function! frescoraja#Theme__gruvbox8() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'gruvbox8'
+  let g:gruvbox_italics = 0
+  colorscheme gruvbox8_hard
+  highlight! NonText ctermfg=248 guifg=#62605F
+  doautocmd User CustomizedTheme
+endfunction
+
+function! frescoraja#Theme__gruvbox8_soft() abort
+  call frescoraja#initialize_theme()
+  let g:custom_themes_name = 'gruvbox8_soft'
+  let g:gruvbox_italics = 0
   colorscheme gruvbox8_soft
   highlight! NonText ctermfg=248 guifg=#62605F
   doautocmd User CustomizedTheme
@@ -674,15 +694,18 @@ function! frescoraja#Theme__gruvbox_material() abort
   call frescoraja#initialize_theme()
   let g:gruvbox_material_enable_bold = 1
   let g:custom_themes_name = 'gruvbox_material'
+  if exists('g:gruvbox_material_background')
+    unlet g:gruvbox_material_background
+  endif
   colorscheme gruvbox-material
   doautocmd User CustomizedTheme
 endfunction
 
 function! frescoraja#Theme__gruvbox_material_hard() abort
   call frescoraja#initialize_theme()
+  let g:custom_themes_name = 'gruvbox_material_hard'
   let g:gruvbox_material_enable_bold = 1
   let g:gruvbox_material_background='hard'
-  let g:custom_themes_name = 'gruvbox_material'
   colorscheme gruvbox-material
   doautocmd User CustomizedTheme
 endfunction
