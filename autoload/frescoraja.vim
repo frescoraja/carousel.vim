@@ -866,9 +866,14 @@ function! frescoraja#Theme__miramare() abort
   call frescoraja#initialize_theme()
   let g:miramare_transparent_background = 0
   let g:miramare_enable_italic = 1
-  let g:miramare_cursor = 'blue'
+  let g:miramare_enable_bold = 1
+  let g:miramare_cursor = 'purple' " doesn't seem to work in iTerm2
   let g:miramare_current_word = 'bold'
   let g:custom_themes_name = 'miramare'
+  let g:miramare_palette = {
+        \ 'bg0': ['#221C1E', '235', 'Black'],
+        \ 'grey': ['#666666', '245', 'LightGrey']
+        \ }
   colorscheme miramare
   doautocmd User CustomizedTheme
 endfunction
