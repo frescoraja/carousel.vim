@@ -721,6 +721,7 @@ endfunction
 function! frescoraja#Theme__hybrid_material() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'hybrid_material'
+  let g:enable_bold_font = 1
   colorscheme hybrid_material
   highlight! Normal guibg=#162228
   doautocmd User CustomizedTheme
@@ -729,6 +730,7 @@ endfunction
 function! frescoraja#Theme__hybrid_reverse() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'hybrid_reverse'
+  let g:enable_bold_font = 1
   colorscheme hybrid_reverse
   highlight! NonText guifg=#575B61
   doautocmd User CustomizedTheme
