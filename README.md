@@ -24,7 +24,8 @@ cursor, textwidth and cursorcolumn, font, background, and colorscheme.
 
 ## Installation
 
-I use and highly recommend [vim-plug](https://github.com/junegunn/vim-plug), in which case you would add this to your `.vimrc`:
+I use and highly recommend [vim-plug](https://github.com/junegunn/vim-plug), in which case you would add this to your
+`.vimrc`:
 
 ```viml
 Plug 'frescoraja/frescoraja-vim-themes'
@@ -74,7 +75,6 @@ Just put the following in your `vimrc`:
 ```viml
 let g:custom_themes_name='random'
 ```
-
 
 ## Plugin Commands Usage
 
@@ -254,14 +254,15 @@ Here is a list of plugins and colorschemes that frescoraja-vim-themes supports (
     - Define a custom `vim-clap` provider to quickly search and select color themes in a floating window
 
 To define a custom provider, add the following to your `.vimrc`:
+
 ```viml
 let g:clap_provider_themes = {
     \ 'source': function('frescoraja#get_themes_list'),
     \ 'filter': function('frescoraja#get_custom_themes'),
     \ 'sink': function('frescoraja#customize_theme')
 ```
-Then use the `:Clap themes` command to open
 
+Then use the `:Clap themes` command to open
 
 ### Colorschemes
 
@@ -300,6 +301,7 @@ Then use the `:Clap themes` command to open
 - [miramare](https://github.com/franbach/miramare)
 - [molokai](https://github.com/tomasr/molokai)
 - [neodark](https://github.com/KeitaNakamura/neodark.vim)
+- [nightowl](https://github.com/haishanh/night-owl.vim)
 - [nord](https://github.com/arcticicestudio/nord-vim)
 - [oceanic-next](https://github.com/mhartington/oceanic-next)
 - [onedark](https://github.com/joshdick/onedark.vim)
@@ -319,9 +321,9 @@ Then use the `:Clap themes` command to open
 - [yowish](https://github.com/KabbAmine/yowish.vim)
 - [vim-material](https://github.com/hzchirs/vim-material)
 - The following colorschemes from [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
-  - busybee
-  - flatcolor
-  - znake
+    - busybee
+    - flatcolor
+    - znake
 
 My appreciation goes to all the maintainers of above plugins/themes for their attention to aesthetics and detail.
 

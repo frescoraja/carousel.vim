@@ -19,7 +19,7 @@ let s:airline_theme_mapping = {
       \ 'chito': 'quantum',
       \ 'colorsbox_stnight': 'base16',
       \ 'colorsbox_steighties': 'quantum',
-      \ 'dark': 'zenburn',
+      \ 'dark': 'dark_minimal',
       \ 'distill': 'iceberg',
       \ 'edar': 'lucius',
       \ 'flatcolor': 'base16_nord',
@@ -561,7 +561,6 @@ function! frescoraja#Theme__dark() abort
   call frescoraja#initialize_theme()
   let g:custom_themes_name = 'dark'
   colorscheme dark
-  highlight! Normal guibg=#080F1C
   highlight! vimBracket guifg=#AA6A22
   highlight! vimParenSep guifg=#8A3140
   highlight! Pmenu guibg=#6F6F6F
