@@ -389,7 +389,8 @@ function! carousel#init() abort
   call carousel#load_carousel()
   call carousel#load_colorschemes()
 
-  if get(g:, 'carousel_italics_enabled', 0)
+  " only setup italics escape sequence for vim, not necessary for neovim
+  if get(g:, 'carousel_italics_enabled', 0) && !has('nvim')
     call carousel#enable_italics()
   endif
 
