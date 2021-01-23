@@ -67,6 +67,7 @@ function! carousel#themes#allomancer_nogui() abort
   call carousel#initialize_theme(v:false)
   let g:carousel_theme_name = 'allomancer_nogui'
   colorscheme allomancer
+  highlight! Pmenu ctermbg=238
   doautocmd User CustomizedTheme
 endfunction
 
