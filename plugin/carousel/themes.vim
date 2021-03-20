@@ -214,19 +214,6 @@ function! carousel#themes#flatcolor() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! carousel#themes#forest_night() abort
-  call carousel#initialize_theme()
-  let g:carousel_theme_name = 'forest_night'
-  let g:forest_night_enable_italic = 1
-  colorscheme forest-night
-  highlight! Normal guibg=#1C2C35
-  highlight! LineNr guibg=#27373F guifg=#616C72
-  highlight! CursorLineNr guifg=#48B2F0 guibg=#500904
-  highlight! CursorLine guibg=#500904
-  highlight! Pmenu guibg=#2C3C45
-  doautocmd User CustomizedTheme
-endfunction
-
 function! carousel#themes#glacier() abort
   call carousel#initialize_theme()
   let g:carousel_theme_name = 'glacier'
@@ -628,6 +615,59 @@ function! carousel#themes#quantum_dark() abort
   highlight! LineNr guifg=#627782
   highlight! Folded guifg=#627782
   doautocmd User CustomizedTheme
+endfunction
+
+function! carousel#themes#everforest() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'everforest'
+  let g:everforest_enable_italic = 1
+  colorscheme everforest
+  highlight! Normal guibg=#1C2C35
+  highlight! LineNr guibg=#27373F guifg=#616C72
+  highlight! CursorLineNr guifg=#48B2F0 guibg=#500904
+  highlight! CursorLine guibg=#500904
+  highlight! Pmenu guibg=#2C3C45
+  doautocmd User CustomizedTheme
+endfunction
+
+function! carousel#themes#sonokai() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'sonokai'
+  let g:sonokai_style = 'default'
+  let g:sonokai_enable_italic = 1
+  colorscheme sonokai
+endfunction
+
+function! carousel#themes#atlantis() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'atlantis'
+  let g:sonokai_style = 'atlantis'
+  let g:sonokai_enable_italic = 1
+  colorscheme sonokai
+endfunction
+
+function! carousel#themes#andromeda() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'andromeda'
+  let g:sonokai_style = 'andromeda'
+  let g:sonokai_enable_italic = 1
+  colorscheme sonokai
+endfunction
+
+function! carousel#themes#maia() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'maia'
+  let g:sonokai_style = 'maia'
+  let g:sonokai_enable_italic = 1
+  colorscheme sonokai
+endfunction
+
+function! carousel#themes#shusia() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'shusia'
+  let g:sonokai_style = 'shusia'
+  let g:sonokai_enable_italic = 1
+  colorscheme sonokai
 endfunction
 
 function! carousel#themes#spring_night() abort
