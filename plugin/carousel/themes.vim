@@ -636,6 +636,7 @@ function! carousel#themes#sonokai() abort
   let g:sonokai_style = 'default'
   let g:sonokai_enable_italic = 1
   colorscheme sonokai
+  doautocmd User CustomizedTheme
 endfunction
 
 function! carousel#themes#atlantis() abort
@@ -644,6 +645,7 @@ function! carousel#themes#atlantis() abort
   let g:sonokai_style = 'atlantis'
   let g:sonokai_enable_italic = 1
   colorscheme sonokai
+  doautocmd User CustomizedTheme
 endfunction
 
 function! carousel#themes#andromeda() abort
@@ -652,6 +654,7 @@ function! carousel#themes#andromeda() abort
   let g:sonokai_style = 'andromeda'
   let g:sonokai_enable_italic = 1
   colorscheme sonokai
+  doautocmd User CustomizedTheme
 endfunction
 
 function! carousel#themes#maia() abort
@@ -660,6 +663,7 @@ function! carousel#themes#maia() abort
   let g:sonokai_style = 'maia'
   let g:sonokai_enable_italic = 1
   colorscheme sonokai
+  doautocmd User CustomizedTheme
 endfunction
 
 function! carousel#themes#shusia() abort
@@ -668,6 +672,7 @@ function! carousel#themes#shusia() abort
   let g:sonokai_style = 'shusia'
   let g:sonokai_enable_italic = 1
   colorscheme sonokai
+  doautocmd User CustomizedTheme
 endfunction
 
 function! carousel#themes#spring_night() abort
@@ -754,6 +759,13 @@ function! carousel#themes#znake() abort
   highlight! Comment guifg=#5A5A69
   highlight! ColorColumn guibg=#331022 guifg=#A51F2B
   " highlight! NonText guifg=#8A6044
+  doautocmd User CustomizedTheme
+endfunction
+
+function! carousel#themes#rigel() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'rigel'
+  colorscheme rigel
   doautocmd User CustomizedTheme
 endfunction
 " }}} end Theme Definitions
