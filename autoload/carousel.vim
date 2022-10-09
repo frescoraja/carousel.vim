@@ -68,12 +68,10 @@ let s:airline_theme_mapping = {
 
 " Common {{{
 function! carousel#apply_airline_theme(theme_name) dict abort
-  try
-    let g:airline_theme = has_key(l:self, a:theme_name) ? l:self[a:theme_name] : a:theme_name
+  let g:airline_theme = has_key(l:self, a:theme_name) ? l:self[a:theme_name] : a:theme_name
+  if exists(':AirlineRefresh')
     AirlineRefresh
-  catch
-    echohl WarningMsg | echomsg 'airline theme reload attempted but failed: ' . v:exception | echohl None
-  endtry
+  endif
 endfunction
 
 function! carousel#apply_highlights() abort
