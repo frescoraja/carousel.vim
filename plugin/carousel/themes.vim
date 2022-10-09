@@ -589,14 +589,6 @@ function! carousel#themes#onedarkafterglow() abort
   doautocmd User CustomizedTheme
 endfunction
 
-function! carousel#themes#petrel() abort
-  call carousel#initialize_theme()
-  let g:carousel_theme_name = 'petrel'
-  colorscheme petrel
-  highlight! Pmenu gui=NONE
-  doautocmd User CustomizedTheme
-endfunction
-
 function! carousel#themes#quantum_light() abort
   call carousel#initialize_theme()
   let g:quantum_black = 0

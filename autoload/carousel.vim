@@ -54,7 +54,6 @@ let s:airline_theme_mapping = {
       \ 'neodark_nogui': 'neodark',
       \ 'oceanicnext2': 'oceanicnext',
       \ 'onedarkafterglow': 'onedark',
-      \ 'petrel': 'seagull',
       \ 'quantum_light': 'quantum',
       \ 'quantum_dark': 'quantum',
       \ 'thaumaturge': 'violet',
