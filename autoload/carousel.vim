@@ -47,6 +47,8 @@ let s:airline_theme_mapping = {
       \ 'vim_material_oceanic': 'material',
       \ 'vim_material_palenight': 'material',
       \ 'molokai_dark_nogui': 'molokai',
+      \ 'petrel': 'seagull',
+      \ 'stormpetrel': 'seagull',
       \ 'plastic': 'onedark',
       \ 'pink_moon': 'lucius',
       \ 'orange_moon': 'lucius',

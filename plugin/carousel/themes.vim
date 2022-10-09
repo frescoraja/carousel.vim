@@ -754,6 +754,22 @@ function! carousel#themes#znake() abort
   doautocmd User CustomizedTheme
 endfunction
 
+function! carousel#themes#petrel() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'petrel'
+  colorscheme petrel
+  highlight! Pmenu gui=NONE
+  doautocmd User CustomizedTheme
+endfunction
+
+function! carousel#themes#stormpetrel() abort
+  call carousel#initialize_theme()
+  let g:carousel_theme_name = 'stormpetrel'
+  colorscheme stormpetrel
+  highlight! Pmenu gui=NONE
+  doautocmd User CustomizedTheme
+endfunction
+
 function! carousel#themes#rigel() abort
   call carousel#initialize_theme()
   let g:carousel_theme_name = 'rigel'
